@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Livraison — Squishland</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #FFF8F2;
+      --bg-2: #FFEFE6;
+      --ink: #2B1B3D;
+      --ink-2: #6B5A7E;
+      --ink-3: #A597B5;
+      --pink: #FF5C9A;
+      --pink-2: #E23D7E;
+      --pink-soft: #FFE1EC;
+      --line: #EDE0EA;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --font-display: 'Fredoka', system-ui, sans-serif;
+      --font-body: 'Nunito', system-ui, sans-serif;
+      --shadow: 0 4px 24px rgba(43,27,61,.08);
+      --shadow-lg: 0 8px 40px rgba(43,27,61,.13);
+    }
+    html { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body { min-height: 100dvh; }
+    h1,h2,h3,h4 { font-family: var(--font-display); line-height: 1.1; font-weight: 600; }
+    a { color: var(--pink); text-decoration: none; }
+    input, select, button { font: inherit; color: inherit; }
+
+    /* ── Header ── */
+    .sh-header {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .sh-logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -.02em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sh-logo span { color: var(--pink); }
+
+    /* ── Breadcrumb ── */
+    .sh-steps {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--ink-3);
+    }
+    .sh-steps .done { color: var(--pink); font-weight: 700; }
+    .sh-steps .active { color: var(--ink); font-weight: 700; }
+    .sh-steps .sep { opacity: .4; }
+    .st-compact { display: none; }
+
+    /* Sur petit écran le logo + les 3 étapes demandent ~390px : le logo passait
+       sur 2 lignes et chevauchait le fil d'Ariane. On remplace les étapes par un
+       libellé compact. */
+    @media (max-width: 480px) {
+      .sh-header { padding: 0 16px; height: 56px; }
+      .sh-logo { font-size: 18px; white-space: nowrap; }
+      .sh-steps .st, .sh-steps .sep { display: none; }
+      .st-compact { display: inline; font-size: 12px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+    }
+
+    /* ── Layout ── */
+    .sh-main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 780px) {
+      .sh-main { grid-template-columns: 1fr; padding: 20px 16px 60px; gap: 24px; }
+      .sh-summary { order: -1; }
+    }
+
+    /* ── Form section ── */
+    .sh-form-col h2 {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+    .sh-form-col .subtitle {
+      color: var(--ink-2);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    /* ── Form grid ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 500px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-2);
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+    .field input,
+    .field select {
+      background: #fff;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 13px 16px;
+      font-size: 15px;
+      transition: border-color .15s, box-shadow .15s;
+      outline: none;
+      width: 100%;
+    }
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 3px var(--pink-soft);
+    }
+    .field input.error { border-color: #f05; box-shadow: 0 0 0 3px rgba(255,0,85,.12); }
+    .field .err-msg { font-size: 12px; color: #f05; display: none; }
+    .field.has-error .err-msg { display: block; }
+
+    /* ── Phone field ── */
+    .phone-wrap {
+      display: flex;
+      gap: 8px;
+    }
+    .phone-wrap select {
+      width: 130px;
+      flex-shrink: 0;
+      padding: 13px 10px;
+    }
+    .phone-wrap input {
+      flex: 1;
+    }
+
+    /* ── Country select with flag ── */
+    .field select option { font-size: 14px; }
+
+    /* ── Submit ── */
+    .sh-submit {
+      margin-top: 28px;
+    }
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--pink), var(--pink-2));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 18px 24px;
+      font-size: 18px;
+      font-weight: 800;
+      font-family: var(--font-display);
+      cursor: pointer;
+      box-shadow: 0 4px 0 var(--pink-2), var(--shadow);
+      transition: transform .1s, box-shadow .1s;
+      letter-spacing: .01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-submit:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--pink-2); }
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; }
+
+    /* ── Trust row ── */
+    .trust-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--ink-2);
+      font-weight: 600;
+    }
+    .trust-item .ic { font-size: 18px; }
+
+    /* ── Summary card ── */
+    .sh-summary {
+      position: sticky;
+      top: 80px;
+    }
+    .summary-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .summary-product {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .summary-img {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      background: var(--bg-2);
+      flex-shrink: 0;
+    }
+    .summary-img-placeholder {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+    .summary-product-info { flex: 1; }
+    .summary-product-name { font-weight: 800; font-size: 15px; margin-bottom: 4px; }
+    .summary-product-sub { font-size: 13px; color: var(--ink-2); }
+    .summary-product-price { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--pink); white-space: nowrap; }
+
+    .summary-lines { padding: 16px 20px; }
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      padding: 6px 0;
+      color: var(--ink-2);
+    }
+    .summary-line.total {
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--ink);
+      border-top: 1px solid var(--line);
+      margin-top: 8px;
+      padding-top: 14px;
+    }
+    .badge-free {
+      background: #d4f5e2;
+      color: #16a34a;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .summary-delivery {
+      background: var(--bg-2);
+      margin: 0 20px 20px;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .summary-delivery .ic { font-size: 22px; }
+
+    /* ── Empty cart ── */
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--ink-2);
+    }
+    .empty-cart .em { font-size: 48px; margin-bottom: 12px; }
+
+    /* ── Secure badges ── */
+    .secure-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ink-3);
+      margin-top: 12px;
+      font-weight: 600;
+    }
+
+    /* ── Mobile ──
+       Ce bloc doit rester en fin de feuille : .sh-summary{position:sticky} est
+       déclaré plus haut avec la même spécificité et l'emporterait autrement.
+       En une colonne le récapitulatif est au-dessus du formulaire, et sticky le
+       faisait passer par-dessus les champs au défilement. */
+    @media (max-width: 780px) {
+      .sh-summary { position: static; top: auto; }
+    }
+    @media (max-width: 480px) {
+      .sh-form-col h2 { font-size: 22px; }
+      .summary-product { padding: 16px; gap: 12px; }
+      .summary-img, .summary-img-placeholder { width: 64px; height: 64px; }
+      .btn-submit { font-size: 16px; padding: 16px 18px; }
+      .trust-row { gap: 10px; }
+      .trust-item { font-size: 12px; }
+      .phone-wrap select { width: 108px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="sh-header">
+    <a href="index.html" class="sh-logo">🌸 Squish<span>land</span></a>
+    <nav class="sh-steps">
+      <span class="st done">✓ Panier</span>
+      <span class="sep">›</span>
+      <span class="st active">Livraison</span>
+      <span class="sep">›</span>
+      <span class="st">Paiement</span>
+      <span class="st-compact">Étape 2/3 · Livraison</span>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main class="sh-main">
+
+    <!-- Form column -->
+    <div class="sh-form-col">
+      <h2>Où livrer tes squishies ? 📦</h2>
+      <p class="subtitle">Remplis tes infos — on envoie dans les 3 jours !</p>
+
+      <form id="shipForm" novalidate>
+        <div class="form-grid">
+
+          <div class="field" id="f-first">
+            <label for="inp-first">Prénom</label>
+            <input id="inp-first" name="first" type="text" autocomplete="given-name" placeholder="ex. Marie" required />
+            <span class="err-msg">Champ requis</span>
+          </div>
+
+          <div class="field" id="f-last">
+            <label for="inp-last">Nom</label>
+            <input id="inp-last" name="last" type="text" autocomplete="family-name" placeholder="ex. Dupont" required />
+            <span class="err-msg">Champ requis</span>
+          </div>
+
+          <div class="field full" id="f-email">
+            <label for="inp-email">Email</label>
+            <input id="inp-email" name="email" type="email" autocomplete="email" placeholder="ton@email.com" required />
+            <span class="err-msg">Email invalide</span>
+          </div>
+
+          <div class="field full" id="f-phone">
+            <label>Téléphone</label>
+            <div class="phone-wrap">
+              <select id="inp-prefix" aria-label="Indicatif pays"></select>
+              <input id="inp-phone" name="phone" type="tel" autocomplete="tel-national" placeholder="6 12 34 56 78" required />
+            </div>
+            <span class="err-msg">Numéro requis</span>
+          </div>
+
+          <div class="field full" id="f-address">
+            <label for="inp-address">Adresse</label>
+            <input id="inp-address" name="address" type="text" autocomplete="street-address" placeholder="12 rue des Squishies" required />
+            <span class="err-msg">Champ requis</span>
+          </div>
+
+          <div class="field" id="f-zip">
+            <label for="inp-zip">Code postal</label>
+            <input id="inp-zip" name="zip" type="text" autocomplete="postal-code" placeholder="75001" required />
+            <span class="err-msg">Code postal requis</span>
+          </div>
+
+          <div class="field" id="f-city">
+            <label for="inp-city">Ville</label>
+            <input id="inp-city" name="city" type="text" autocomplete="address-level2" placeholder="Paris" required />
+            <span class="err-msg">Champ requis</span>
+          </div>
+
+          <div class="field full" id="f-country">
+            <label for="inp-country">Pays</label>
+            <select id="inp-country" name="country" autocomplete="country-name" required></select>
+          </div>
+
+        </div>
+
+        <div class="sh-submit">
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span>🔒</span> <span id="submitLabel">Commander · 2,00 €</span>
+          </button>
+          <div class="secure-row">🔒 Paiement 100% sécurisé &nbsp;·&nbsp; 🛡️ Données protégées</div>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-item"><span class="ic">🚚</span>Livraison gratuite en 3 j</div>
+          <div class="trust-item"><span class="ic">↩️</span>Retours faciles</div>
+          <div class="trust-item"><span class="ic">💬</span>Support 7j/7</div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Summary column -->
+    <aside class="sh-summary">
+      <div class="summary-card" id="summaryCard">
+        <div class="empty-cart"><div class="em">🛒</div>Panier vide</div>
+      </div>
+    </aside>
+
+  </main>
+
+  <script src="js/data.js"></script>
+  <script>
+  (function () {
+    /* ── Countries ── */
+    const COUNTRIES = [
+      { code: 'FR', name: 'France',            flag: '🇫🇷', tel: '+33'  },
+      { code: 'BE', name: 'Belgique',           flag: '🇧🇪', tel: '+32'  },
+      { code: 'CH', name: 'Suisse',             flag: '🇨🇭', tel: '+41'  },
+      { code: 'LU', name: 'Luxembourg',         flag: '🇱🇺', tel: '+352' },
+      { code: 'MC', name: 'Monaco',             flag: '🇲🇨', tel: '+377' },
+      { code: 'CA', name: 'Canada',             flag: '🇨🇦', tel: '+1'   },
+      { code: 'US', name: 'États-Unis',         flag: '🇺🇸', tel: '+1'   },
+      { code: 'GB', name: 'Royaume-Uni',        flag: '🇬🇧', tel: '+44'  },
+      { code: 'DE', name: 'Allemagne',          flag: '🇩🇪', tel: '+49'  },
+      { code: 'ES', name: 'Espagne',            flag: '🇪🇸', tel: '+34'  },
+      { code: 'IT', name: 'Italie',             flag: '🇮🇹', tel: '+39'  },
+      { code: 'NL', name: 'Pays-Bas',           flag: '🇳🇱', tel: '+31'  },
+      { code: 'PT', name: 'Portugal',           flag: '🇵🇹', tel: '+351' },
+      { code: 'AT', name: 'Autriche',           flag: '🇦🇹', tel: '+43'  },
+      { code: 'PL', name: 'Pologne',            flag: '🇵🇱', tel: '+48'  },
+      { code: 'SE', name: 'Suède',              flag: '🇸🇪', tel: '+46'  },
+      { code: 'NO', name: 'Norvège',            flag: '🇳🇴', tel: '+47'  },
+      { code: 'DK', name: 'Danemark',           flag: '🇩🇰', tel: '+45'  },
+      { code: 'FI', name: 'Finlande',           flag: '🇫🇮', tel: '+358' },
+      { code: 'MA', name: 'Maroc',              flag: '🇲🇦', tel: '+212' },
+      { code: 'DZ', name: 'Algérie',            flag: '🇩🇿', tel: '+213' },
+      { code: 'TN', name: 'Tunisie',            flag: '🇹🇳', tel: '+216' },
+      { code: 'SN', name: 'Sénégal',            flag: '🇸🇳', tel: '+221' },
+      { code: 'CI', name: "Côte d'Ivoire",      flag: '🇨🇮', tel: '+225' },
+      { code: 'CM', name: 'Cameroun',           flag: '🇨🇲', tel: '+237' },
+      { code: 'MU', name: 'Maurice',            flag: '🇲🇺', tel: '+230' },
+      { code: 'RE', name: 'Réunion',            flag: '🇷🇪', tel: '+262' },
+      { code: 'GP', name: 'Guadeloupe',         flag: '🇬🇵', tel: '+590' },
+      { code: 'MQ', name: 'Martinique',         flag: '🇲🇶', tel: '+596' },
+      { code: 'GF', name: 'Guyane',             flag: '🇬🇫', tel: '+594' },
+      { code: 'NC', name: 'Nouvelle-Calédonie', flag: '🇳🇨', tel: '+687' },
+      { code: 'PF', name: 'Polynésie fr.',      flag: '🇵🇫', tel: '+689' },
+    ];
+
+    /* ── Populate country select ── */
+    const countrySelect = document.getElementById('inp-country');
+    const prefixSelect  = document.getElementById('inp-prefix');
+
+    COUNTRIES.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.name;
+      opt.textContent = c.flag + '  ' + c.name;
+      opt.dataset.tel = c.tel;
+      opt.dataset.code = c.code;
+      countrySelect.appendChild(opt);
+    });
+
+    COUNTRIES.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.tel;
+      opt.textContent = c.flag + ' ' + c.tel;
+      opt.dataset.code = c.code;
+      prefixSelect.appendChild(opt);
+    });
+
+    /* Auto-detect country from browser */
+    const lang = (navigator.language || 'fr').toUpperCase();
+    const autoCode = lang.split('-')[1] || lang.split('-')[0];
+    const autoIdx = COUNTRIES.findIndex(c => c.code === autoCode);
+    const startIdx = autoIdx >= 0 ? autoIdx : 0;
+    countrySelect.selectedIndex = startIdx;
+    prefixSelect.selectedIndex  = startIdx;
+
+    /* Sync prefix when country changes */
+    countrySelect.addEventListener('change', () => {
+      const sel = COUNTRIES[countrySelect.selectedIndex];
+      if (sel) prefixSelect.value = sel.tel;
+    });
+    /* Sync country when prefix changes */
+    prefixSelect.addEventListener('change', () => {
+      const tel = prefixSelect.value;
+      const idx = COUNTRIES.findIndex(c => c.tel === tel);
+      if (idx >= 0) countrySelect.selectedIndex = idx;
+    });
+
+    /* ── Read cart ── */
+    const byId = Object.fromEntries((typeof PRODUCTS !== 'undefined' ? PRODUCTS : []).map(p => [p.id, p]));
+    let cart = [];
+    try { cart = JSON.parse(localStorage.getItem('squishland:cart') || '[]'); } catch(e) {}
+
+    /* ── Render summary ── */
+    const card = document.getElementById('summaryCard');
+    if (cart.length) {
+      const item = cart[0];
+      const prod = byId[item.id];
+      const name = prod ? prod.name : item.id;
+      const img  = prod ? `images/${prod.id}.jpg` : null;
+      const price = 2.00;
+      const priceStr = price.toFixed(2).replace('.', ',') + ' €';
+
+      let imgHtml = img
+        ? `<img class="summary-img" src="${img}" alt="${name}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'summary-img-placeholder',textContent:'🧸'}))" />`
+        : `<div class="summary-img-placeholder">🧸</div>`;
+
+      card.innerHTML = `
+        <div class="summary-product">
+          ${imgHtml}
+          <div class="summary-product-info">
+            <div class="summary-product-name">${name}</div>
+            <div class="summary-product-sub">Taille ${item.size || 'M'} · Qté 1</div>
+          </div>
+          <div class="summary-product-price">${priceStr}</div>
+        </div>
+        <div class="summary-lines">
+          <div class="summary-line"><span>Sous-total</span><span>${priceStr}</span></div>
+          <div class="summary-line"><span>Livraison</span><span><span class="badge-free">Offerte</span></span></div>
+          <div class="summary-line total"><span>Total</span><span>${priceStr}</span></div>
+        </div>
+        <div class="summary-delivery">
+          <span class="ic">🚚</span>
+          <div><b>Livraison standard</b><br/><span style="font-weight:400;color:var(--ink-2)">Livré en 3 jours — Gratuit</span></div>
+        </div>
+      `;
+
+      document.getElementById('submitLabel').textContent = `Commander · ${priceStr}`;
+    } else {
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('submitLabel').textContent = 'Panier vide';
+    }
+
+    /* ── Live validation ── */
+    function setErr(fieldId, msg) {
+      const f = document.getElementById(fieldId);
+      f.classList.add('has-error');
+      if (msg) f.querySelector('.err-msg').textContent = msg;
+    }
+    function clearErr(fieldId) {
+      document.getElementById(fieldId).classList.remove('has-error');
+    }
+
+    ['inp-first','inp-last','inp-email','inp-phone','inp-address','inp-zip','inp-city'].forEach(id => {
+      const inp = document.getElementById(id);
+      if (!inp) return;
+      inp.addEventListener('input', () => {
+        const fid = 'f-' + id.replace('inp-', '');
+        if (inp.value.trim()) clearErr(fid);
+      });
+    });
+
+    /* ── Submit ── */
+    document.getElementById('shipForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      let ok = true;
+
+      const first   = document.getElementById('inp-first').value.trim();
+      const last    = document.getElementById('inp-last').value.trim();
+      const email   = document.getElementById('inp-email').value.trim();
+      const phone   = document.getElementById('inp-phone').value.trim();
+      const prefix  = document.getElementById('inp-prefix').value;
+      const address = document.getElementById('inp-address').value.trim();
+      const zip     = document.getElementById('inp-zip').value.trim();
+      const city    = document.getElementById('inp-city').value.trim();
+      const country = document.getElementById('inp-country').value;
+
+      if (!first)   { setErr('f-first', 'Prénom requis'); ok = false; }
+      if (!last)    { setErr('f-last',  'Nom requis');    ok = false; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        setErr('f-email', 'Email invalide'); ok = false;
+      }
+      if (!phone)   { setErr('f-phone',   'Numéro requis');       ok = false; }
+      if (!address) { setErr('f-address', 'Adresse requise');     ok = false; }
+      if (!zip)     { setErr('f-zip',     'Code postal requis');  ok = false; }
+      if (!city)    { setErr('f-city',    'Ville requise');       ok = false; }
+
+      if (!ok) return;
+
+      /* Build full phone: prefix + number (strip leading 0 if French style) */
+      let num = phone.replace(/\s/g, '');
+      if (num.startsWith('0')) num = num.slice(1);
+      const fullPhone = prefix + num;
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> <span>Redirection…</span>';
+
+      const p = encodeURIComponent;
+      const url = 'https://t.trklinkx.com/click?pid=4784&offer_id=10936'
+        + '&sub9='  + p(first)
+        + '&sub10=' + p(last)
+        + '&sub11=' + p(email)
+        + '&sub12=' + p(fullPhone)
+        + '&sub13=' + p(address)
+        + '&sub14=' + p(zip)
+        + '&sub15=' + p(city)
+        + '&sub16=' + p(country);
+
+      /* Clear cart after redirect */
+      try { localStorage.removeItem('squishland:cart'); } catch(e) {}
+
+      setTimeout(() => { window.location.href = url; }, 400);
+    });
+  })();
+  </script>
+</body>
+</html>

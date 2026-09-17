@@ -1,0 +1,7 @@
+# Config locale de l'outillage (pointe vers un chemin temporaire de cette machine)
+.claude/
+
+# Cruft système
+Thumbs.db
+desktop.ini
+.DS_Store

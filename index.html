@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Squishland — Les squishies les plus doux de l'univers</title>
+  <meta name="description" content="Squishies sensoriels, slow rising et gourmands. Des objets ultra satisfaisants, anti-stress et non toxiques. Tous les squishies à 2 €, livraison gratuite en 3 jours." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍑</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Barre d'annonce -->
+  <div class="announce" aria-label="Annonces">
+    <div class="announce-track">
+      <span>🚚 Livraison gratuite en 3 jours</span><span>🫧 Nouveaux squishies sensoriels</span><span>💸 Tous les squishies à 2 €</span><span>♻️ Mousse non toxique certifiée EN71</span>
+      <span>🚚 Livraison gratuite en 3 jours</span><span>🫧 Nouveaux squishies sensoriels</span><span>💸 Tous les squishies à 2 €</span><span>♻️ Mousse non toxique certifiée EN71</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="#top" class="logo" aria-label="Squishland accueil">
+        <span class="logo-mark" id="logoMark"></span>
+        <span class="logo-text">Squish<span>land</span></span>
+      </a>
+
+      <nav class="nav" id="nav">
+        <a href="#shop">Boutique</a>
+        <a href="#collections">Collections</a>
+        <a href="#lab">Squish Lab</a>
+        <a href="#reviews">Avis</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <label class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="searchInput" placeholder="Chercher un squishy…" autocomplete="off" />
+          <div class="search-results" id="searchResults"></div>
+        </label>
+        <button class="icon-btn" id="soundBtn" aria-label="Activer / couper le son" title="Son">
+          <svg viewBox="0 0 24 24" class="snd-on"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></svg>
+          <svg viewBox="0 0 24 24" class="snd-off"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="m17 9 5 6m0-6-5 6"/></svg>
+        </button>
+        <button class="icon-btn" id="wishBtn" aria-label="Favoris">
+          <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-9A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5C19 15.6 12 20 12 20z"/></svg>
+          <span class="bubble" id="wishCount">0</span>
+        </button>
+        <button class="icon-btn cart-btn" id="cartBtn" aria-label="Panier">
+          <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
+          <span class="bubble" id="cartCount">0</span>
+        </button>
+        <button class="icon-btn burger" id="burger" aria-label="Menu">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-floaters" id="heroFloaters" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <span class="pill"><span class="dot"></span> Nouvelle collection automne 2026</span>
+          <h1>Les squishies<br/>les plus <span class="squishy-word">doux</span><br/>de l'univers.</h1>
+          <p class="lead">Écrase. Relâche. Regarde-le remonter… lentement. Des squishies <b>slow rising</b> ultra satisfaisants, sculptés à la main et testés par notre équipe de squisheurs professionnels.</p>
+          <div class="hero-cta">
+            <a href="#shop" class="btn btn-primary btn-lg">Découvrir la boutique</a>
+            <a href="#lab" class="btn btn-ghost btn-lg">🧪 Tester le Squish Lab</a>
+          </div>
+          <ul class="hero-stats">
+            <li><b>4,9★</b><span>note moyenne</span></li>
+            <li><b>19</b><span>modèles</span></li>
+            <li><b>3 j</b><span>de livraison</span></li>
+          </ul>
+        </div>
+
+        <div class="hero-stage">
+          <div class="hero-blob"></div>
+          <div class="hero-ring"></div>
+          <button class="hero-squishy" id="heroSquishy" aria-label="Écraser le squishy"></button>
+          <div class="hero-tag tag-1">💸 2 € seulement</div>
+          <div class="hero-tag tag-2">🚚 Livré en 3 jours</div>
+          <div class="hero-counter">
+            <span>Tu l'as écrasé</span>
+            <b id="heroCount">0</b>
+            <span>fois</span>
+          </div>
+          <div class="hero-hint">👆 Clique dessus !</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST -->
+    <section class="trust">
+      <div class="container trust-inner">
+        <div class="trust-item"><span>🚚</span><div><b>Livraison gratuite</b><small>livré en 3 jours</small></div></div>
+        <div class="trust-item"><span>🧸</span><div><b>Non toxique</b><small>mousse PU certifiée EN71</small></div></div>
+        <div class="trust-item"><span>↩️</span><div><b>Retours 30 jours</b><small>satisfait ou remboursé</small></div></div>
+        <div class="trust-item"><span>🔒</span><div><b>Paiement sécurisé</b><small>CB, PayPal, Apple Pay</small></div></div>
+      </div>
+    </section>
+
+    <!-- COLLECTIONS -->
+    <section class="section" id="collections">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Collections</span>
+          <h2>Trouve ton squishy idéal</h2>
+        </div>
+        <div class="collections" id="collectionsGrid"></div>
+      </div>
+    </section>
+
+    <!-- FLASH SALE -->
+    <section class="container">
+      <div class="flash reveal">
+        <div class="flash-copy">
+          <span class="eyebrow light">💸 Petit prix</span>
+          <h3>Tous nos squishies à 2 €</h3>
+          <p>Animaux, gourmandises, perles, XXL… le même prix pour tout le catalogue.</p>
+        </div>
+        <div class="big-price">2&nbsp;€</div>
+        <a href="#shop" class="btn btn-light">Je craque</a>
+      </div>
+    </section>
+
+    <!-- SHOP -->
+    <section class="section" id="shop">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Boutique</span>
+          <h2>Tous nos squishies</h2>
+          <p>Appuie sur un squishy pour découvrir toutes ses photos.</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="chips" id="chips"></div>
+          <div class="toolbar-right">
+            <button class="btn btn-ghost btn-sm" id="filterToggle">
+              <svg viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg> Filtres
+            </button>
+            <select id="sortSelect" class="select" aria-label="Trier">
+              <option value="featured">Tendances</option>
+              <option value="rise">Plus lent à remonter</option>
+              <option value="rating">Mieux notés</option>
+              <option value="new">Nouveautés</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filters" id="filters">
+          <div class="filter">
+            <label for="softRange">Douceur min : <b id="softVal">1/5</b></label>
+            <input type="range" id="softRange" min="1" max="5" step="1" value="1" />
+          </div>
+          <div class="filter">
+            <label for="riseRange">Temps de remontée min : <b id="riseVal">0 s</b></label>
+            <input type="range" id="riseRange" min="0" max="12" step="1" value="0" />
+          </div>
+          <button class="btn btn-sm btn-ghost" id="resetFilters">Réinitialiser</button>
+        </div>
+
+        <div class="results-bar"><span id="resultsCount"></span></div>
+        <div class="grid" id="productGrid"></div>
+        <div class="empty" id="emptyState" hidden>
+          <div class="empty-sq" id="emptySq"></div>
+          <h3>Aucun squishy trouvé…</h3>
+          <p>Essaie d'autres filtres, il est peut-être caché sous un coussin.</p>
+          <button class="btn btn-primary" id="emptyReset">Voir tous les squishies</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SQUISH LAB -->
+    <section class="section lab" id="lab">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">🧪 Squish Lab</span>
+          <h2>Ton espace anti-stress</h2>
+          <p>Maintiens appuyé pour écraser plus fort, déplace-toi pour le déformer, relâche… et regarde-le remonter.</p>
+        </div>
+
+        <div class="lab-wrap reveal">
+          <div class="lab-picker" id="labPicker"></div>
+
+          <div class="lab-stage" id="labStage">
+            <div class="lab-bg"></div>
+            <div class="lab-squishy" id="labSquishy"></div>
+            <div class="lab-particles" id="labParticles"></div>
+            <div class="lab-name" id="labName"></div>
+          </div>
+
+          <aside class="lab-panel">
+            <div class="gauge">
+              <div class="gauge-head"><span>Pression</span><b id="pressureVal">0 %</b></div>
+              <div class="gauge-bar"><i id="pressureBar"></i></div>
+            </div>
+            <div class="gauge">
+              <div class="gauge-head"><span>Remontée</span><b id="riseLabel">—</b></div>
+              <div class="gauge-bar rise"><i id="riseBar"></i></div>
+            </div>
+            <div class="lab-stats">
+              <div><b id="labSquishes">0</b><span>squishes</span></div>
+              <div><b id="labRecord">0,0 s</b><span>record appui</span></div>
+            </div>
+            <div class="stress">
+              <div class="gauge-head"><span>Stress-o-mètre</span><b id="stressEmoji">😤</b></div>
+              <div class="gauge-bar stress-bar"><i id="stressBar"></i></div>
+              <small id="stressText">Encore quelques squishes…</small>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="section reviews" id="reviews">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Avis clients</span>
+          <h2>Ils ne peuvent plus s'arrêter</h2>
+        </div>
+      </div>
+      <div class="review-rail">
+        <div class="review-track" id="reviewTrack"></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="container faq-wrap">
+        <div class="section-head left reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2>Questions fréquentes</h2>
+          <p>Une autre question ? Écris-nous, on répond en moins de 24 h (même le dimanche, on est accros).</p>
+        </div>
+        <div class="faq" id="faqList"></div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="container">
+      <div class="newsletter reveal">
+        <div class="nl-sq" id="nlSq"></div>
+        <div class="nl-copy">
+          <h2>Rejoins le Squish Club</h2>
+          <p>Sois prévenu en avant-première des nouveaux squishies et des drops limités.</p>
+          <form id="nlForm" class="nl-form" novalidate>
+            <input type="email" id="nlEmail" placeholder="ton@email.com" aria-label="Adresse email" required />
+            <button class="btn btn-primary" type="submit">Je m'inscris</button>
+          </form>
+          <div class="nl-success" id="nlSuccess" hidden>🎉 Bienvenue dans le Squish Club !</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="#top" class="logo"><span class="logo-mark" id="logoMark2"></span><span class="logo-text">Squish<span>land</span></span></a>
+        <p>Des objets doux et satisfaisants pour souffler un peu. Conçus en France, emballés avec amour.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Boutique</h4>
+        <a href="#shop" data-filter-cat="animaux">Animaux</a>
+        <a href="#shop" data-filter-cat="gourmandises">Gourmandises</a>
+        <a href="#shop" data-filter-cat="fruits">Fruits</a>
+        <a href="#shop" data-filter-cat="sensoriel">Sensoriel</a>
+      </div>
+      <div class="footer-col">
+        <h4>Aide</h4>
+        <a href="#faq">Livraison</a>
+        <a href="#faq">Retours</a>
+        <a href="#faq">Entretien</a>
+        <a href="#faq">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Paiement</h4>
+        <div class="pay-badges"><span>CB</span><span>Visa</span><span>PayPal</span><span>Apple Pay</span></div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 Squishland — Tous droits réservés</span>
+      <span>Mentions légales · CGV · Confidentialité</span>
+    </div>
+  </footer>
+
+  <!-- Overlay commun -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Drawer panier / favoris -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="drawer-tabs">
+        <button class="drawer-tab active" data-tab="cart">Panier <span id="drawerCartCount">0</span></button>
+        <button class="drawer-tab" data-tab="wish">Favoris <span id="drawerWishCount">0</span></button>
+      </div>
+      <button class="icon-btn close" data-close aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="limit-note">🧸 Limité à <b>1 squishy</b> par commande</div>
+    <div class="drawer-body" id="drawerBody"></div>
+    <div class="drawer-foot" id="drawerFoot">
+      <div class="totals" id="totals"></div>
+      <button class="btn btn-primary btn-lg w-full" id="checkoutBtn">Passer commande</button>
+      <small class="secure">🔒 Paiement 100 % sécurisé</small>
+    </div>
+  </aside>
+
+  <!-- Modal produit -->
+  <div class="modal" id="productModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card product-modal">
+      <button class="icon-btn close" data-close aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="pm-grid" id="pmContent"></div>
+    </div>
+  </div>
+
+  <!-- Modal checkout -->
+  <div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card checkout-modal">
+      <button class="icon-btn close" data-close aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="steps" id="steps">
+        <div class="step active"><span>1</span>Livraison</div>
+        <div class="step"><span>2</span>Paiement</div>
+        <div class="step"><span>3</span>Confirmation</div>
+      </div>
+      <div id="checkoutContent"></div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts"></div>
+
+  <script src="js/squishy.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

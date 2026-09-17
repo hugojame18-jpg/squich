@@ -1,0 +1,64 @@
+PHOTOS DES SQUISHIES
+====================
+
+Dépose tes photos dans ce dossier en les nommant avec l'identifiant du produit.
+Le site les détecte automatiquement (pas de code à modifier).
+
+  momo-peche.jpg      -> photo principale
+  momo-peche-2.jpg    -> 2e photo (affichée au survol de la carte + galerie)
+  momo-peche-3.jpg    -> 3e photo (galerie)
+  momo-peche-4.jpg    -> 4e photo (galerie)
+
+Formats acceptés : .jpg .jpeg .png .webp (même format pour toutes les photos d'un produit)
+Conseil : photos carrées, au moins 800x800 px, fond clair uni.
+Sans photo, le squishy dessiné et animé est affiché à la place.
+
+Identifiants des produits :
+  oursons-gummy         Oursons Gummy Géants
+  tubes-gel             Tubes Gel Bubbles
+  mangue-squishy        Mangue Slow Rising
+  glacons-squishy       Glaçons Squishy
+  beurre-sale-jaune     Beurre Salé Jaune
+  raisin-perles         Raisin Perles Géantes
+  beurre-mochi          Beurre Mochi Étirable
+  fruits-billes         Fruits Billes Gel
+  lingot-or             Lingot d'Or Squishy
+  batons-perles         Bâtons Perles Sensoriels
+  boule-perles          Boule Perles Arc-en-ciel
+  savons-squishy        Savon Squishy
+  beurre-sale-rose      Beurre Salé Rose
+  boules-paillettes     Boules Paillettes Kawaii
+  donuts-pastel         Donut Pastel Glacé
+  pasteque-juicy        Pastèque Juicy
+  tablette-choco        Tablette Chocolat Squishy
+  beurre-rose           Butter Soft & Chewy Rose
+  beurre-jelly          Butter Jelly Géant
+  momo-peche            Momo la Pêche
+  neko-mochi            Neko Mochi
+  panda-dodo            Panda Dodo
+  fraisie               Fraisie
+  nuage-calin           Nuage Câlin
+  donut-rose            Donut Rose Glacé
+  toast-beurre          Toast Beurre
+  avo-calin             Avo-Câlin
+  grenouille-bubu       Grenouille Bubu
+  boo-fantome           Boo le Fantôme
+  etoile-filante        Étoile Filante
+  mochi-matcha          Mochi Matcha
+  cupcake-licorne       Cupcake Licorne
+  lapin-guimauve        Lapin Guimauve
+  ourson-miel           Ourson Miel
+  poussin-pompon        Poussin Pompon
+  peche-geante          Pêche Géante XXL
+  neko-lavande          Neko Lavande
+  donut-choco           Donut Choco
+  nuage-geant           Nuage Géant XXL
+  ourson-geant          Ourson Géant XXL
+  mochi-sakura          Mochi Sakura
+  boo-citrouille        Boo Citrouille
+  grenouille-cerise     Grenouille Cerise
+
+  mystery-box           Photo de la section Mystery Box
+
+Le dossier a-valider/ contient des photos avec des marques déposées (Twix, Kinder…) :
+elles ne sont PAS affichées sur le site.
