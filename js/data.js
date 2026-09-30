@@ -103,6 +103,22 @@ const MASCOTS = [
     desc: "Bubu en version rose bonbon. Même sourire, même bosses irrésistibles, parfum cerise." }
 ];
 
+/* Liens de paiement par taille de panier (2 € / squishy).
+   On prend toujours le palier le plus cher dont le prix ne dépasse pas le
+   sous-total : le client ne paie jamais plus que 2 € × quantité. */
+const MAX_ITEMS = 10;
+const PACKS = [
+  { min: 1,  price: 2.00,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=10936' },
+  { min: 2,  price: 3.95,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=12325' },
+  { min: 5,  price: 9.99,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=9,99' },
+  { min: 10, price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=19' }
+];
+function packFor(n) {
+  const sub = n * 2;
+  return PACKS.filter(p => n >= p.min && p.price <= sub).pop() || null;
+}
+function nextPack(n) { return PACKS.find(p => p.min > n) || null; }
+
 const COLOR_VARIANTS = [
   { name: 'Rose', c1: '#FFD1E3', c2: '#FF9CC2' },
   { name: 'Lavande', c1: '#E6DBFF', c2: '#B69CFF' },
@@ -131,7 +147,7 @@ const REVIEWS = [
 const FAQ = [
   { q: "Qu'est-ce qu'un squishy « slow rising » ?", a: "C'est un squishy fabriqué en mousse polyuréthane haute densité qui reprend sa forme très lentement après avoir été écrasé. Chez nous, le temps de remontée est indiqué sur chaque fiche : de 4 secondes pour les plus rebondissants à 14 secondes pour les plus lents." },
   { q: 'Vos squishies sont-ils sans danger ?', a: "Oui. Toutes nos mousses sont certifiées EN71 (norme européenne de sécurité des jouets), sans phtalates et testées en laboratoire. Nos parfums sont légers et hypoallergéniques. Recommandé à partir de 3 ans." },
-  { q: 'Combien de squishies puis-je commander ?', a: "Pour que tout le monde puisse en profiter, chaque commande est limitée à 1 squishy à 2 €." },
+  { q: 'Combien de squishies puis-je commander ?', a: "Pour que tout le monde puisse en profiter, tu peux en prendre jusqu'à 10 par commande. Plus tu en prends, moins tu paies : 1 squishy 2 €, 2 à 4 squishies 3,95 €, 5 à 9 squishies 9,99 €, 10 squishies 19,99 €." },
   { q: 'Quels sont les délais de livraison ?', a: "Ta commande arrive en 3 jours, et la livraison est gratuite. Les commandes passées avant 14 h partent le jour même." },
   { q: 'Comment entretenir mon squishy ?', a: "Nettoie-le délicatement avec un chiffon humide et un peu de savon doux, puis laisse-le sécher à l'air libre. Évite la machine à laver, le sèche-cheveux et le soleil direct qui peuvent abîmer la mousse." },
   { q: 'Puis-je retourner un article ?', a: "Bien sûr. Tu as 30 jours après réception pour nous retourner un article non utilisé dans son emballage d'origine. Le remboursement est effectué sous 5 jours ouvrés." }

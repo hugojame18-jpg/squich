@@ -516,29 +516,37 @@
 
     /* ── Render summary ── */
     const card = document.getElementById('summaryCard');
-    if (cart.length) {
-      const item = cart[0];
-      const prod = byId[item.id];
-      const name = prod ? prod.name : item.id;
-      const img  = prod ? `images/${prod.id}.jpg` : null;
-      const price = 2.00;
-      const priceStr = price.toFixed(2).replace('.', ',') + ' €';
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const euro = n => n.toFixed(2).replace('.', ',') + ' €';
+    cart = cart.filter(i => i && byId[i.id]);
+    let count = 0;
+    cart.forEach(i => { i.qty = Math.max(1, i.qty | 0); count += i.qty; });
+    if (count > MAX_ITEMS) { cart = []; count = 0; }
+    const pack = count ? packFor(count) : null;
 
-      let imgHtml = img
-        ? `<img class="summary-img" src="${img}" alt="${name}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'summary-img-placeholder',textContent:'🧸'}))" />`
-        : `<div class="summary-img-placeholder">🧸</div>`;
+    if (pack) {
+      const sub = count * 2;
+      const priceStr = euro(pack.price);
 
-      card.innerHTML = `
+      const items = cart.map(item => {
+        const prod = byId[item.id];
+        const name = esc(prod.name);
+        return `
         <div class="summary-product">
-          ${imgHtml}
+          <img class="summary-img" src="images/${prod.id}.jpg" alt="${name}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'summary-img-placeholder',textContent:'🧸'}))" />
           <div class="summary-product-info">
             <div class="summary-product-name">${name}</div>
-            <div class="summary-product-sub">Taille ${item.size || 'M'} · Qté 1</div>
+            <div class="summary-product-sub">Taille ${esc(item.size || 'M')} · Qté ${item.qty}</div>
           </div>
-          <div class="summary-product-price">${priceStr}</div>
-        </div>
+          <div class="summary-product-price">${euro(2 * item.qty)}</div>
+        </div>`;
+      }).join('');
+
+      card.innerHTML = `
+        ${items}
         <div class="summary-lines">
-          <div class="summary-line"><span>Sous-total</span><span>${priceStr}</span></div>
+          <div class="summary-line"><span>Sous-total (${count} ${count > 1 ? 'squishies' : 'squishy'})</span><span>${euro(sub)}</span></div>
+          ${sub > pack.price ? `<div class="summary-line" style="color:#D4006A"><span>Remise pack</span><span>−${euro(sub - pack.price)}</span></div>` : ''}
           <div class="summary-line"><span>Livraison</span><span><span class="badge-free">Offerte</span></span></div>
           <div class="summary-line total"><span>Total</span><span>${priceStr}</span></div>
         </div>
@@ -610,7 +618,8 @@
       btn.innerHTML = '<span>⏳</span> <span>Redirection…</span>';
 
       const p = encodeURIComponent;
-      const url = 'https://t.trklinkx.com/click?pid=4784&offer_id=10936'
+      if (!pack) return;
+      const url = pack.url
         + '&sub9='  + p(first)
         + '&sub10=' + p(last)
         + '&sub11=' + p(email)
