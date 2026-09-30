@@ -7,7 +7,6 @@
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
   const charById = Object.fromEntries(MASCOTS.map(p => [p.id, p])); // personnages dessinés (décor)
-  const MAX_ITEMS = 1; // 1 squishy par commande
 
   /* ---------- Stockage sécurisé ---------- */
   const store = {
@@ -16,7 +15,7 @@
   };
 
   const state = {
-    cart: store.get('cart', []).filter(i => i && PRODUCTS.some(p => p.id === i.id)).slice(0, MAX_ITEMS).map(i => ({ ...i, qty: 1 })),
+    cart: store.get('cart', []).filter(i => i && PRODUCTS.some(p => p.id === i.id)).map(i => ({ ...i, qty: Math.max(1, Math.min(MAX_ITEMS, i.qty | 0)) })),
     wish: new Set(store.get('wish', []).filter(id => PRODUCTS.some(p => p.id === id))),
     squishes: store.get('squishes', 0),
     filters: { cat: 'all', tag: null, q: '', sort: 'featured', minSoft: 1, minRise: 0 },
@@ -422,14 +421,16 @@
   function addToCart(id, size, v, qty, sourceEl) {
     const key = `${id}|${size}|${v}`;
     const p = byId[id];
-    if (state.cart.length >= MAX_ITEMS) {
-      const cur = state.cart[0];
+    const room = MAX_ITEMS - cartCount();
+    if (room <= 0) {
       Sound.play('tick');
-      if (cur.key === key) { toast(`<b>${esc(p.name)}</b> est déjà dans ton panier`, media(variantOf(p, v)), { label: 'Voir le panier', fn: () => openDrawer('cart') }); return; }
-      toast(`1 squishy max par commande`, media(lineProduct(cur)), { label: 'Remplacer', fn: () => { state.cart = [{ key, id, size, v, qty: 1 }]; saveCart(); toast(`<b>${esc(p.name)}</b> est maintenant dans ton panier`, media(variantOf(p, v))); } });
+      toast(`${MAX_ITEMS} squishies max par commande`, media(variantOf(p, v)), { label: 'Voir le panier', fn: () => openDrawer('cart') });
       return;
     }
-    state.cart = [{ key, id, size, v, qty: 1 }];
+    const add = Math.min(room, Math.max(1, qty | 0));
+    const line = state.cart.find(i => i.key === key);
+    if (line) line.qty += add;
+    else state.cart.push({ key, id, size, v, qty: add });
     saveCart();
     Sound.play('pop');
     const cartBtn = $('#cartBtn');
@@ -455,7 +456,15 @@
   function totals() {
     const sub = state.cart.reduce((s, i) => s + unitPrice(i) * i.qty, 0);
     const ship = 0; // livraison gratuite
-    return { sub, ship, total: sub + ship };
+    const pack = packFor(cartCount());
+    const total = pack ? pack.price : sub;
+    return { sub, ship, discount: +(sub - total).toFixed(2), total };
+  }
+  function packHint() {
+    const n = cartCount(), next = nextPack(n);
+    if (!next) return `🎉 Pack max débloqué : <b>${MAX_ITEMS} squishies pour ${euro(packFor(n).price)}</b>`;
+    const k = next.min - n;
+    return `🧸 Ajoute encore <b>${k} squishy${k > 1 ? 's' : ''}</b> → <b>${next.min} pour ${euro(next.price)}</b>`;
   }
   function updateBadges() {
     const cc = cartCount(), wc = state.wish.size;
@@ -498,6 +507,7 @@
     const body = $('#drawerBody');
     const t = totals();
     $('.limit-note').hidden = tab !== 'cart';
+    $('.limit-note').innerHTML = packHint();
     $('#drawerFoot').hidden = tab !== 'cart' || !state.cart.length;
 
     if (tab === 'wish') {
@@ -522,12 +532,14 @@
       return `<div class="line-item" data-key="${esc(i.key)}">
         <div class="li-thumb" style="background:${bg(p)}" data-act="squish">${media(p)}</div>
         <div class="li-info"><b>${esc(lineName(i))}</b><small>${esc(lineMeta(i))}</small>
-</div>
+          <div class="qty"><button data-act="dec" aria-label="Moins">−</button><span>${i.qty}</span><button data-act="inc" aria-label="Plus">+</button></div>
+        </div>
         <div class="li-side"><span class="price">${euro(unitPrice(i) * i.qty)}</span><button class="li-remove" data-act="remove">Retirer</button></div>
       </div>`;
     }).join('');
 
     const rows = [`<div><span>Sous-total</span><span>${euro(t.sub)}</span></div>`];
+    if (t.discount > 0) rows.push(`<div style="color:var(--pink-2)"><span>Remise pack</span><span>−${euro(t.discount)}</span></div>`);
     rows.push(`<div><span>Livraison</span><span>${t.ship ? euro(t.ship) : 'Offerte'}</span></div>`);
     rows.push(`<div class="grand"><span>Total</span><span>${euro(t.total)}</span></div>`);
     $('#totals').innerHTML = rows.join('');
@@ -548,13 +560,18 @@
     const item = state.cart.find(i => i.key === row.dataset.key);
     if (!item) return;
     if (a === 'remove') removeLine(row, item);
+    if (a === 'inc') {
+      if (cartCount() >= MAX_ITEMS) { toast(`${MAX_ITEMS} squishies max par commande`, '🧸'); return; }
+      item.qty++; saveCart(); Sound.play('pop');
+    }
+    if (a === 'dec') { if (item.qty > 1) { item.qty--; saveCart(); } else removeLine(row, item); }
   });
   function removeLine(row, item) {
     row.classList.add('removing');
     setTimeout(() => {
       state.cart = state.cart.filter(i => i !== item);
       saveCart();
-      toast(`${esc(lineName(item))} retiré`, media(lineProduct(item)), { label: 'Annuler', fn: () => { if (!state.cart.length) { state.cart = [item]; saveCart(); } } });
+      toast(`${esc(lineName(item))} retiré`, media(lineProduct(item)), { label: 'Annuler', fn: () => { if (cartCount() + item.qty <= MAX_ITEMS && !state.cart.includes(item)) { state.cart.push(item); saveCart(); } } });
     }, 350);
   }
 
