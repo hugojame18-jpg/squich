@@ -122,7 +122,7 @@
       el.appendChild(b);
     }
     box.appendChild(el);
-    while (box.children.length > 3) box.firstElementChild.remove();
+    while (box.children.length > 1) box.firstElementChild.remove();
     const close = () => { el.classList.add('out'); setTimeout(() => el.remove(), 350); };
     setTimeout(close, 3200);
   }
@@ -244,6 +244,36 @@
     setTimeout(() => applyFilter(c.action), 250);
   });
 
+  /* ---------- Packs ---------- */
+  const PACK_UI = [
+    { min: 1, name: 'Solo', sub: 'Pour essayer', ids: ['beurre-mochi'] },
+    { min: 2, name: 'Duo', sub: 'Un pour toi, un à offrir', ids: ['raisin-perles', 'donuts-pastel'] },
+    { min: 5, name: 'Mini pack', sub: 'Ta petite collection', ids: ['oursons-gummy', 'boules-paillettes', 'mangue-squishy'] },
+    { min: 10, name: 'Méga pack', sub: 'Le maximum par commande', ids: ['tubes-gel', 'pasteque-juicy', 'glacons-squishy', 'lingot-or'], hot: true }
+  ];
+  $('#packGrid').innerHTML = PACK_UI.map((u, i) => {
+    const pk = PACKS.find(p => p.min === u.min);
+    return `<button class="pack reveal ${u.hot ? 'hot' : ''}" data-n="${u.min}" style="transition-delay:${i * 80}ms">
+      ${u.hot ? '<span class="pack-flag">Le max</span>' : ''}
+      <div class="pack-fan n${u.ids.length}">${u.ids.map(id => `<img src="images/${id}.jpg" alt="" loading="lazy" draggable="false"/>`).join('')}${u.min > u.ids.length ? `<span class="pack-more">+${u.min - u.ids.length}</span>` : ''}</div>
+      <div class="pack-name">${u.name}</div>
+      <div class="pack-count"><b>${u.min}</b> ${u.min > 1 ? 'squishies' : 'squishy'}</div>
+      <div class="pack-price">${euro(pk.price)}</div>
+      <small class="pack-unit">${u.sub}</small>
+      <span class="pack-cta">${u.min > 1 ? `Choisir mes ${u.min}` : 'Choisir'} →</span>
+    </button>`;
+  }).join('');
+  $('#packGrid').addEventListener('click', e => {
+    const b = e.target.closest('.pack');
+    if (!b) return;
+    const n = +b.dataset.n;
+    state.goal = n;
+    Sound.play('pop');
+    renderPackbar();
+    applyFilter({});
+    setTimeout(() => toast(n > 1 ? `Choisis tes <b>${n} squishies</b>, la barre du bas suit ton pack` : 'Choisis ton squishy', '📦'), 400);
+  });
+
   function applyFilter(a) {
     resetFilters(false);
     Object.assign(state.filters, a);
@@ -344,7 +374,7 @@
     $('#productGrid').innerHTML = list.map(cardHtml).join('');
     $('#emptyState').hidden = list.length > 0;
     const f = state.filters;
-    let label = `${list.length} squishy${list.length > 1 ? 's' : ''}`;
+    let label = `${list.length} ${list.length > 1 ? 'squishies' : 'squishy'}`;
     if (f.q) label += ` pour « ${esc(f.q)} »`;
     $('#resultsCount').innerHTML = label;
   }
@@ -436,7 +466,7 @@
     const cartBtn = $('#cartBtn');
     cartBtn.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.25,.8)' }, { transform: 'scale(.9,1.1)' }, { transform: 'scale(1)' }], { duration: 500 });
     if (sourceEl) flyToCart(sourceEl, variantOf(p, v));
-    toast(`<b>${esc(p.name)}</b> ajouté au panier`, media(variantOf(p, v)), { label: 'Voir le panier', fn: () => openDrawer('cart') });
+    toast(`<b>${esc(p.name)}</b> ajouté${add > 1 ? ` ×${add}` : ''}`, media(variantOf(p, v)));
   }
   function flyToCart(from, p) {
     const r = from.getBoundingClientRect(), t = $('#cartBtn').getBoundingClientRect();
@@ -451,7 +481,27 @@
       { transform: `translate(${dx}px, ${dy}px) scale(.3)`, opacity: .6 }
     ], { duration: 750, easing: 'cubic-bezier(.5,0,.5,1)' }).onfinish = () => el.remove();
   }
-  function saveCart() { store.set('cart', state.cart); updateBadges(); if (drawer.classList.contains('open')) renderDrawer(); }
+  function saveCart() { store.set('cart', state.cart); updateBadges(); renderPackbar(); if (drawer.classList.contains('open')) renderDrawer(); }
+
+  /* ---------- Barre de pack ---------- */
+  const packbar = $('#packbar');
+  function renderPackbar() {
+    const n = cartCount();
+    packbar.classList.toggle('show', n > 0);
+    document.body.classList.toggle('has-packbar', n > 0);
+    $('#checkoutBtn').textContent = n ? `Passer commande · ${euro(totals().total)}` : 'Passer commande';
+    if (!n) return;
+    const t = totals();
+    const goal = state.goal && state.goal > n ? state.goal : 0;
+    $('#pbThumbs').innerHTML = state.cart.slice(0, 3).map(i => `<span class="pb-thumb" style="background:${bg(lineProduct(i))}">${media(lineProduct(i))}</span>`).join('') +
+      (state.cart.length > 3 ? `<span class="pb-thumb pb-more">+${state.cart.length - 3}</span>` : '');
+    $('#pbCount').textContent = `${n} ${n > 1 ? 'squishies' : 'squishy'}`;
+    $('#pbPrice').innerHTML = `${t.discount > 0 ? `<s>${euro(t.sub)}</s>` : ''}${euro(t.total)}`;
+    $('#pbMeter').innerHTML = Array.from({ length: MAX_ITEMS }, (_, k) =>
+      `<i class="${k < n ? 'on' : ''} ${PACKS.some(p => p.min === k + 1) ? 'tier' : ''} ${goal && k + 1 === goal ? 'goal' : ''}"></i>`).join('');
+    $('#pbHint').innerHTML = goal ? `Objectif pack ${goal} : encore <b>${goal - n}</b>` : packHint();
+  }
+  $('#pbGo').addEventListener('click', () => openDrawer('cart'));
   function cartCount() { return state.cart.reduce((s, i) => s + i.qty, 0); }
   function totals() {
     const sub = state.cart.reduce((s, i) => s + unitPrice(i) * i.qty, 0);
@@ -464,7 +514,7 @@
     const n = cartCount(), next = nextPack(n);
     if (!next) return `🎉 Pack max débloqué : <b>${MAX_ITEMS} squishies pour ${euro(packFor(n).price)}</b>`;
     const k = next.min - n;
-    return `🧸 Ajoute encore <b>${k} squishy${k > 1 ? 's' : ''}</b> → <b>${next.min} pour ${euro(next.price)}</b>`;
+    return `🧸 Ajoute encore <b>${k} ${k > 1 ? 'squishies' : 'squishy'}</b> → <b>${next.min} pour ${euro(next.price)}</b>`;
   }
   function updateBadges() {
     const cc = cartCount(), wc = state.wish.size;
@@ -629,10 +679,11 @@
           <div class="options">${sizes.map(s => `<button class="opt ${s.id === pmState.size ? 'active' : ''}" data-size="${s.id}">${s.label}<small>${s.dim}${s.delta ? ` · ${s.delta > 0 ? '+' : '−'}${euro(Math.abs(s.delta))}` : ''}</small></button>`).join('')}</div>
         </div>
         <div class="pm-buy">
-          <button class="btn btn-primary btn-lg" data-act="pm-add">Ajouter au panier · ${euro(price)}</button>
+          <div class="qty"><button data-act="pm-dec" aria-label="Moins">−</button><span>${pmState.qty}</span><button data-act="pm-inc" aria-label="Plus">+</button></div>
+          <button class="btn btn-primary btn-lg" data-act="pm-add">Ajouter · ${euro(price * pmState.qty)}</button>
           <button class="icon-btn wish-pm ${state.wish.has(p.id) ? 'on' : ''}" data-act="pm-wish" aria-label="Favoris" style="${state.wish.has(p.id) ? 'background:var(--pink-soft)' : ''}">${ICON.heart.replace('<path', `<path style="${state.wish.has(p.id) ? 'fill:var(--pink);stroke:var(--pink)' : ''}"`)}</button>
         </div>
-        <div class="pm-perks"><span>🚚 Livré en 3 jours</span><span>🧸 Certifié EN71</span><span>↩️ Retours 30 jours</span><span>🧸 Limité à 1 par commande</span></div>
+        <div class="pm-perks"><span>🚚 Livré en 3 jours</span><span>🧸 Certifié EN71</span><span>↩️ Retours 30 jours</span><span>📦 Jusqu'à ${MAX_ITEMS} par commande</span></div>
         <div class="tabs">
           <button class="tab ${pmState.tab === 'desc' ? 'active' : ''}" data-tab="desc">Description</button>
           <button class="tab ${pmState.tab === 'specs' ? 'active' : ''}" data-tab="specs">Caractéristiques</button>
@@ -666,6 +717,11 @@
     const a = act.dataset.act;
     if (a === 'squish') { squish(act, p.rise, 1); Sound.play('squish'); countSquish(); burst(e.clientX, e.clientY); }
     else if (a === 'pm-add') { addToCart(p.id, pmState.size, pmState.v, pmState.qty, $('.pm-sq', pm)); squish($('.pm-sq', pm), p.rise, .8); }
+    else if (a === 'pm-inc' || a === 'pm-dec') {
+      const room = Math.max(1, MAX_ITEMS - cartCount());
+      pmState.qty = Math.min(room, Math.max(1, pmState.qty + (a === 'pm-inc' ? 1 : -1)));
+      rerenderKeepBars(); Sound.play('tick');
+    }
     else if (a === 'pm-wish') { toggleWish(p.id, null, e); rerenderKeepBars(); }
     else if (a === 'tab-reviews') { e.preventDefault(); pmState.tab = 'reviews'; rerenderKeepBars(); }
   });
@@ -967,12 +1023,14 @@
   renderChips();
   renderGrid();
   updateBadges();
+  renderPackbar();
 
   // Détection des photos dans /images, puis ré-affichage
   Promise.all(PRODUCTS.map(async p => { PHOTOS[p.id] = await findPhotos(p); })).then(() => {
     if (!Object.values(PHOTOS).some(a => a.length)) return;
     renderGrid();
     renderReviews();
+    renderPackbar();
     if (drawer.classList.contains('open')) renderDrawer();
   });
 })();

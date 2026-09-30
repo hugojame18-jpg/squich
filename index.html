@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Squishland — Les squishies les plus doux de l'univers</title>
-  <meta name="description" content="Squishies sensoriels, slow rising et gourmands. Des objets ultra satisfaisants, anti-stress et non toxiques. Tous les squishies à 2 €, livraison gratuite en 3 jours." />
+  <meta name="description" content="Squishies sensoriels, slow rising et gourmands. Des objets ultra satisfaisants, anti-stress et non toxiques. Dès 2 € le squishy, packs de 2, 5 ou 10, livraison gratuite en 3 jours." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍑</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,8 +16,8 @@
   <!-- Barre d'annonce -->
   <div class="announce" aria-label="Annonces">
     <div class="announce-track">
-      <span>🚚 Livraison gratuite en 3 jours</span><span>🫧 Nouveaux squishies sensoriels</span><span>💸 Tous les squishies à 2 €</span><span>♻️ Mousse non toxique certifiée EN71</span>
-      <span>🚚 Livraison gratuite en 3 jours</span><span>🫧 Nouveaux squishies sensoriels</span><span>💸 Tous les squishies à 2 €</span><span>♻️ Mousse non toxique certifiée EN71</span>
+      <span>🚚 Livraison gratuite en 3 jours</span><span>🫧 Nouveaux squishies sensoriels</span><span>📦 Packs : 2 pour 3,95 € · 5 pour 9,99 € · 10 pour 19,99 €</span><span>♻️ Mousse non toxique certifiée EN71</span>
+      <span>🚚 Livraison gratuite en 3 jours</span><span>🫧 Nouveaux squishies sensoriels</span><span>📦 Packs : 2 pour 3,95 € · 5 pour 9,99 € · 10 pour 19,99 €</span><span>♻️ Mousse non toxique certifiée EN71</span>
     </div>
   </div>
 
@@ -31,6 +31,7 @@
 
       <nav class="nav" id="nav">
         <a href="#shop">Boutique</a>
+        <a href="#packs">Packs</a>
         <a href="#collections">Collections</a>
         <a href="#lab">Squish Lab</a>
         <a href="#reviews">Avis</a>
@@ -69,17 +70,18 @@
       <div class="hero-floaters" id="heroFloaters" aria-hidden="true"></div>
       <div class="container hero-inner">
         <div class="hero-copy">
-          <span class="pill"><span class="dot"></span> Nouvelle collection automne 2026</span>
+          <span class="pill"><span class="dot"></span> Nouveau : compose ton pack jusqu'à 10 squishies</span>
           <h1>Les squishies<br/>les plus <span class="squishy-word">doux</span><br/>de l'univers.</h1>
           <p class="lead">Écrase. Relâche. Regarde-le remonter… lentement. Des squishies <b>slow rising</b> ultra satisfaisants, sculptés à la main et testés par notre équipe de squisheurs professionnels.</p>
           <div class="hero-cta">
             <a href="#shop" class="btn btn-primary btn-lg">Découvrir la boutique</a>
-            <a href="#lab" class="btn btn-ghost btn-lg">🧪 Tester le Squish Lab</a>
+            <a href="#packs" class="btn btn-ghost btn-lg">📦 Voir les packs</a>
           </div>
           <ul class="hero-stats">
             <li><b>4,9★</b><span>note moyenne</span></li>
             <li><b>19</b><span>modèles</span></li>
             <li><b>3 j</b><span>de livraison</span></li>
+            <li><b>dès 2 €</b><span>le squishy</span></li>
           </ul>
         </div>
 
@@ -87,8 +89,9 @@
           <div class="hero-blob"></div>
           <div class="hero-ring"></div>
           <button class="hero-squishy" id="heroSquishy" aria-label="Écraser le squishy"></button>
-          <div class="hero-tag tag-1">💸 2 € seulement</div>
-          <div class="hero-tag tag-2">🚚 Livré en 3 jours</div>
+          <div class="hero-tag tag-1">🚚 Livré en 3 jours</div>
+          <figure class="hero-photo hp-1"><img src="images/beurre-mochi.jpg" alt="Beurre Mochi Étirable" /><figcaption>Beurre Mochi</figcaption></figure>
+          <figure class="hero-photo hp-2"><img src="images/raisin-perles.jpg" alt="Raisin Perles Géantes" /><figcaption>Raisin Perles</figcaption></figure>
           <div class="hero-counter">
             <span>Tu l'as écrasé</span>
             <b id="heroCount">0</b>
@@ -120,16 +123,15 @@
       </div>
     </section>
 
-    <!-- FLASH SALE -->
-    <section class="container">
-      <div class="flash reveal">
-        <div class="flash-copy">
-          <span class="eyebrow light">💸 Petit prix</span>
-          <h3>Tous nos squishies à 2 €</h3>
-          <p>Animaux, gourmandises, perles, XXL… le même prix pour tout le catalogue.</p>
+    <!-- PACKS -->
+    <section class="section packs" id="packs">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">📦 Packs</span>
+          <h2>Compose ton pack</h2>
+          <p>Mélange les modèles comme tu veux, jusqu'à 10 squishies par commande. Le prix du pack s'applique tout seul dans le panier.</p>
         </div>
-        <div class="big-price">2&nbsp;€</div>
-        <a href="#shop" class="btn btn-light">Je craque</a>
+        <div class="pack-grid" id="packGrid"></div>
       </div>
     </section>
 
@@ -335,6 +337,17 @@
       </div>
       <div id="checkoutContent"></div>
     </div>
+  </div>
+
+  <!-- Barre de pack -->
+  <div class="packbar" id="packbar" aria-live="polite">
+    <div class="pb-thumbs" id="pbThumbs"></div>
+    <div class="pb-main">
+      <div class="pb-line"><b id="pbCount"></b><span id="pbPrice"></span></div>
+      <div class="pb-meter" id="pbMeter"></div>
+      <small id="pbHint"></small>
+    </div>
+    <button class="btn btn-primary" id="pbGo">Commander</button>
   </div>
 
   <div class="toasts" id="toasts"></div>
