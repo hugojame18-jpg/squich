@@ -274,6 +274,30 @@
     setTimeout(() => toast(n > 1 ? `Choisis tes <b>${n} squishies</b>, la barre du bas suit ton pack` : 'Choisis ton squishy', '📦'), 400);
   });
 
+  /* ---------- Calendrier de l'Avent ---------- */
+  const DOOR_ORDER = [7, 19, 2, 13, 24, 9, 16, 4, 21, 11, 1, 18, 6, 23, 14, 3, 20, 10, 15, 22, 5, 12, 17, 8];
+  $('#adventGrid').innerHTML = DOOR_ORDER.map((n, i) => {
+    const p = PRODUCTS[i % PRODUCTS.length];
+    return `<button class="door ${n === 24 ? 'big' : ''}" data-n="${n}" aria-label="Case ${n}">
+      <img src="images/${p.id}.jpg" alt="" loading="lazy" draggable="false"/>
+      <span class="door-face">${n}</span>
+    </button>`;
+  }).join('');
+  $('#adventGrid').addEventListener('click', e => {
+    const d = e.target.closest('.door');
+    if (!d) return;
+    const opened = d.classList.toggle('open');
+    Sound.play(opened ? 'pop' : 'tick');
+    if (opened) burst(e.clientX, e.clientY, ['🎄', '✨', '🎁', '❄️'], 6);
+  });
+  if (!CALENDAR.url) {
+    const b = $('#adventBtn');
+    b.textContent = 'Bientôt disponible';
+    b.removeAttribute('href');
+    b.classList.add('disabled');
+    b.setAttribute('aria-disabled', 'true');
+  }
+
   function applyFilter(a) {
     resetFilters(false);
     Object.assign(state.filters, a);
