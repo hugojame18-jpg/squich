@@ -319,6 +319,7 @@
     { label: '🍑 Fruits', cat: 'fruits' },
     { label: '☁️ Fantaisie', cat: 'fantaisie' },
     { label: '🫧 Sensoriel', cat: 'sensoriel' },
+    { label: '🎃 Halloween', cat: 'halloween' },
     { label: '✨ Nouveautés', tag: 'new' }
   ];
   function renderChips() {
