@@ -7,10 +7,17 @@ const CATEGORIES = {
   gourmandises: 'Gourmandises',
   fruits: 'Fruits',
   fantaisie: 'Fantaisie',
-  sensoriel: 'Sensoriel'
+  sensoriel: 'Sensoriel',
+  halloween: 'Halloween'
 };
 
 const PRODUCTS = [
+  { id: 'tube-paillettes-halloween', name: 'Tube Paillettes Halloween', shape: 'mochi', c1: '#F7CFEA', c2: '#C2338F', cat: 'halloween', price: 2, rise: 2, soft: 5, rating: 4.9, reviews: 64, tags: ['new'], rank: -45,
+    desc: "Un tube de gel rose et violet rempli de paillettes, de nœuds et de petites chauves-souris qui flottent. On le presse, tout tourbillonne." },
+  { id: 'citrouille-doree', name: 'Citrouille Dorée', shape: 'peach', c1: '#FFE7A8', c2: '#F2B33D', cat: 'halloween', price: 2, rise: 6, soft: 5, rating: 4.9, reviews: 58, tags: ['new'], rank: -44,
+    desc: "Une citrouille jaune doré avec son visage sculpté en relief. Elle s'écrase en douceur et remonte lentement." },
+  { id: 'pomme-araignee', name: 'Pomme Toile d\'Araignée', shape: 'peach', c1: '#FFC7A8', c2: '#F2541B', cat: 'halloween', price: 2, rise: 3, soft: 4, rating: 4.8, reviews: 51, tags: ['new'], rank: -43,
+    desc: "Une pomme d'amour orange translucide décorée d'une toile d'araignée. Brillante, gélatineuse et un peu effrayante." },
   { id: 'pochettes-gel', name: 'Pochettes Gel Mellow', shape: 'mochi', c1: '#BFEFEA', c2: '#3FBFB0', cat: 'sensoriel', price: 2, rise: 2, soft: 5, rating: 4.9, reviews: 96, tags: ['new'], rank: -42,
     desc: "Une pochette souple remplie de gel transparent qui ondule sous les doigts. On la presse, on la tord, elle reprend sa forme. Turquoise, rose, clair, vert ou rouge." },
   { id: 'boule-mouchetee', name: 'Boule Mouchetée', shape: 'mochi', c1: '#F4F1E8', c2: '#D9D2BF', cat: 'sensoriel', price: 2, rise: 5, soft: 5, rating: 4.9, reviews: 188, tags: ['best'], rank: -41,
@@ -25,7 +32,7 @@ const PRODUCTS = [
     desc: "Un pot de miel en gel orangé avec sa petite cuillère en bois. Le gel coule et pétille de paillettes dorées quand on le presse." },
   { id: 'lait-chiboki', name: 'Bouteille de Lait Chiboki', shape: 'mochi', c1: '#E9F7EE', c2: '#A8DDB9', cat: 'gourmandises', price: 2, rise: 3, soft: 4, rating: 4.8, reviews: 68, tags: ['new'], rank: -36,
     desc: "Une petite bouteille de lait en gel, version vanille ou matcha, avec des perles qui flottent à l'intérieur. Douce, fraîche et ultra satisfaisante." },
-  { id: 'fiole-potion', name: 'Fiole Potion Magique', shape: 'mochi', c1: '#FFE0EC', c2: '#F28AB5', cat: 'fantaisie', price: 2, rise: 2, soft: 4, rating: 4.9, reviews: 83, tags: ['new'], rank: -35,
+  { id: 'fiole-potion', name: 'Fiole Potion Magique', shape: 'mochi', c1: '#FFE0EC', c2: '#F28AB5', cat: 'halloween', price: 2, rise: 2, soft: 4, rating: 4.9, reviews: 83, tags: ['new'], rank: -35,
     desc: "Une fiole en gel rose et violet avec une mini potion qui flotte dedans. Retourne-la, presse-la et regarde le liquide danser." },
   { id: 'bocal-fruits-gelee', name: 'Bocal Fruits en Gelée', shape: 'mochi', c1: '#FFE6B8', c2: '#FFB347', cat: 'fruits', price: 2, rise: 2, soft: 4, rating: 4.8, reviews: 59, tags: ['new'], rank: -34,
     desc: "Une boule de gelée transparente remplie de morceaux de fruits : orange, fraise, fruit du dragon… On voit les fruits bouger quand on l'écrase." },
@@ -47,9 +54,9 @@ const PRODUCTS = [
     desc: "Un sachet rempli de mini squishies pastel : étoiles, fleurs, nuages et petits personnages. Parfait pour écraser par poignées." },
   { id: 'pochette-galaxie', name: 'Pochette Paillettes Galaxie', shape: 'mochi', c1: '#F7D0EF', c2: '#B03E9C', cat: 'fantaisie', price: 2, rise: 2, soft: 5, rating: 4.8, reviews: 62, tags: ['new'], rank: -25,
     desc: "Une pochette de gel rose et violet pleine de paillettes et d'étoiles qui tourbillonnent quand on la presse." },
-  { id: 'citrouille-jelly', name: 'Citrouille Jelly', shape: 'mochi', c1: '#FFE0B8', c2: '#FF9A2F', cat: 'fantaisie', price: 2, rise: 3, soft: 5, rating: 4.8, reviews: 49, tags: ['new'], rank: -24,
+  { id: 'citrouille-jelly', name: 'Citrouille Jelly', shape: 'mochi', c1: '#FFE0B8', c2: '#FF9A2F', cat: 'halloween', price: 2, rise: 3, soft: 5, rating: 4.8, reviews: 49, tags: ['new'], rank: -24,
     desc: "Une galette de gel orange avec une petite maison hantée à l'intérieur. Le squishy parfait pour Halloween." },
-  { id: 'petit-fantome', name: 'Petit Fantôme', shape: 'ghost', c1: '#FFFFFF', c2: '#E3DDF2', cat: 'fantaisie', price: 2, rise: 6, soft: 5, rating: 4.9, reviews: 73, tags: ['new'], rank: -23,
+  { id: 'petit-fantome', name: 'Petit Fantôme', shape: 'ghost', c1: '#FFFFFF', c2: '#E3DDF2', cat: 'halloween', price: 2, rise: 6, soft: 5, rating: 4.9, reviews: 73, tags: ['new'], rank: -23,
     desc: "Un petit fantôme tout blanc aux joues roses et au grand sourire. Mousse douce qui remonte lentement." },
   { id: 'porte-cles-perles', name: 'Porte-clés Perles Bleues', shape: 'mochi', c1: '#D6ECFF', c2: '#3B7BD9', cat: 'sensoriel', price: 2, rise: 2, soft: 4, rating: 4.7, reviews: 55, tags: ['new'], rank: -22,
     desc: "Trois perles de gel bleu nuit étoilé sur un porte-clés. À accrocher au sac pour avoir toujours un squishy sous la main." },
