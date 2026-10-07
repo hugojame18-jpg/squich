@@ -7,23 +7,23 @@
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #FFF8F2;
-      --bg-2: #FFEFE6;
-      --ink: #2B1B3D;
-      --ink-2: #6B5A7E;
-      --ink-3: #A597B5;
-      --pink: #FF5C9A;
-      --pink-2: #E23D7E;
-      --pink-soft: #FFE1EC;
-      --line: #EDE0EA;
+      --bg: #FBF8F4;
+      --bg-2: #F4EDE5;
+      --ink: #1F1A1E;
+      --ink-2: #5C5459;
+      --ink-3: #988E94;
+      --pink: #D9466F;
+      --pink-2: #B7335A;
+      --pink-soft: #F8E6EA;
+      --line: #EAE2DA;
       --radius: 20px;
       --radius-sm: 12px;
-      --font-display: 'Fredoka', system-ui, sans-serif;
-      --font-body: 'Nunito', system-ui, sans-serif;
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
       --shadow: 0 4px 24px rgba(43,27,61,.08);
       --shadow-lg: 0 8px 40px rgba(43,27,61,.13);
     }
@@ -168,7 +168,7 @@
     }
     .btn-submit {
       width: 100%;
-      background: linear-gradient(135deg, var(--pink), var(--pink-2));
+      background: var(--ink);
       color: #fff;
       border: none;
       border-radius: var(--radius-sm);
@@ -331,7 +331,7 @@
 
   <!-- Header -->
   <header class="sh-header">
-    <a href="index.html" class="sh-logo">🌸 Squish<span>land</span></a>
+    <a href="index.html" class="sh-logo">Squishland</a>
     <nav class="sh-steps">
       <span class="st done">✓ Panier</span>
       <span class="sep">›</span>
@@ -567,7 +567,7 @@
           <img class="summary-img" src="images/${prod.id}.jpg" alt="${name}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'summary-img-placeholder',textContent:'🧸'}))" />
           <div class="summary-product-info">
             <div class="summary-product-name">${name}</div>
-            <div class="summary-product-sub">Taille ${esc(item.size || 'M')} · Qté ${item.qty}</div>
+            <div class="summary-product-sub">Qté ${item.qty}</div>
           </div>
           <div class="summary-product-price">${euro(2 * item.qty)}</div>
         </div>`;

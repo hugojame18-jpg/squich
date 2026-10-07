@@ -3,62 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Squishland — Les squishies les plus doux de l'univers</title>
-  <meta name="description" content="Squishies sensoriels, slow rising et gourmands. Des objets ultra satisfaisants, anti-stress et non toxiques. Dès 2 € le squishy, packs de 2, 5 ou 10, livraison gratuite en 3 jours." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍑</text></svg>" />
+  <title>Squishland — Squishies sensoriels & slow rising</title>
+  <meta name="description" content="Squishies sensoriels, slow rising et gourmands. Dès 2 € le squishy, packs de 2, 5 ou 10, livraison offerte en 3 jours." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='54' r='38' fill='%23E0457B'/><path d='M50 18c6-10 18-12 24-8-4 8-14 12-24 8z' fill='%2389B87A'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <!-- Barre d'annonce -->
-  <div class="announce" aria-label="Annonces">
-    <div class="announce-track">
-      <span>🚚 Livraison gratuite en 3 jours</span><span>🫧 Nouveaux squishies sensoriels</span><span>📦 Packs : 2 pour 3,95 € · 5 pour 9,99 € · 10 pour 19,99 €</span><span>🎄 Calendrier de l'Avent Squishy : 19,99 €</span><span>♻️ Mousse non toxique certifiée EN71</span>
-      <span>🚚 Livraison gratuite en 3 jours</span><span>🫧 Nouveaux squishies sensoriels</span><span>📦 Packs : 2 pour 3,95 € · 5 pour 9,99 € · 10 pour 19,99 €</span><span>🎄 Calendrier de l'Avent Squishy : 19,99 €</span><span>♻️ Mousse non toxique certifiée EN71</span>
+  <div class="announce">
+    <div class="container announce-inner">
+      <span>Livraison offerte en 3 jours</span>
+      <span class="sep"></span>
+      <span>Packs dès 3,95 €</span>
+      <span class="sep"></span>
+      <span>Retours sous 30 jours</span>
     </div>
   </div>
 
-  <!-- Header -->
   <header class="header" id="header">
     <div class="container header-inner">
-      <a href="#top" class="logo" aria-label="Squishland accueil">
-        <span class="logo-mark" id="logoMark"></span>
-        <span class="logo-text">Squish<span>land</span></span>
-      </a>
+      <button class="icon-btn burger" id="burger" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
 
       <nav class="nav" id="nav">
-        <a href="#shop">Boutique</a>
+        <a href="#boutique">Boutique</a>
         <a href="#packs">Packs</a>
+        <a href="#halloween">Halloween</a>
         <a href="#calendrier">Calendrier</a>
-        <a href="#collections">Collections</a>
-        <a href="#lab">Squish Lab</a>
-        <a href="#reviews">Avis</a>
-        <a href="#faq">FAQ</a>
+        <a href="#faq">Aide</a>
       </nav>
 
+      <a href="#top" class="logo" aria-label="Squishland, accueil">Squishland</a>
+
       <div class="header-actions">
-        <label class="search">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input type="search" id="searchInput" placeholder="Chercher un squishy…" autocomplete="off" />
-          <div class="search-results" id="searchResults"></div>
-        </label>
-        <button class="icon-btn" id="soundBtn" aria-label="Activer / couper le son" title="Son">
-          <svg viewBox="0 0 24 24" class="snd-on"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></svg>
-          <svg viewBox="0 0 24 24" class="snd-off"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="m17 9 5 6m0-6-5 6"/></svg>
-        </button>
+        <div class="search" id="search">
+          <button class="icon-btn" id="searchBtn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          </button>
+          <div class="search-panel" id="searchPanel">
+            <input type="search" id="searchInput" placeholder="Rechercher un squishy" autocomplete="off" aria-label="Rechercher un squishy" />
+            <div class="search-results" id="searchResults"></div>
+          </div>
+        </div>
         <button class="icon-btn" id="wishBtn" aria-label="Favoris">
           <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-9A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5C19 15.6 12 20 12 20z"/></svg>
           <span class="bubble" id="wishCount">0</span>
         </button>
-        <button class="icon-btn cart-btn" id="cartBtn" aria-label="Panier">
-          <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
+        <button class="icon-btn" id="cartBtn" aria-label="Panier">
+          <svg viewBox="0 0 24 24"><path d="M5 8h14l-1.1 11.1a2 2 0 0 1-2 1.9H8.1a2 2 0 0 1-2-1.9L5 8z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg>
           <span class="bubble" id="cartCount">0</span>
-        </button>
-        <button class="icon-btn burger" id="burger" aria-label="Menu">
-          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         </button>
       </div>
     </div>
@@ -68,227 +65,174 @@
 
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-floaters" id="heroFloaters" aria-hidden="true"></div>
       <div class="container hero-inner">
         <div class="hero-copy">
-          <span class="pill"><span class="dot"></span> Nouveau : compose ton pack jusqu'à 10 squishies</span>
-          <h1>Les squishies<br/>les plus <span class="squishy-word">doux</span><br/>de l'univers.</h1>
-          <p class="lead">Écrase. Relâche. Regarde-le remonter… lentement. Des squishies <b>slow rising</b> ultra satisfaisants, sculptés à la main et testés par notre équipe de squisheurs professionnels.</p>
+          <span class="kicker">Nouvelle collection</span>
+          <h1>Des squishies si doux qu'on ne les lâche plus.</h1>
+          <p class="lead">Perles de gel, mousse slow rising, gourmandises plus vraies que nature. Choisis tes préférés, compose ton pack et reçois-le en 3 jours.</p>
           <div class="hero-cta">
-            <a href="#shop" class="btn btn-primary btn-lg">Découvrir la boutique</a>
-            <a href="#packs" class="btn btn-ghost btn-lg">📦 Voir les packs</a>
+            <a href="#boutique" class="btn btn-dark">Découvrir la boutique</a>
+            <a href="#packs" class="btn btn-outline">Composer un pack</a>
           </div>
-          <ul class="hero-stats">
-            <li><b>4,9★</b><span>note moyenne</span></li>
-            <li><b>42</b><span>modèles</span></li>
-            <li><b>3 j</b><span>de livraison</span></li>
-            <li><b>dès 2 €</b><span>le squishy</span></li>
+          <ul class="hero-proof">
+            <li><b>Dès 2 €</b> le squishy</li>
+            <li><b>Livraison offerte</b> en 3 jours</li>
+            <li><b>Certifié EN71</b></li>
           </ul>
         </div>
-
-        <div class="hero-stage">
-          <div class="hero-blob"></div>
-          <div class="hero-ring"></div>
-          <button class="hero-squishy" id="heroSquishy" aria-label="Écraser le squishy"></button>
-          <div class="hero-tag tag-1">🚚 Livré en 3 jours</div>
-          <figure class="hero-photo hp-1"><img src="images/beurre-mochi.jpg" alt="Beurre Mochi Étirable" /><figcaption>Beurre Mochi</figcaption></figure>
-          <figure class="hero-photo hp-2"><img src="images/raisin-perles.jpg" alt="Raisin Perles Géantes" /><figcaption>Raisin Perles</figcaption></figure>
-          <div class="hero-counter">
-            <span>Tu l'as écrasé</span>
-            <b id="heroCount">0</b>
-            <span>fois</span>
-          </div>
-          <div class="hero-hint">👆 Clique dessus !</div>
+        <div class="hero-media">
+          <figure class="hm hm-1"><img src="images/raisin-perles.jpg" alt="Raisin Perles Géantes" /></figure>
+          <figure class="hm hm-2"><img src="images/donuts-pastel.jpg" alt="Donut Pastel Glacé" /></figure>
+          <figure class="hm hm-3"><img src="images/boules-paillettes.jpg" alt="Boules Paillettes Kawaii" /></figure>
+          <div class="hero-tag"><span>Le préféré du moment</span><b>Raisin Perles Géantes</b></div>
         </div>
       </div>
     </section>
 
-    <!-- TRUST -->
-    <section class="trust">
-      <div class="container trust-inner">
-        <div class="trust-item"><span>🚚</span><div><b>Livraison gratuite</b><small>livré en 3 jours</small></div></div>
-        <div class="trust-item"><span>🧸</span><div><b>Non toxique</b><small>mousse PU certifiée EN71</small></div></div>
-        <div class="trust-item"><span>↩️</span><div><b>Retours 30 jours</b><small>satisfait ou remboursé</small></div></div>
-        <div class="trust-item"><span>🔒</span><div><b>Paiement sécurisé</b><small>CB, PayPal, Apple Pay</small></div></div>
-      </div>
-    </section>
-
-    <!-- COLLECTIONS -->
-    <section class="section" id="collections">
+    <!-- UNIVERS -->
+    <section class="section section-tight">
       <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">Collections</span>
-          <h2>Trouve ton squishy idéal</h2>
+        <div class="section-head">
+          <h2>Explorer par univers</h2>
         </div>
-        <div class="collections" id="collectionsGrid"></div>
+        <div class="universes" id="universes"></div>
+      </div>
+    </section>
+
+    <!-- BEST-SELLERS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head split">
+          <div>
+            <span class="kicker">Best-sellers</span>
+            <h2>Les préférés de la communauté</h2>
+          </div>
+          <a href="#boutique" class="link-arrow">Voir toute la boutique</a>
+        </div>
+        <div class="grid" id="bestGrid"></div>
       </div>
     </section>
 
     <!-- HALLOWEEN -->
-    <section class="container">
-      <div class="spooky reveal">
-        <img class="spooky-box" src="images/box-halloween.jpg" alt="Box Squish or Treat avec les squishies Halloween" loading="lazy" />
-        <div class="spooky-copy">
-          <span class="eyebrow">🎃 Collection Halloween</span>
+    <section class="container" id="halloween">
+      <div class="feature feature-dark reveal">
+        <div class="feature-media"><img src="images/box-halloween.jpg" alt="La box Squish or Treat et ses squishies Halloween" loading="lazy" /></div>
+        <div class="feature-copy">
+          <span class="kicker">Collection Halloween</span>
           <h2>Squish or Treat</h2>
-          <p>Citrouilles, fantômes, potions et pommes d'amour : les squishies les plus mignons pour fêter Halloween.</p>
-          <div class="spooky-thumbs">
-            <img src="images/citrouille-doree.jpg" alt="Citrouille Dorée" loading="lazy" />
-            <img src="images/petit-fantome.jpg" alt="Petit Fantôme" loading="lazy" />
-            <img src="images/pomme-araignee.jpg" alt="Pomme Toile d'Araignée" loading="lazy" />
-            <img src="images/tube-paillettes-halloween.jpg" alt="Tube Paillettes Halloween" loading="lazy" />
-          </div>
-          <a href="#shop" class="btn btn-primary btn-lg" data-filter-cat="halloween">Voir la collection</a>
+          <p>Citrouilles sculptées, petit fantôme, potions et pommes d'amour : une édition de saison, douce et un peu frissonnante.</p>
+          <div class="feature-thumbs" id="hwThumbs"></div>
+          <a href="#boutique" class="btn btn-light" data-filter-cat="halloween">Voir la collection</a>
         </div>
       </div>
     </section>
 
     <!-- PACKS -->
-    <section class="section packs" id="packs">
+    <section class="section" id="packs">
       <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">📦 Packs</span>
+        <div class="section-head center">
+          <span class="kicker">Packs</span>
           <h2>Compose ton pack</h2>
-          <p>Mélange les modèles comme tu veux, jusqu'à 10 squishies par commande. Le prix du pack s'applique tout seul dans le panier.</p>
+          <p>Mélange les modèles comme tu veux, jusqu'à 10 par commande. Le prix du pack s'applique automatiquement au panier.</p>
         </div>
-        <div class="pack-grid" id="packGrid"></div>
+        <div class="packs" id="packGrid"></div>
       </div>
     </section>
 
-    <!-- CALENDRIER DE L'AVENT -->
-    <section class="section advent" id="calendrier">
-      <div class="container advent-inner">
-        <div class="advent-copy reveal">
-          <span class="eyebrow">🎄 Édition Noël</span>
+    <!-- BOUTIQUE -->
+    <section class="section section-shop" id="boutique">
+      <div class="container">
+        <div class="section-head split">
+          <div>
+            <span class="kicker">Boutique</span>
+            <h2>Tous les squishies</h2>
+          </div>
+          <label class="sort">
+            <span>Trier</span>
+            <select id="sortSelect" aria-label="Trier">
+              <option value="featured">Sélection</option>
+              <option value="new">Nouveautés</option>
+              <option value="rating">Mieux notés</option>
+              <option value="rise">Remontée la plus lente</option>
+            </select>
+          </label>
+        </div>
+        <div class="tabs" id="chips" role="tablist"></div>
+        <p class="results" id="resultsCount"></p>
+        <div class="grid" id="productGrid"></div>
+        <div class="more"><button class="btn btn-outline" id="moreBtn">Afficher plus</button></div>
+        <div class="empty" id="emptyState" hidden>
+          <h3>Aucun squishy ne correspond</h3>
+          <p>Essaie un autre univers ou une autre recherche.</p>
+          <button class="btn btn-dark" id="emptyReset">Voir tous les squishies</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDRIER -->
+    <section class="container" id="calendrier">
+      <div class="feature feature-advent reveal">
+        <div class="feature-copy">
+          <span class="kicker">Édition Noël</span>
           <h2>Le calendrier de l'Avent Squishy</h2>
-          <p>24 cases, un squishy surprise derrière chacune. Du 1<sup>er</sup> au 24 décembre, une nouvelle texture à écraser chaque matin.</p>
-          <ul class="advent-perks">
-            <li><span>🎁</span>24 squishies surprise</li>
-            <li><span>🫧</span>Perles, gel, slow rising, gourmandises</li>
-            <li><span>🚚</span>Livraison gratuite en 3 jours</li>
+          <p>24 cases, un squishy surprise derrière chacune. Du 1<sup>er</sup> au 24 décembre, une nouvelle texture à découvrir chaque matin.</p>
+          <ul class="checks">
+            <li>24 squishies surprise</li>
+            <li>Perles, gel, slow rising et gourmandises</li>
+            <li>Livraison offerte en 3 jours</li>
           </ul>
           <div class="advent-buy">
-            <div class="advent-price">19,99&nbsp;€</div>
-            <a href="shipping.html?produit=calendrier" class="btn btn-primary btn-lg" id="adventBtn">Commander le calendrier</a>
+            <span class="price-xl" id="adventPrice"></span>
+            <a href="shipping.html?produit=calendrier" class="btn btn-light" id="adventBtn">Commander le calendrier</a>
           </div>
         </div>
-        <div class="advent-box reveal" aria-label="Aperçu du calendrier : clique sur une case pour l'ouvrir">
-          <div class="advent-ribbon">Joyeux Squishmas</div>
+        <div class="advent-box">
           <div class="advent-grid" id="adventGrid"></div>
-          <small class="advent-tip">👆 Ouvre une case pour voir un exemple de surprise</small>
+          <small>Ouvre une case pour voir un exemple de surprise</small>
         </div>
       </div>
     </section>
 
-    <!-- SHOP -->
-    <section class="section" id="shop">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">Boutique</span>
-          <h2>Tous nos squishies</h2>
-          <p>Appuie sur un squishy pour découvrir toutes ses photos.</p>
+    <!-- RÉASSURANCE -->
+    <section class="section section-tight">
+      <div class="container perks">
+        <div class="perk">
+          <svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+          <div><b>Livraison offerte</b><span>Reçu en 3 jours</span></div>
         </div>
-
-        <div class="toolbar">
-          <div class="chips" id="chips"></div>
-          <div class="toolbar-right">
-            <button class="btn btn-ghost btn-sm" id="filterToggle">
-              <svg viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg> Filtres
-            </button>
-            <select id="sortSelect" class="select" aria-label="Trier">
-              <option value="featured">Tendances</option>
-              <option value="rise">Plus lent à remonter</option>
-              <option value="rating">Mieux notés</option>
-              <option value="new">Nouveautés</option>
-            </select>
-          </div>
+        <div class="perk">
+          <svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+          <div><b>Certifié EN71</b><span>Matières sans danger</span></div>
         </div>
-
-        <div class="filters" id="filters">
-          <div class="filter">
-            <label for="softRange">Douceur min : <b id="softVal">1/5</b></label>
-            <input type="range" id="softRange" min="1" max="5" step="1" value="1" />
-          </div>
-          <div class="filter">
-            <label for="riseRange">Temps de remontée min : <b id="riseVal">0 s</b></label>
-            <input type="range" id="riseRange" min="0" max="12" step="1" value="0" />
-          </div>
-          <button class="btn btn-sm btn-ghost" id="resetFilters">Réinitialiser</button>
+        <div class="perk">
+          <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></svg>
+          <div><b>Retours 30 jours</b><span>Satisfait ou remboursé</span></div>
         </div>
-
-        <div class="results-bar"><span id="resultsCount"></span></div>
-        <div class="grid" id="productGrid"></div>
-        <div class="empty" id="emptyState" hidden>
-          <div class="empty-sq" id="emptySq"></div>
-          <h3>Aucun squishy trouvé…</h3>
-          <p>Essaie d'autres filtres, il est peut-être caché sous un coussin.</p>
-          <button class="btn btn-primary" id="emptyReset">Voir tous les squishies</button>
+        <div class="perk">
+          <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <div><b>Paiement sécurisé</b><span>CB, PayPal, Apple Pay</span></div>
         </div>
       </div>
     </section>
 
-    <!-- SQUISH LAB -->
-    <section class="section lab" id="lab">
+    <!-- AVIS -->
+    <section class="section section-soft" id="avis">
       <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">🧪 Squish Lab</span>
-          <h2>Ton espace anti-stress</h2>
-          <p>Maintiens appuyé pour écraser plus fort, déplace-toi pour le déformer, relâche… et regarde-le remonter.</p>
+        <div class="section-head center">
+          <span class="kicker">Avis</span>
+          <h2>Ils en parlent mieux que nous</h2>
         </div>
-
-        <div class="lab-wrap reveal">
-          <div class="lab-picker" id="labPicker"></div>
-
-          <div class="lab-stage" id="labStage">
-            <div class="lab-bg"></div>
-            <div class="lab-squishy" id="labSquishy"></div>
-            <div class="lab-particles" id="labParticles"></div>
-            <div class="lab-name" id="labName"></div>
-          </div>
-
-          <aside class="lab-panel">
-            <div class="gauge">
-              <div class="gauge-head"><span>Pression</span><b id="pressureVal">0 %</b></div>
-              <div class="gauge-bar"><i id="pressureBar"></i></div>
-            </div>
-            <div class="gauge">
-              <div class="gauge-head"><span>Remontée</span><b id="riseLabel">—</b></div>
-              <div class="gauge-bar rise"><i id="riseBar"></i></div>
-            </div>
-            <div class="lab-stats">
-              <div><b id="labSquishes">0</b><span>squishes</span></div>
-              <div><b id="labRecord">0,0 s</b><span>record appui</span></div>
-            </div>
-            <div class="stress">
-              <div class="gauge-head"><span>Stress-o-mètre</span><b id="stressEmoji">😤</b></div>
-              <div class="gauge-bar stress-bar"><i id="stressBar"></i></div>
-              <small id="stressText">Encore quelques squishes…</small>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <!-- REVIEWS -->
-    <section class="section reviews" id="reviews">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">Avis clients</span>
-          <h2>Ils ne peuvent plus s'arrêter</h2>
-        </div>
-      </div>
-      <div class="review-rail">
-        <div class="review-track" id="reviewTrack"></div>
+        <div class="reviews" id="reviewGrid"></div>
       </div>
     </section>
 
     <!-- FAQ -->
     <section class="section" id="faq">
       <div class="container faq-wrap">
-        <div class="section-head left reveal">
-          <span class="eyebrow">FAQ</span>
+        <div class="section-head">
+          <span class="kicker">Aide</span>
           <h2>Questions fréquentes</h2>
-          <p>Une autre question ? Écris-nous, on répond en moins de 24 h (même le dimanche, on est accros).</p>
+          <p>Une autre question ? Écris-nous, on répond en moins de 24 h.</p>
         </div>
         <div class="faq" id="faqList"></div>
       </div>
@@ -297,16 +241,13 @@
     <!-- NEWSLETTER -->
     <section class="container">
       <div class="newsletter reveal">
-        <div class="nl-sq" id="nlSq"></div>
-        <div class="nl-copy">
-          <h2>Rejoins le Squish Club</h2>
-          <p>Sois prévenu en avant-première des nouveaux squishies et des drops limités.</p>
-          <form id="nlForm" class="nl-form" novalidate>
-            <input type="email" id="nlEmail" placeholder="ton@email.com" aria-label="Adresse email" required />
-            <button class="btn btn-primary" type="submit">Je m'inscris</button>
-          </form>
-          <div class="nl-success" id="nlSuccess" hidden>🎉 Bienvenue dans le Squish Club !</div>
-        </div>
+        <h2>Les nouveautés en avant-première</h2>
+        <p>Nouveaux modèles, éditions limitées et packs : sois prévenu avant tout le monde.</p>
+        <form id="nlForm" class="nl-form" novalidate>
+          <input type="email" id="nlEmail" placeholder="Ton adresse email" aria-label="Adresse email" required />
+          <button class="btn btn-dark" type="submit">S'inscrire</button>
+        </form>
+        <p class="nl-success" id="nlSuccess" hidden>Merci, tu es inscrit.</p>
       </div>
     </section>
   </main>
@@ -314,16 +255,17 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div class="footer-brand">
-        <a href="#top" class="logo"><span class="logo-mark" id="logoMark2"></span><span class="logo-text">Squish<span>land</span></span></a>
-        <p>Des objets doux et satisfaisants pour souffler un peu. Conçus en France, emballés avec amour.</p>
+        <span class="logo">Squishland</span>
+        <p>Des squishies doux et satisfaisants, choisis un par un et expédiés avec soin.</p>
       </div>
       <div class="footer-col">
         <h4>Boutique</h4>
-        <a href="#shop" data-filter-cat="animaux">Animaux</a>
-        <a href="#shop" data-filter-cat="gourmandises">Gourmandises</a>
-        <a href="#shop" data-filter-cat="fruits">Fruits</a>
-        <a href="#shop" data-filter-cat="sensoriel">Sensoriel</a>
-        <a href="#shop" data-filter-cat="halloween">Halloween</a>
+        <a href="#boutique" data-filter-cat="sensoriel">Sensoriel</a>
+        <a href="#boutique" data-filter-cat="gourmandises">Gourmandises</a>
+        <a href="#boutique" data-filter-cat="fruits">Fruits</a>
+        <a href="#boutique" data-filter-cat="halloween">Halloween</a>
+        <a href="#packs">Packs</a>
+        <a href="#calendrier">Calendrier de l'Avent</a>
       </div>
       <div class="footer-col">
         <h4>Aide</h4>
@@ -334,54 +276,40 @@
       </div>
       <div class="footer-col">
         <h4>Paiement</h4>
-        <div class="pay-badges"><span>CB</span><span>Visa</span><span>PayPal</span><span>Apple Pay</span></div>
+        <div class="pay"><span>CB</span><span>Visa</span><span>PayPal</span><span>Apple Pay</span></div>
       </div>
     </div>
     <div class="container footer-bottom">
-      <span>© 2026 Squishland — Tous droits réservés</span>
+      <span>© 2026 Squishland</span>
       <span>Mentions légales · CGV · Confidentialité</span>
     </div>
   </footer>
 
-  <!-- Overlay commun -->
   <div class="overlay" id="overlay"></div>
 
-  <!-- Drawer panier / favoris -->
+  <!-- Panier / favoris -->
   <aside class="drawer" id="drawer" aria-hidden="true">
     <div class="drawer-head">
       <div class="drawer-tabs">
         <button class="drawer-tab active" data-tab="cart">Panier <span id="drawerCartCount">0</span></button>
         <button class="drawer-tab" data-tab="wish">Favoris <span id="drawerWishCount">0</span></button>
       </div>
-      <button class="icon-btn close" data-close aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <button class="icon-btn" data-close aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
-    <div class="limit-note"></div>
+    <div class="pack-note" id="packNote"></div>
     <div class="drawer-body" id="drawerBody"></div>
     <div class="drawer-foot" id="drawerFoot">
       <div class="totals" id="totals"></div>
-      <button class="btn btn-primary btn-lg w-full" id="checkoutBtn">Passer commande</button>
-      <small class="secure">🔒 Paiement 100 % sécurisé</small>
+      <button class="btn btn-dark w-full" id="checkoutBtn">Passer commande</button>
+      <small class="secure">Paiement sécurisé · Livraison offerte</small>
     </div>
   </aside>
 
-  <!-- Modal produit -->
+  <!-- Fiche produit -->
   <div class="modal" id="productModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card product-modal">
-      <button class="icon-btn close" data-close aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-      <div class="pm-grid" id="pmContent"></div>
-    </div>
-  </div>
-
-  <!-- Modal checkout -->
-  <div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card checkout-modal">
-      <button class="icon-btn close" data-close aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-      <div class="steps" id="steps">
-        <div class="step active"><span>1</span>Livraison</div>
-        <div class="step"><span>2</span>Paiement</div>
-        <div class="step"><span>3</span>Confirmation</div>
-      </div>
-      <div id="checkoutContent"></div>
+    <div class="modal-card">
+      <button class="icon-btn modal-close" data-close aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="pm" id="pmContent"></div>
     </div>
   </div>
 
@@ -393,12 +321,11 @@
       <div class="pb-meter" id="pbMeter"></div>
       <small id="pbHint"></small>
     </div>
-    <button class="btn btn-primary" id="pbGo">Commander</button>
+    <button class="btn btn-light" id="pbGo">Commander</button>
   </div>
 
   <div class="toasts" id="toasts"></div>
 
-  <script src="js/squishy.js"></script>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 </body>
