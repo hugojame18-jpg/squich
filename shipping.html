@@ -522,9 +522,40 @@
     let count = 0;
     cart.forEach(i => { i.qty = Math.max(1, i.qty | 0); count += i.qty; });
     if (count > MAX_ITEMS) { cart = []; count = 0; }
-    const pack = count ? packFor(count) : null;
+    const isCalendar = new URLSearchParams(location.search).get('produit') === 'calendrier';
+    let pack = null;
+    if (isCalendar) {
+      if (CALENDAR.url) {
+        pack = { price: CALENDAR.price, url: CALENDAR.url };
+        card.innerHTML = `
+        <div class="summary-product">
+          <div class="summary-img-placeholder">🎄</div>
+          <div class="summary-product-info">
+            <div class="summary-product-name">${esc(CALENDAR.name)}</div>
+            <div class="summary-product-sub">${CALENDAR.doors} cases · Qté 1</div>
+          </div>
+          <div class="summary-product-price">${euro(CALENDAR.price)}</div>
+        </div>
+        <div class="summary-lines">
+          <div class="summary-line"><span>Sous-total</span><span>${euro(CALENDAR.price)}</span></div>
+          <div class="summary-line"><span>Livraison</span><span><span class="badge-free">Offerte</span></span></div>
+          <div class="summary-line total"><span>Total</span><span>${euro(CALENDAR.price)}</span></div>
+        </div>
+        <div class="summary-delivery">
+          <span class="ic">🚚</span>
+          <div><b>Livraison standard</b><br/><span style="font-weight:400;color:var(--ink-2)">Livré en 3 jours — Gratuit</span></div>
+        </div>`;
+        document.getElementById('submitLabel').textContent = `Commander · ${euro(CALENDAR.price)}`;
+      } else {
+        card.innerHTML = '<div class="empty-cart"><div class="em">🎄</div>Calendrier bientôt disponible</div>';
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('submitLabel').textContent = 'Bientôt disponible';
+      }
+    } else if (count) {
+      pack = packFor(count);
+    }
 
-    if (pack) {
+    if (pack && !isCalendar) {
       const sub = count * 2;
       const priceStr = euro(pack.price);
 
@@ -557,7 +588,7 @@
       `;
 
       document.getElementById('submitLabel').textContent = `Commander · ${priceStr}`;
-    } else {
+    } else if (!isCalendar) {
       document.getElementById('submitBtn').disabled = true;
       document.getElementById('submitLabel').textContent = 'Panier vide';
     }
@@ -630,7 +661,7 @@
         + '&sub16=' + p(country);
 
       /* Clear cart after redirect */
-      try { localStorage.removeItem('squishland:cart'); } catch(e) {}
+      if (!isCalendar) { try { localStorage.removeItem('squishland:cart'); } catch(e) {} }
 
       setTimeout(() => { window.location.href = url; }, 400);
     });

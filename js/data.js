@@ -119,6 +119,14 @@ function packFor(n) {
 }
 function nextPack(n) { return PACKS.find(p => p.min > n) || null; }
 
+/* Calendrier de l'Avent : commande à part (hors panier), avec son propre lien. */
+const CALENDAR = {
+  name: "Calendrier de l'Avent Squishy",
+  price: 49.99,
+  doors: 24,
+  url: ''
+};
+
 const COLOR_VARIANTS = [
   { name: 'Rose', c1: '#FFD1E3', c2: '#FF9CC2' },
   { name: 'Lavande', c1: '#E6DBFF', c2: '#B69CFF' },
