@@ -155,9 +155,9 @@ const MASCOTS = [
    sous-total : le client ne paie jamais plus que 2 € × quantité. */
 const MAX_ITEMS = 10;
 const PACKS = [
-  { min: 1,  price: 2.00,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=10936' },
-  { min: 2,  price: 3.95,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=12325' },
-  { min: 5,  price: 9.99,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=9,99' },
+  { min: 1,  price: 2.00,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=10936&sub3=squish' },
+  { min: 2,  price: 3.95,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=12325&sub3=squish' },
+  { min: 5,  price: 9.99,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=squish' },
   { min: 10, price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squish' }
 ];
 function packFor(n) {
