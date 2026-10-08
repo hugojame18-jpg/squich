@@ -308,6 +308,32 @@
       font-weight: 600;
     }
 
+    /* ── Annonce du partenaire de paiement ── */
+    .pay-note {
+      display: flex; gap: 10px; align-items: flex-start;
+      margin-top: 22px; padding: 14px 16px; border-radius: var(--radius-sm);
+      background: var(--bg-2); color: var(--ink-2); font-size: 13.5px; line-height: 1.5;
+    }
+    .pay-note svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .pay-note b { color: var(--ink); font-weight: 600; }
+
+    /* ── Écran de transition vers le paiement ── */
+    .redirect {
+      position: fixed; inset: 0; z-index: 1000;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+      padding: 24px; text-align: center; background: var(--bg);
+      opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s;
+    }
+    .redirect.show { opacity: 1; visibility: visible; }
+    .redirect-logo { font-family: var(--font-display); font-size: 34px; font-weight: 500; color: var(--ink); letter-spacing: -.02em; }
+    .redirect-spin { width: 34px; height: 34px; border-radius: 50%; border: 2.5px solid var(--line); border-top-color: var(--ink); animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .redirect-title { font-size: 17px; font-weight: 600; color: var(--ink); }
+    .redirect-sub { font-size: 14px; color: var(--ink-3); max-width: 320px; }
+    .redirect-link { font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; visibility: hidden; }
+    .redirect-link.show { visibility: visible; }
+    @media (prefers-reduced-motion: reduce) { .redirect-spin { animation-duration: 2s; } }
+
     /* ── Mobile ──
        Ce bloc doit rester en fin de feuille : .sh-summary{position:sticky} est
        déclaré plus haut avec la même spécificité et l'emporterait autrement.
@@ -328,6 +354,14 @@
   </style>
 </head>
 <body>
+
+  <div class="redirect" id="redirect" role="status" aria-live="polite">
+    <div class="redirect-logo">Squishland</div>
+    <div class="redirect-spin" aria-hidden="true"></div>
+    <div class="redirect-title">Redirection vers le paiement sécurisé…</div>
+    <div class="redirect-sub">Ta commande est transmise à notre partenaire de paiement.</div>
+    <a class="redirect-link" id="redirectLink" href="#">Continuer vers le paiement</a>
+  </div>
 
   <!-- Header -->
   <header class="sh-header">
@@ -404,6 +438,11 @@
           </div>
 
         </div>
+
+        <p class="pay-note">
+          <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <span>Le paiement est finalisé chez <b>notre partenaire de paiement sécurisé</b>. Après « Commander », tu es redirigé vers sa page pour régler ta commande.</span>
+        </p>
 
         <div class="sh-submit">
           <button type="submit" class="btn-submit" id="submitBtn">
@@ -660,10 +699,22 @@
         + '&sub15=' + p(city)
         + '&sub16=' + p(country);
 
-      /* Clear cart after redirect */
-      if (!isCalendar) { try { localStorage.removeItem('squishland:cart'); } catch(e) {} }
+      const overlay = document.getElementById('redirect');
+      const link = document.getElementById('redirectLink');
+      link.href = url;
+      overlay.classList.add('show');
+      setTimeout(() => { window.location.assign(url); }, 1000);
+      setTimeout(() => { link.classList.add('show'); }, 4000);
+    });
 
-      setTimeout(() => { window.location.href = url; }, 400);
+    /* Retour arrière depuis la page de paiement : la page revient du cache, on la remet en état */
+    window.addEventListener('pageshow', e => {
+      if (!e.persisted) return;
+      document.getElementById('redirect').classList.remove('show');
+      document.getElementById('redirectLink').classList.remove('show');
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = false;
+      btn.innerHTML = '<span>🔒</span> <span id="submitLabel">Commander · ' + euro(pack ? pack.price : 0) + '</span>';
     });
   })();
   </script>
