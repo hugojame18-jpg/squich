@@ -158,7 +158,7 @@ const PACKS = [
   { min: 1,  price: 2.00,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=10936' },
   { min: 2,  price: 3.95,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=12325' },
   { min: 5,  price: 9.99,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=9,99' },
-  { min: 10, price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=19' }
+  { min: 10, price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squish' }
 ];
 function packFor(n) {
   const sub = n * 2;
@@ -171,7 +171,7 @@ const CALENDAR = {
   name: "Calendrier de l'Avent Squishy",
   price: 19.99,
   doors: 24,
-  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=19'
+  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squish'
 };
 
 const COLOR_VARIANTS = [
