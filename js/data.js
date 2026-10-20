@@ -200,6 +200,9 @@ const REVIEWS = [
 ];
 
 const FAQ = [
+  { q: "Que contient le calendrier de l'Avent ?", a: "24 cases, chacune cache un squishy surprise : perles de gel, slow rising, gourmandises, fantaisie… Le contenu exact reste une surprise jusqu'à l'ouverture de chaque case." },
+  { q: "Quand vais-je recevoir le calendrier ?", a: "Il est livré en 3 jours, livraison offerte. Commande au plus tard le 27 novembre pour pouvoir ouvrir la première case dès le 1er décembre." },
+  { q: "Le calendrier passe-t-il par le panier ?", a: "Non, il se commande à part : le bouton « Commander le calendrier » t'emmène directement à la page de livraison, puis au paiement sécurisé." },
   { q: "Qu'est-ce qu'un squishy « slow rising » ?", a: "C'est un squishy fabriqué en mousse polyuréthane haute densité qui reprend sa forme très lentement après avoir été écrasé. Chez nous, le temps de remontée est indiqué sur chaque fiche : de 4 secondes pour les plus rebondissants à 14 secondes pour les plus lents." },
   { q: 'Vos squishies sont-ils sans danger ?', a: "Oui. Toutes nos mousses sont certifiées EN71 (norme européenne de sécurité des jouets), sans phtalates et testées en laboratoire. Nos parfums sont légers et hypoallergéniques. Recommandé à partir de 3 ans." },
   { q: 'Combien de squishies puis-je commander ?', a: "Pour que tout le monde puisse en profiter, tu peux en prendre jusqu'à 10 par commande. Plus tu en prends, moins tu paies : 1 squishy 2 €, 2 à 4 squishies 3,95 €, 5 à 9 squishies 9,99 €, 10 squishies 19,99 €." },

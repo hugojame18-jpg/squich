@@ -175,15 +175,44 @@
   });
 
   /* ---------- Calendrier de l'Avent ---------- */
-  $('#adventPrice').textContent = euro(CALENDAR.price);
+  $$('[data-cal-price]').forEach(el => { el.textContent = euro(CALENDAR.price); });
+  $('#calUnit').textContent = euro(Math.round(CALENDAR.price / CALENDAR.doors * 100) / 100);
+
+  (function adventDates() {
+    const now = new Date(), y = now.getFullYear();
+    const day = 864e5, today = new Date(y, now.getMonth(), now.getDate());
+    const dec1 = new Date(y, 11, 1), deadline = new Date(y, 10, 27);
+    const cd = $('#xmasCountdown'), step = $('#stepDeadline');
+    if (today < dec1) {
+      const n = Math.round((dec1 - today) / day);
+      cd.innerHTML = `Plus que <b>${n} jour${n > 1 ? 's' : ''}</b> avant d'ouvrir la première case`;
+    } else if (today.getMonth() === 11 && today.getDate() <= 24) {
+      cd.innerHTML = `Aujourd'hui, on ouvre la case <b>${today.getDate()}</b>`;
+    } else cd.hidden = true;
+    step.textContent = today <= deadline
+      ? 'Livré en 3 jours, livraison offerte. Commande avant le 27 novembre pour ouvrir la première case dès le 1er décembre.'
+      : 'Livré en 3 jours, livraison offerte.';
+  })();
+
+  $('#insideGrid').innerHTML = ['raisin-perles', 'mangue-squishy', 'donuts-pastel', 'boules-paillettes', 'lingot-or', 'tubes-gel', 'beurre-mochi', 'pasteque-juicy']
+    .filter(id => byId[id]).map(id => `<button class="inside-item" data-id="${id}">${img(byId[id])}<span>${esc(byId[id].name)}</span></button>`).join('');
+  $('#insideGrid').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) openProduct(b.dataset.id); });
+
+  const advbar = $('#advbar'), calSeen = new Set();
+  const syncAdvbar = () => advbar.classList.toggle('show', !calSeen.size && !document.body.classList.contains('has-packbar') && scrollY > 200);
+  if ('IntersectionObserver' in window) {
+    const calIo = new IntersectionObserver(es => { es.forEach(en => en.isIntersecting ? calSeen.add(en.target) : calSeen.delete(en.target)); syncAdvbar(); });
+    calIo.observe($('#avent')); calIo.observe($('#calendrier'));
+  }
+  addEventListener('scroll', syncAdvbar, { passive: true });
+
   const DOORS = [7, 19, 2, 13, 24, 9, 16, 4, 21, 11, 1, 18, 6, 23, 14, 3, 20, 10, 15, 22, 5, 12, 17, 8];
   $('#adventGrid').innerHTML = DOORS.map((n, i) => `<button class="door ${n === 24 ? 'big' : ''}" aria-label="Case ${n}">
       ${img(PRODUCTS[(i * 3) % PRODUCTS.length])}<span class="door-face">${n}</span></button>`).join('');
   $('#adventGrid').addEventListener('click', e => { const d = e.target.closest('.door'); if (d) d.classList.toggle('open'); });
-  if (!CALENDAR.url) {
-    const b = $('#adventBtn');
+  if (!CALENDAR.url) $$('[data-cal-buy]').forEach(b => {
     b.textContent = 'Bientôt disponible'; b.removeAttribute('href'); b.classList.add('disabled'); b.setAttribute('aria-disabled', 'true');
-  }
+  });
 
   /* ---------- Boutique ---------- */
   const TABS = [
@@ -296,6 +325,7 @@
     const n = cartCount();
     packbar.classList.toggle('show', n > 0);
     document.body.classList.toggle('has-packbar', n > 0);
+    syncAdvbar();
     $('#checkoutBtn').textContent = n ? `Passer commande · ${euro(totals().total)}` : 'Passer commande';
     if (!n) return;
     const t = totals();
@@ -346,7 +376,7 @@
         : emptyHtml('Aucun favori pour l\'instant', 'Touche le cœur d\'un squishy pour le garder ici.');
       return;
     }
-    if (!state.cart.length) { body.innerHTML = emptyHtml('Ton panier est vide', 'Choisis un squishy ou compose un pack.'); return; }
+    if (!state.cart.length) { body.innerHTML = emptyHtml('Ton panier est vide', 'Choisis un squishy ou compose un pack.') + calUpsell(); return; }
     body.innerHTML = state.cart.map(i => {
       const p = byId[i.id];
       return `<div class="line" data-id="${p.id}">
@@ -355,11 +385,16 @@
           <div class="qty"><button data-act="dec" aria-label="Moins">−</button><span>${i.qty}</span><button data-act="inc" aria-label="Plus">+</button></div></div>
         <div class="line-side"><span>${euro(p.price * i.qty)}</span><button class="link muted" data-act="remove">Retirer</button></div>
       </div>`;
-    }).join('');
+    }).join('') + calUpsell();
     const t = totals();
     $('#totals').innerHTML = `<div><span>Sous-total</span><span>${euro(t.sub)}</span></div>` +
       (t.discount > 0 ? `<div class="discount"><span>Remise pack</span><span>−${euro(t.discount)}</span></div>` : '') +
       `<div><span>Livraison</span><span>Offerte</span></div><div class="grand"><span>Total</span><span>${euro(t.total)}</span></div>`;
+  }
+  function calUpsell() {
+    if (!CALENDAR.url) return '';
+    return `<a class="cal-upsell" href="shipping.html?produit=calendrier"><span class="cal-upsell-n">24</span>
+      <span><b>Et le calendrier de l'Avent ?</b><small>24 squishies surprise · ${euro(CALENDAR.price)} · commande séparée</small></span>${ICON.arrow}</a>`;
   }
   function emptyHtml(title, text) {
     return `<div class="drawer-empty"><h4>${title}</h4><p>${text}</p><button class="btn btn-dark" data-act="shop">Voir la boutique</button></div>`;
