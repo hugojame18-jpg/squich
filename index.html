@@ -15,11 +15,9 @@
 
   <div class="announce">
     <div class="container announce-inner">
+      <a href="#avent" class="announce-cta">Nouveau : le calendrier de l'Avent Squishy, 24 surprises pour <span data-cal-price></span></a>
+      <span class="sep"></span>
       <span>Livraison offerte en 3 jours</span>
-      <span class="sep"></span>
-      <span>Packs dès 3,95 €</span>
-      <span class="sep"></span>
-      <span>Retours sous 30 jours</span>
     </div>
   </div>
 
@@ -30,11 +28,10 @@
       </button>
 
       <nav class="nav" id="nav">
+        <a href="#avent" class="nav-hl">Calendrier de l'Avent</a>
         <a href="#boutique">Boutique</a>
         <a href="#packs">Packs</a>
         <a href="#halloween">Halloween</a>
-        <a href="#calendrier">Calendrier</a>
-        <a href="#faq">Aide</a>
       </nav>
 
       <a href="#top" class="logo" aria-label="Squishland, accueil">Squishland</a>
@@ -63,28 +60,59 @@
 
   <main id="top">
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container hero-inner">
-        <div class="hero-copy">
-          <span class="kicker">Nouvelle collection</span>
-          <h1>Des squishies si doux qu'on ne les lâche plus.</h1>
-          <p class="lead">Perles de gel, mousse slow rising, gourmandises plus vraies que nature. Choisis tes préférés, compose ton pack et reçois-le en 3 jours.</p>
-          <div class="hero-cta">
-            <a href="#boutique" class="btn btn-dark">Découvrir la boutique</a>
-            <a href="#packs" class="btn btn-outline">Composer un pack</a>
+    <!-- HERO : CALENDRIER DE L'AVENT -->
+    <section class="xmas" id="avent">
+      <div class="container xmas-inner">
+        <div class="xmas-copy">
+          <span class="kicker">Édition Noël 2026</span>
+          <h1>Le calendrier de l'Avent Squishy</h1>
+          <p class="lead">24 cases, 24 squishies surprise. Du 1<sup>er</sup> au 24 décembre, une nouvelle texture à écraser chaque matin.</p>
+          <div class="xmas-price">
+            <span class="price-xl" data-cal-price></span>
+            <span class="xmas-unit">soit <b id="calUnit"></b> le squishy</span>
           </div>
+          <div class="hero-cta">
+            <a href="shipping.html?produit=calendrier" class="btn btn-gold" data-cal-buy>Commander le calendrier</a>
+            <a href="#calendrier" class="btn btn-ghost-light">Comment ça marche</a>
+          </div>
+          <p class="xmas-countdown" id="xmasCountdown"></p>
           <ul class="hero-proof">
-            <li><b>Dès 2 €</b> le squishy</li>
             <li><b>Livraison offerte</b> en 3 jours</li>
             <li><b>Certifié EN71</b></li>
+            <li><b>Idée cadeau</b> dès 3 ans</li>
           </ul>
         </div>
-        <div class="hero-media">
-          <figure class="hm hm-1"><img src="images/raisin-perles.jpg" alt="Raisin Perles Géantes" /></figure>
-          <figure class="hm hm-2"><img src="images/donuts-pastel.jpg" alt="Donut Pastel Glacé" /></figure>
-          <figure class="hm hm-3"><img src="images/boules-paillettes.jpg" alt="Boules Paillettes Kawaii" /></figure>
-          <div class="hero-tag"><span>Le préféré du moment</span><b>Raisin Perles Géantes</b></div>
+        <div class="advent-box xmas-box">
+          <div class="xmas-ribbon">Joyeux Noël</div>
+          <div class="advent-grid" id="adventGrid"></div>
+          <small>Ouvre une case pour voir un exemple de surprise</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDRIER : COMMENT ÇA MARCHE -->
+    <section class="section" id="calendrier">
+      <div class="container">
+        <div class="section-head center">
+          <span class="kicker">Calendrier de l'Avent</span>
+          <h2>Comment ça marche</h2>
+          <p>Un squishy surprise par jour, du 1<sup>er</sup> au 24 décembre.</p>
+        </div>
+        <ol class="steps">
+          <li><span class="step-n">1</span><b>Tu commandes</b><p id="stepDeadline">Livré en 3 jours, livraison offerte.</p></li>
+          <li><span class="step-n">2</span><b>Le 1<sup>er</sup> décembre</b><p>Tu ouvres la première case et découvres ton premier squishy.</p></li>
+          <li><span class="step-n">3</span><b>Jusqu'au 24 décembre</b><p>Une nouvelle surprise chaque matin : perles, gel, slow rising, gourmandises…</p></li>
+        </ol>
+        <div class="inside">
+          <div class="inside-copy">
+            <h3>Ce qui peut se cacher derrière les cases</h3>
+            <p>Les 24 squishies restent une surprise. Pour te donner une idée, voici quelques textures de la boutique.</p>
+          </div>
+          <div class="inside-grid" id="insideGrid"></div>
+        </div>
+        <div class="cal-cta">
+          <div><span class="price-xl" data-cal-price></span><small>24 squishies · commande séparée du panier</small></div>
+          <a href="shipping.html?produit=calendrier" class="btn btn-dark" data-cal-buy>Commander le calendrier</a>
         </div>
       </div>
     </section>
@@ -169,30 +197,6 @@
       </div>
     </section>
 
-    <!-- CALENDRIER -->
-    <section class="container" id="calendrier">
-      <div class="feature feature-advent reveal">
-        <div class="feature-copy">
-          <span class="kicker">Édition Noël</span>
-          <h2>Le calendrier de l'Avent Squishy</h2>
-          <p>24 cases, un squishy surprise derrière chacune. Du 1<sup>er</sup> au 24 décembre, une nouvelle texture à découvrir chaque matin.</p>
-          <ul class="checks">
-            <li>24 squishies surprise</li>
-            <li>Perles, gel, slow rising et gourmandises</li>
-            <li>Livraison offerte en 3 jours</li>
-          </ul>
-          <div class="advent-buy">
-            <span class="price-xl" id="adventPrice"></span>
-            <a href="shipping.html?produit=calendrier" class="btn btn-light" id="adventBtn">Commander le calendrier</a>
-          </div>
-        </div>
-        <div class="advent-box">
-          <div class="advent-grid" id="adventGrid"></div>
-          <small>Ouvre une case pour voir un exemple de surprise</small>
-        </div>
-      </div>
-    </section>
-
     <!-- RÉASSURANCE -->
     <section class="section section-tight">
       <div class="container perks">
@@ -265,7 +269,7 @@
         <a href="#boutique" data-filter-cat="fruits">Fruits</a>
         <a href="#boutique" data-filter-cat="halloween">Halloween</a>
         <a href="#packs">Packs</a>
-        <a href="#calendrier">Calendrier de l'Avent</a>
+        <a href="#avent">Calendrier de l'Avent</a>
       </div>
       <div class="footer-col">
         <h4>Aide</h4>
@@ -322,6 +326,13 @@
       <small id="pbHint"></small>
     </div>
     <button class="btn btn-light" id="pbGo">Commander</button>
+  </div>
+
+  <!-- Barre calendrier -->
+  <div class="advbar" id="advbar">
+    <span class="advbar-text"><b>Calendrier de l'Avent</b><small>24 squishies surprise</small></span>
+    <span class="advbar-price" data-cal-price></span>
+    <a href="shipping.html?produit=calendrier" class="btn btn-gold" data-cal-buy>Commander</a>
   </div>
 
   <div class="toasts" id="toasts"></div>
