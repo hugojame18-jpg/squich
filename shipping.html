@@ -381,7 +381,7 @@
 
     <!-- Form column -->
     <div class="sh-form-col">
-      <h2>Où livrer tes squishies ? 📦</h2>
+      <h2>Où livrer ta commande ? 📦</h2>
       <p class="subtitle">Remplis tes infos — on envoie dans les 3 jours !</p>
 
       <form id="shipForm" novalidate>
@@ -561,40 +561,49 @@
     let count = 0;
     cart.forEach(i => { i.qty = Math.max(1, i.qty | 0); count += i.qty; });
     if (count > MAX_ITEMS) { cart = []; count = 0; }
-    const isCalendar = new URLSearchParams(location.search).get('produit') === 'calendrier';
+    /* Commandes à part du panier : le calendrier et les kits Slime Mart (?produit=…) */
+    const param = new URLSearchParams(location.search).get('produit');
+    const isSolo = !!param;
+    let solo = null;
+    if (param === 'calendrier') {
+      solo = { name: CALENDAR.name, price: CALENDAR.price, url: CALENDAR.url, sub: `${CALENDAR.doors} cases · Qté 1`, thumb: '<div class="summary-img-placeholder">🎄</div>', empty: 'Calendrier bientôt disponible' };
+    } else if (byId[param] && byId[param].standalone) {
+      const sp = byId[param];
+      solo = { name: sp.name, price: sp.price, url: sp.url, sub: `${sp.pieces} pièces · Qté 1`, thumb: `<img class="summary-img" src="images/${sp.id}.jpg" alt="${esc(sp.name)}" />`, empty: 'Produit bientôt disponible' };
+    }
     let pack = null;
-    if (isCalendar) {
-      if (CALENDAR.url) {
-        pack = { price: CALENDAR.price, url: CALENDAR.url };
+    if (isSolo) {
+      if (solo && solo.url) {
+        pack = { price: solo.price, url: solo.url };
         card.innerHTML = `
         <div class="summary-product">
-          <div class="summary-img-placeholder">🎄</div>
+          ${solo.thumb}
           <div class="summary-product-info">
-            <div class="summary-product-name">${esc(CALENDAR.name)}</div>
-            <div class="summary-product-sub">${CALENDAR.doors} cases · Qté 1</div>
+            <div class="summary-product-name">${esc(solo.name)}</div>
+            <div class="summary-product-sub">${solo.sub}</div>
           </div>
-          <div class="summary-product-price">${euro(CALENDAR.price)}</div>
+          <div class="summary-product-price">${euro(solo.price)}</div>
         </div>
         <div class="summary-lines">
-          <div class="summary-line"><span>Sous-total</span><span>${euro(CALENDAR.price)}</span></div>
+          <div class="summary-line"><span>Sous-total</span><span>${euro(solo.price)}</span></div>
           <div class="summary-line"><span>Livraison</span><span><span class="badge-free">Offerte</span></span></div>
-          <div class="summary-line total"><span>Total</span><span>${euro(CALENDAR.price)}</span></div>
+          <div class="summary-line total"><span>Total</span><span>${euro(solo.price)}</span></div>
         </div>
         <div class="summary-delivery">
           <span class="ic">🚚</span>
           <div><b>Livraison standard</b><br/><span style="font-weight:400;color:var(--ink-2)">Livré en 3 jours — Gratuit</span></div>
         </div>`;
-        document.getElementById('submitLabel').textContent = `Commander · ${euro(CALENDAR.price)}`;
+        document.getElementById('submitLabel').textContent = `Commander · ${euro(solo.price)}`;
       } else {
-        card.innerHTML = '<div class="empty-cart"><div class="em">🎄</div>Calendrier bientôt disponible</div>';
+        card.innerHTML = `<div class="empty-cart"><div class="em">🛒</div>${solo ? solo.empty : 'Produit introuvable'}</div>`;
         document.getElementById('submitBtn').disabled = true;
-        document.getElementById('submitLabel').textContent = 'Bientôt disponible';
+        document.getElementById('submitLabel').textContent = 'Indisponible';
       }
     } else if (count) {
       pack = packFor(count);
     }
 
-    if (pack && !isCalendar) {
+    if (pack && !isSolo) {
       const sub = count * 2;
       const priceStr = euro(pack.price);
 
@@ -627,7 +636,7 @@
       `;
 
       document.getElementById('submitLabel').textContent = `Commander · ${priceStr}`;
-    } else if (!isCalendar) {
+    } else if (!isSolo) {
       document.getElementById('submitBtn').disabled = true;
       document.getElementById('submitLabel').textContent = 'Panier vide';
     }

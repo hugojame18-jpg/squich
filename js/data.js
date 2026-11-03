@@ -8,10 +8,17 @@ const CATEGORIES = {
   fruits: 'Fruits',
   fantaisie: 'Fantaisie',
   sensoriel: 'Sensoriel',
-  halloween: 'Halloween'
+  halloween: 'Halloween',
+  slimemart: 'Slime Mart'
 };
 
+/* Kits Slime Mart : 9,99 € l'unité, commande à part du panier (shipping.html?produit=<id>). */
+const SLIME_URL = 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=squish';
 const PRODUCTS = [
+  { id: 'slime-mart-pizza', name: 'Slime Mart Pizza', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 13, ingredients: '10+', tags: ['new'], rank: -50,
+    desc: "Le kit pour fabriquer ta propre pizza en slime : pâte, sauce tomate, fromage, pepperoni, basilic et huile d'olive, le tout en slime. Tu déballes, tu crées, tu pétris. 13 pièces et plus de 10 ingrédients dans une mini caisse de courses. Dès 6 ans. Ne se mange pas." },
+  { id: 'slime-mart-cannelle', name: 'Slime Mart Brioches à la Cannelle', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 10, ingredients: '7+', tags: ['new'], rank: -49,
+    desc: "Le kit pour fabriquer tes brioches à la cannelle en slime : pâte, glaçage au sucre, pâte de cannelle, œuf, couteau et nappe à carreaux. Tu crées, tu glaces, tu pétris. 10 pièces et 7 ingrédients dans un sachet refermable. Dès 6 ans. Ne se mange pas." },
   { id: 'tube-paillettes-halloween', name: 'Tube Paillettes Halloween', shape: 'mochi', c1: '#F7CFEA', c2: '#C2338F', cat: 'halloween', price: 2, rise: 2, soft: 5, rating: 4.9, reviews: 64, tags: ['new'], rank: -45,
     desc: "Un tube de gel rose et violet rempli de paillettes, de nœuds et de petites chauves-souris qui flottent. On le presse, tout tourbillonne." },
   { id: 'citrouille-doree', name: 'Citrouille Dorée', shape: 'peach', c1: '#FFE7A8', c2: '#F2B33D', cat: 'halloween', price: 2, rise: 6, soft: 5, rating: 4.9, reviews: 58, tags: ['new'], rank: -44,
@@ -200,6 +207,7 @@ const REVIEWS = [
 ];
 
 const FAQ = [
+  { q: "Comment commander un kit Slime Mart ?", a: "Les kits Slime Mart sont à 9,99 € l'unité et se commandent à part du panier : le bouton « Commander » t'emmène directement à la page de livraison, puis au paiement sécurisé. Ce sont des kits à fabriquer (dès 6 ans), pas des aliments : ne pas manger." },
   { q: "Que contient le calendrier de l'Avent ?", a: "24 cases, chacune cache un squishy surprise : perles de gel, slow rising, gourmandises, fantaisie… Le contenu exact reste une surprise jusqu'à l'ouverture de chaque case." },
   { q: "Quand vais-je recevoir le calendrier ?", a: "Il est livré en 3 jours, livraison offerte. Commande au plus tard le 27 novembre pour pouvoir ouvrir la première case dès le 1er décembre." },
   { q: "Le calendrier passe-t-il par le panier ?", a: "Non, il se commande à part : le bouton « Commander le calendrier » t'emmène directement à la page de livraison, puis au paiement sécurisé." },
