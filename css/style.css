@@ -718,3 +718,4 @@ body.locked .advbar { transform: translate(-50%, 140%); opacity: 0; pointer-even
   .slime-body h3 { font-size: 23px; }
   .slime-buy .btn { flex: 1; }
 }
+.slime-media img { object-fit: contain; }
