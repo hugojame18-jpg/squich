@@ -29,9 +29,9 @@
 
       <nav class="nav" id="nav">
         <a href="#avent" class="nav-hl">Calendrier de l'Avent</a>
-        <a href="#boutique">Boutique</a>
+        <a href="#boutique">Squishies</a>
+        <a href="#slimemart">Slime Mart</a>
         <a href="#packs">Packs</a>
-        <a href="#halloween">Halloween</a>
       </nav>
 
       <a href="#top" class="logo" aria-label="Squishland, accueil">Squishland</a>
@@ -76,6 +76,7 @@
             <a href="#calendrier" class="btn btn-ghost-light">Comment ça marche</a>
           </div>
           <p class="xmas-countdown" id="xmasCountdown"></p>
+          <p class="xmas-deadline" id="heroDeadline" hidden></p>
           <ul class="hero-proof">
             <li><b>Livraison offerte</b> en 3 jours</li>
             <li><b>Certifié EN71</b></li>
@@ -90,40 +91,45 @@
       </div>
     </section>
 
-    <!-- CALENDRIER : COMMENT ÇA MARCHE -->
-    <section class="section" id="calendrier">
-      <div class="container">
-        <div class="section-head center">
-          <span class="kicker">Calendrier de l'Avent</span>
-          <h2>Comment ça marche</h2>
-          <p>Un squishy surprise par jour, du 1<sup>er</sup> au 24 décembre.</p>
+    <!-- RÉASSURANCE (barre sous le hero) -->
+    <section class="trustbar">
+      <div class="container perks">
+        <div class="perk">
+          <svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+          <div><b>Livraison offerte</b><span>Reçu en 3 jours</span></div>
         </div>
-        <ol class="steps">
-          <li><span class="step-n">1</span><b>Tu commandes</b><p id="stepDeadline">Livré en 3 jours, livraison offerte.</p></li>
-          <li><span class="step-n">2</span><b>Le 1<sup>er</sup> décembre</b><p>Tu ouvres la première case et découvres ton premier squishy.</p></li>
-          <li><span class="step-n">3</span><b>Jusqu'au 24 décembre</b><p>Une nouvelle surprise chaque matin : perles, gel, slow rising, gourmandises…</p></li>
-        </ol>
-        <div class="inside">
-          <div class="inside-copy">
-            <h3>Ce qui peut se cacher derrière les cases</h3>
-            <p>Les 24 squishies restent une surprise. Pour te donner une idée, voici quelques textures de la boutique.</p>
-          </div>
-          <div class="inside-grid" id="insideGrid"></div>
+        <div class="perk">
+          <svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+          <div><b>Certifié EN71</b><span>Matières sans danger</span></div>
         </div>
-        <div class="cal-cta">
-          <div><span class="price-xl" data-cal-price></span><small>24 squishies · commande séparée du panier</small></div>
-          <a href="shipping.html?produit=calendrier" class="btn btn-dark" data-cal-buy>Commander le calendrier</a>
+        <div class="perk">
+          <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></svg>
+          <div><b>Retours 30 jours</b><span>Satisfait ou remboursé</span></div>
+        </div>
+        <div class="perk">
+          <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <div><b>Paiement sécurisé</b><span>CB, PayPal, Apple Pay</span></div>
         </div>
       </div>
     </section>
 
-    <!-- UNIVERS -->
-    <section class="section section-tight">
+    <!-- NOS OFFRES -->
+    <section class="section section-tight offers-section">
       <div class="container">
-        <div class="section-head">
-          <h2>Explorer par univers</h2>
+        <div class="offers">
+          <a href="#avent" class="offer offer-cal">
+            <span class="offer-visual offer-24"><span>24</span></span>
+            <span class="offer-copy"><span class="kicker">Édition Noël</span><b>Calendrier de l'Avent</b><small>24 squishies surprise</small><span class="offer-price"><span data-cal-price></span></span></span>
+          </a>
+          <a href="#boutique" class="offer">
+            <span class="offer-visual"><img src="images/raisin-perles.jpg" alt="Squishies" loading="lazy" /></span>
+            <span class="offer-copy"><span class="kicker">Squishies</span><b><span data-squish-count></span> modèles à écraser</b><small>Packs : 2 pour 3,95 € · 10 pour 19,99 €</small><span class="offer-price">dès 2,00 €</span></span>
+          </a>
+          <a href="#slimemart" class="offer">
+            <span class="offer-visual"><img src="images/slime-mart-chariot.jpg" alt="Kits Slime Mart" loading="lazy" /></span>
+            <span class="offer-copy"><span class="kicker">Nouveau</span><b>Kits Slime Mart</b><small>Fabrique ton slime gourmand</small><span class="offer-price">dès 9,99 €</span></span>
+          </a>
         </div>
-        <div class="universes" id="universes"></div>
       </div>
     </section>
 
@@ -141,37 +147,8 @@
       </div>
     </section>
 
-    <!-- SLIME MART -->
-    <section class="section section-slime" id="slimemart">
-      <div class="container">
-        <div class="section-head split">
-          <div>
-            <span class="kicker">Nouveau · Kits à fabriquer</span>
-            <h2>Slime Mart : fabrique ton slime gourmand</h2>
-          </div>
-          <a href="#boutique" class="link-arrow" data-filter-cat="slimemart">Voir les kits</a>
-        </div>
-        <div class="slime-grid" id="slimeGrid"></div>
-        <p class="slime-note">Kits à fabriquer, dès 6 ans. Ne se mangent pas. Commande à part du panier, livraison offerte en 3 jours.</p>
-      </div>
-    </section>
-
-    <!-- HALLOWEEN -->
-    <section class="container" id="halloween">
-      <div class="feature feature-dark reveal">
-        <div class="feature-media"><img src="images/box-halloween.jpg" alt="La box Squish or Treat et ses squishies Halloween" loading="lazy" /></div>
-        <div class="feature-copy">
-          <span class="kicker">Collection Halloween</span>
-          <h2>Squish or Treat</h2>
-          <p>Citrouilles sculptées, petit fantôme, potions et pommes d'amour : une édition de saison, douce et un peu frissonnante.</p>
-          <div class="feature-thumbs" id="hwThumbs"></div>
-          <a href="#boutique" class="btn btn-light" data-filter-cat="halloween">Voir la collection</a>
-        </div>
-      </div>
-    </section>
-
     <!-- PACKS -->
-    <section class="section" id="packs">
+    <section class="section section-tight packs-section" id="packs">
       <div class="container">
         <div class="section-head center">
           <span class="kicker">Packs</span>
@@ -188,7 +165,7 @@
         <div class="section-head split">
           <div>
             <span class="kicker">Boutique</span>
-            <h2>Tous les squishies</h2>
+            <h2>La boutique</h2>
           </div>
           <label class="sort">
             <span>Trier</span>
@@ -212,24 +189,44 @@
       </div>
     </section>
 
-    <!-- RÉASSURANCE -->
-    <section class="section section-tight">
-      <div class="container perks">
-        <div class="perk">
-          <svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
-          <div><b>Livraison offerte</b><span>Reçu en 3 jours</span></div>
+    <!-- SLIME MART -->
+    <section class="section section-slime" id="slimemart">
+      <div class="container">
+        <div class="section-head split">
+          <div>
+            <span class="kicker">Nouveau · Kits à fabriquer</span>
+            <h2>Slime Mart : fabrique ton slime gourmand</h2>
+          </div>
+          <a href="#boutique" class="link-arrow" data-filter-cat="slimemart">Voir les kits</a>
         </div>
-        <div class="perk">
-          <svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
-          <div><b>Certifié EN71</b><span>Matières sans danger</span></div>
+        <div class="slime-grid" id="slimeGrid"></div>
+        <p class="slime-note">Kits à fabriquer, dès 6 ans. Ne se mangent pas. Commande à part du panier, livraison offerte en 3 jours.</p>
+      </div>
+    </section>
+
+    <!-- CALENDRIER : COMMENT ÇA MARCHE -->
+    <section class="section section-soft" id="calendrier">
+      <div class="container">
+        <div class="section-head center">
+          <span class="kicker">Calendrier de l'Avent</span>
+          <h2>Comment ça marche</h2>
+          <p>Un squishy surprise par jour, du 1<sup>er</sup> au 24 décembre.</p>
         </div>
-        <div class="perk">
-          <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></svg>
-          <div><b>Retours 30 jours</b><span>Satisfait ou remboursé</span></div>
+        <ol class="steps">
+          <li><span class="step-n">1</span><b>Tu commandes</b><p id="stepDeadline">Livré en 3 jours, livraison offerte.</p></li>
+          <li><span class="step-n">2</span><b>Le 1<sup>er</sup> décembre</b><p>Tu ouvres la première case et découvres ton premier squishy.</p></li>
+          <li><span class="step-n">3</span><b>Jusqu'au 24 décembre</b><p>Une nouvelle surprise chaque matin : perles, gel, slow rising, gourmandises…</p></li>
+        </ol>
+        <div class="inside">
+          <div class="inside-copy">
+            <h3>Ce qui peut se cacher derrière les cases</h3>
+            <p>Les 24 squishies restent une surprise. Pour te donner une idée, voici quelques textures de la boutique.</p>
+          </div>
+          <div class="inside-grid" id="insideGrid"></div>
         </div>
-        <div class="perk">
-          <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-          <div><b>Paiement sécurisé</b><span>CB, PayPal, Apple Pay</span></div>
+        <div class="cal-cta">
+          <div><span class="price-xl" data-cal-price></span><small>24 squishies · commande séparée du panier</small></div>
+          <a href="shipping.html?produit=calendrier" class="btn btn-dark" data-cal-buy>Commander le calendrier</a>
         </div>
       </div>
     </section>
@@ -282,7 +279,6 @@
         <a href="#boutique" data-filter-cat="sensoriel">Sensoriel</a>
         <a href="#boutique" data-filter-cat="gourmandises">Gourmandises</a>
         <a href="#boutique" data-filter-cat="fruits">Fruits</a>
-        <a href="#boutique" data-filter-cat="halloween">Halloween</a>
         <a href="#slimemart">Slime Mart</a>
         <a href="#packs">Packs</a>
         <a href="#avent">Calendrier de l'Avent</a>
