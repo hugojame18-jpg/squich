@@ -103,7 +103,7 @@
       <div class="card-body">
         <h3>${esc(p.name)}</h3>
         <div class="card-meta"><span>${CATEGORIES[p.cat]}</span>${p.rating ? stars(p.rating) : `<span>${p.pieces} pièces</span>`}</div>
-        <div class="card-price">${euro(p.price)}</div>
+        <div class="card-price">${euro(p.price)}${p.standalone ? '' : `<span class="card-deal">2 pour ${euro(PACKS[1].price)}</span>`}</div>
       </div>
     </article>`;
   }
@@ -123,23 +123,7 @@
     openProduct(p.id);
   }
 
-  /* ---------- Univers ---------- */
-  const UNIVERSES = [
-    { label: 'Sensoriel', sub: 'Perles, gel et billes', id: 'raisin-perles', f: { cat: 'sensoriel' } },
-    { label: 'Gourmandises', sub: 'Beurres, donuts, chocolat', id: 'donuts-pastel', f: { cat: 'gourmandises' } },
-    { label: 'Fruits', sub: 'Mangue, pastèque, pomme', id: 'pasteque-juicy', f: { cat: 'fruits' } },
-    { label: 'Fantaisie', sub: 'Lingots, savons, potions', id: 'lingot-or', f: { cat: 'fantaisie' } },
-    { label: 'Halloween', sub: 'Édition de saison', id: 'citrouille-doree', f: { cat: 'halloween' } }
-  ];
-  $('#universes').innerHTML = UNIVERSES.map((u, i) => `
-    <button class="universe" data-i="${i}">
-      <span class="universe-media">${img(byId[u.id])}</span>
-      <span class="universe-label"><b>${u.label}</b><small>${u.sub}</small></span>
-    </button>`).join('');
-  $('#universes').addEventListener('click', e => {
-    const b = e.target.closest('.universe');
-    if (b) applyFilter(UNIVERSES[+b.dataset.i].f);
-  });
+  $$('[data-squish-count]').forEach(el => { el.textContent = PRODUCTS.filter(p => !p.standalone).length; });
 
   /* ---------- Best-sellers ---------- */
   const best = PRODUCTS.filter(p => p.tags.includes('best')).sort((a, b) => b.reviews - a.reviews).slice(0, 4);
@@ -158,11 +142,6 @@
       </div>
     </article>`).join('');
   $('#slimeGrid').addEventListener('click', e => { const b = e.target.closest('[data-act="view"]'); if (b) openProduct(b.closest('.slime-card').dataset.id); });
-
-  /* ---------- Halloween ---------- */
-  $('#hwThumbs').innerHTML = PRODUCTS.filter(p => p.cat === 'halloween').slice(0, 4)
-    .map(p => `<button data-id="${p.id}" aria-label="${esc(p.name)}">${img(p)}</button>`).join('');
-  $('#hwThumbs').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) openProduct(b.dataset.id); });
 
   /* ---------- Packs ---------- */
   const PACK_UI = [
@@ -206,6 +185,11 @@
     } else if (today.getMonth() === 11 && today.getDate() <= 24) {
       cd.innerHTML = `Aujourd'hui, on ouvre la case <b>${today.getDate()}</b>`;
     } else cd.hidden = true;
+    if (today <= deadline) {
+      const hd = $('#heroDeadline');
+      hd.innerHTML = `Commande avant le <b>27 novembre</b> pour l'ouvrir dès le 1<sup>er</sup> décembre`;
+      hd.hidden = false;
+    }
     step.textContent = today <= deadline
       ? 'Livré en 3 jours, livraison offerte. Commande avant le 27 novembre pour ouvrir la première case dès le 1er décembre.'
       : 'Livré en 3 jours, livraison offerte.';
@@ -240,7 +224,6 @@
     { label: 'Gourmandises', cat: 'gourmandises' },
     { label: 'Fruits', cat: 'fruits' },
     { label: 'Fantaisie', cat: 'fantaisie' },
-    { label: 'Halloween', cat: 'halloween' },
     { label: 'Slime Mart', cat: 'slimemart' }
   ];
   function renderTabs() {
@@ -263,7 +246,7 @@
       (f.cat === 'all' || p.cat === f.cat) && (!f.tag || p.tags.includes(f.tag)) &&
       (!q || norm(p.name + ' ' + CATEGORIES[p.cat]).includes(q)));
     const sorters = {
-      featured: (a, b) => a.rank - b.rank,
+      featured: (a, b) => (a.cat === 'halloween') - (b.cat === 'halloween') || !!a.standalone - !!b.standalone || a.rank - b.rank,
       rise: (a, b) => b.rise - a.rise,
       rating: (a, b) => b.rating - a.rating || b.reviews - a.reviews,
       new: (a, b) => b.tags.includes('new') - a.tags.includes('new') || a.rank - b.rank
@@ -275,7 +258,8 @@
     $('#productGrid').innerHTML = list.slice(0, state.shown).map(cardHtml).join('');
     $('#emptyState').hidden = list.length > 0;
     $('#moreBtn').parentElement.hidden = list.length <= state.shown;
-    $('#resultsCount').textContent = (list.length && list.every(p => p.standalone) ? `${list.length} ${list.length > 1 ? 'kits' : 'kit'}` : plural(list.length)) + (state.filters.q ? ` pour « ${state.filters.q} »` : '');
+    $('#resultsCount').textContent = (list.length && list.every(p => p.standalone) ? `${list.length} ${list.length > 1 ? 'kits' : 'kit'}`
+      : list.some(p => p.standalone) ? `${list.length} produits` : plural(list.length)) + (state.filters.q ? ` pour « ${state.filters.q} »` : '');
   }
   $('#productGrid').addEventListener('click', onGridClick);
   $('#moreBtn').addEventListener('click', () => { state.shown += 12; renderGrid(); });
