@@ -33,6 +33,7 @@
     check: '<svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg>',
     arrow: '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
   };
+  const soloUrl = p => `shipping.html?produit=${p.id}`;
   const BADGE = { best: 'Best-seller', new: 'Nouveau', limited: 'Édition limitée' };
 
   /* ---------- Photos supplémentaires (fiche produit) ---------- */
@@ -95,11 +96,13 @@
         ${img(p)}
         ${tag ? `<span class="badge ${tag}">${BADGE[tag]}</span>` : ''}
         <button class="wish ${state.wish.has(p.id) ? 'on' : ''}" data-act="wish" aria-label="Ajouter ${esc(p.name)} aux favoris">${ICON.heart}</button>
-        <button class="quick-add" data-act="add" aria-label="Ajouter ${esc(p.name)} au panier">${ICON.plus}<span>Ajouter</span></button>
+        ${p.standalone
+          ? `<button class="quick-add" data-act="order" aria-label="Commander ${esc(p.name)}">${ICON.arrow}<span>Commander</span></button>`
+          : `<button class="quick-add" data-act="add" aria-label="Ajouter ${esc(p.name)} au panier">${ICON.plus}<span>Ajouter</span></button>`}
       </div>
       <div class="card-body">
         <h3>${esc(p.name)}</h3>
-        <div class="card-meta"><span>${CATEGORIES[p.cat]}</span>${stars(p.rating)}</div>
+        <div class="card-meta"><span>${CATEGORIES[p.cat]}</span>${p.rating ? stars(p.rating) : `<span>${p.pieces} pièces</span>`}</div>
         <div class="card-price">${euro(p.price)}</div>
       </div>
     </article>`;
@@ -110,6 +113,7 @@
     const p = byId[card.dataset.id];
     const act = e.target.closest('[data-act]');
     if (act && act.dataset.act === 'wish') { toggleWish(p.id); return; }
+    if (act && act.dataset.act === 'order') { location.href = soloUrl(p); return; }
     if (act && act.dataset.act === 'add') {
       addToCart(p.id, 1);
       act.classList.add('done'); act.innerHTML = ICON.check + '<span>Ajouté</span>';
@@ -141,6 +145,19 @@
   const best = PRODUCTS.filter(p => p.tags.includes('best')).sort((a, b) => b.reviews - a.reviews).slice(0, 4);
   $('#bestGrid').innerHTML = best.map(cardHtml).join('');
   $('#bestGrid').addEventListener('click', onGridClick);
+
+  /* ---------- Slime Mart ---------- */
+  $('#slimeGrid').innerHTML = PRODUCTS.filter(p => p.cat === 'slimemart').map(p => `
+    <article class="slime-card" data-id="${p.id}">
+      <button class="slime-media" data-act="view" aria-label="Voir ${esc(p.name)}">${img(p)}</button>
+      <div class="slime-body">
+        <span class="kicker">${p.pieces} pièces · ${p.ingredients} ingrédients</span>
+        <h3>${esc(p.name)}</h3>
+        <p>${esc(p.desc.split('. ').slice(0, 2).join('. '))}.</p>
+        <div class="slime-buy"><span class="price-xl">${euro(p.price)}</span><a class="btn btn-dark" href="${soloUrl(p)}">Commander</a></div>
+      </div>
+    </article>`).join('');
+  $('#slimeGrid').addEventListener('click', e => { const b = e.target.closest('[data-act="view"]'); if (b) openProduct(b.closest('.slime-card').dataset.id); });
 
   /* ---------- Halloween ---------- */
   $('#hwThumbs').innerHTML = PRODUCTS.filter(p => p.cat === 'halloween').slice(0, 4)
@@ -223,7 +240,8 @@
     { label: 'Gourmandises', cat: 'gourmandises' },
     { label: 'Fruits', cat: 'fruits' },
     { label: 'Fantaisie', cat: 'fantaisie' },
-    { label: 'Halloween', cat: 'halloween' }
+    { label: 'Halloween', cat: 'halloween' },
+    { label: 'Slime Mart', cat: 'slimemart' }
   ];
   function renderTabs() {
     const f = state.filters;
@@ -257,7 +275,7 @@
     $('#productGrid').innerHTML = list.slice(0, state.shown).map(cardHtml).join('');
     $('#emptyState').hidden = list.length > 0;
     $('#moreBtn').parentElement.hidden = list.length <= state.shown;
-    $('#resultsCount').textContent = plural(list.length) + (state.filters.q ? ` pour « ${state.filters.q} »` : '');
+    $('#resultsCount').textContent = (list.length && list.every(p => p.standalone) ? `${list.length} ${list.length > 1 ? 'kits' : 'kit'}` : plural(list.length)) + (state.filters.q ? ` pour « ${state.filters.q} »` : '');
   }
   $('#productGrid').addEventListener('click', onGridClick);
   $('#moreBtn').addEventListener('click', () => { state.shown += 12; renderGrid(); });
@@ -288,6 +306,7 @@
   const cartCount = () => state.cart.reduce((s, i) => s + i.qty, 0);
   function addToCart(id, qty) {
     const p = byId[id];
+    if (p.standalone) { location.href = soloUrl(p); return; }
     const room = MAX_ITEMS - cartCount();
     if (room <= 0) { toast(`${MAX_ITEMS} squishies maximum par commande`); return; }
     const add = Math.min(room, Math.max(1, qty | 0));
@@ -370,7 +389,7 @@
         <div class="line" data-id="${p.id}">
           <button class="line-media" data-act="view">${img(p)}</button>
           <div class="line-info"><b>${esc(p.name)}</b><small>${CATEGORIES[p.cat]}</small>
-            <button class="link" data-act="wish-add">Ajouter au panier</button></div>
+            <button class="link" data-act="wish-add">${p.standalone ? 'Commander' : 'Ajouter au panier'}</button></div>
           <div class="line-side"><span>${euro(p.price)}</span><button class="link muted" data-act="wish-remove">Retirer</button></div>
         </div>`).join('')
         : emptyHtml('Aucun favori pour l\'instant', 'Touche le cœur d\'un squishy pour le garder ici.');
@@ -443,20 +462,22 @@
       <div class="pm-info">
         <span class="kicker">${CATEGORIES[p.cat]}${tag ? ` · ${BADGE[tag]}` : ''}</span>
         <h2>${esc(p.name)}</h2>
-        <div class="pm-rating">${stars(p.rating)}<span>${p.reviews.toLocaleString('fr-FR')} avis</span></div>
-        <div class="pm-price">${euro(p.price)}<small>ou dans un pack dès ${euro(PACKS[1].price)} les 2</small></div>
+        ${p.rating ? `<div class="pm-rating">${stars(p.rating)}<span>${p.reviews.toLocaleString('fr-FR')} avis</span></div>` : ''}
+        <div class="pm-price">${euro(p.price)}<small>${p.standalone ? 'Commande à part du panier' : `ou dans un pack dès ${euro(PACKS[1].price)} les 2`}</small></div>
         <p class="pm-desc">${esc(p.desc)}</p>
         <dl class="pm-specs">
-          <div><dt>Douceur</dt><dd>${p.soft}/5</dd></div>
-          <div><dt>Remontée</dt><dd>${p.rise} s</dd></div>
-          <div><dt>Âge</dt><dd>Dès 3 ans</dd></div>
+          ${p.standalone
+            ? `<div><dt>Pièces</dt><dd>${p.pieces}</dd></div><div><dt>Ingrédients</dt><dd>${p.ingredients}</dd></div><div><dt>Âge</dt><dd>Dès 6 ans</dd></div>`
+            : `<div><dt>Douceur</dt><dd>${p.soft}/5</dd></div><div><dt>Remontée</dt><dd>${p.rise} s</dd></div><div><dt>Âge</dt><dd>Dès 3 ans</dd></div>`}
         </dl>
         <div class="pm-buy">
-          <div class="qty"><button data-act="dec" aria-label="Moins">−</button><span>${s.qty}</span><button data-act="inc" aria-label="Plus" ${s.qty >= room ? 'disabled' : ''}>+</button></div>
-          <button class="btn btn-dark" data-act="add">Ajouter au panier · ${euro(p.price * s.qty)}</button>
+          ${p.standalone
+            ? `<a class="btn btn-dark" href="${soloUrl(p)}">Commander · ${euro(p.price)}</a>`
+            : `<div class="qty"><button data-act="dec" aria-label="Moins">−</button><span>${s.qty}</span><button data-act="inc" aria-label="Plus" ${s.qty >= room ? 'disabled' : ''}>+</button></div>
+          <button class="btn btn-dark" data-act="add">Ajouter au panier · ${euro(p.price * s.qty)}</button>`}
           <button class="icon-btn pm-wish ${state.wish.has(p.id) ? 'on' : ''}" data-act="wish" aria-label="Favoris">${ICON.heart}</button>
         </div>
-        <ul class="pm-perks"><li>Livraison offerte en 3 jours</li><li>Retours sous 30 jours</li><li>Jusqu'à ${MAX_ITEMS} squishies par commande</li></ul>
+        <ul class="pm-perks"><li>Livraison offerte en 3 jours</li><li>Retours sous 30 jours</li>${p.standalone ? '<li>Kit à fabriquer, ne se mange pas</li>' : `<li>Jusqu'à ${MAX_ITEMS} squishies par commande</li>`}</ul>
       </div>`;
   }
   pm.addEventListener('click', e => {

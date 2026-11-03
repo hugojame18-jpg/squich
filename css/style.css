@@ -692,3 +692,29 @@ body.locked .advbar { transform: translate(-50%, 140%); opacity: 0; pointer-even
 .xmas-box small { display: block; width: fit-content; margin: 12px auto 0; padding: 3px 12px; border-radius: 999px; background: #9A2F22; }
 @media (max-width: 1240px) and (min-width: 901px) { .nav { gap: 18px; } .nav a { font-size: 14px; } }
 @media (max-width: 1023px) and (min-width: 901px) { .nav { gap: 16px; } .nav a:nth-child(4) { display: none; } }
+
+/* ==========================================================
+   Slime Mart
+   ========================================================== */
+.section-slime { background: #FBF1C9; }
+.section-slime .kicker { color: #8A5A00; }
+.slime-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.slime-card { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; overflow: hidden; border-radius: 24px; background: var(--surface); box-shadow: var(--shadow); }
+.slime-media { display: block; align-self: stretch; background: #fff; }
+.slime-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.slime-card:hover .slime-media img { transform: scale(1.03); }
+.slime-body { padding: 28px 28px 28px 8px; }
+.slime-body .kicker { margin-bottom: 8px; font-size: 11px; }
+.slime-body h3 { font-family: var(--serif); font-size: 26px; line-height: 1.12; letter-spacing: -.01em; }
+.slime-body p { margin-top: 12px; color: var(--ink-2); font-size: 14.5px; }
+.slime-buy { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-top: 22px; }
+.slime-buy .price-xl { font-size: 34px; }
+.slime-note { margin-top: 18px; font-size: 13px; color: #6B5A2A; text-align: center; }
+@media (max-width: 1100px) { .slime-grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .slime-card { grid-template-columns: 1fr; border-radius: 20px; }
+  .slime-media { aspect-ratio: 4 / 4.2; }
+  .slime-body { padding: 22px 20px 24px; }
+  .slime-body h3 { font-size: 23px; }
+  .slime-buy .btn { flex: 1; }
+}
