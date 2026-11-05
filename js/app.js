@@ -130,6 +130,13 @@
   $('#bestGrid').innerHTML = best.map(cardHtml).join('');
   $('#bestGrid').addEventListener('click', onGridClick);
 
+  /* ---------- Hero Slime Mart ---------- */
+  $('#smHeroGrid').innerHTML = PRODUCTS.filter(p => p.cat === 'slimemart').map(p => `
+    <button class="sm-tile" data-id="${p.id}" aria-label="Voir ${esc(p.name)}">
+      ${img(p)}<span class="sm-tag">${euro(p.price)}</span>
+    </button>`).join('');
+  $('#smHeroGrid').addEventListener('click', e => { const t = e.target.closest('.sm-tile'); if (t) openProduct(t.dataset.id); });
+
   /* ---------- Slime Mart ---------- */
   $('#slimeGrid').innerHTML = PRODUCTS.filter(p => p.cat === 'slimemart').map(p => `
     <article class="slime-card" data-id="${p.id}">

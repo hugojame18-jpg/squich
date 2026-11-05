@@ -786,3 +786,140 @@ body.locked .advbar { transform: translate(-50%, 140%); opacity: 0; pointer-even
   .xmas-box .door.big .door-face { font-size: 24px; }
   .xmas-box small { font-size: 11px; }
 }
+
+/* ==========================================================
+   Thème Slime Mart : jaune, fuchsia, vichy rouge, police arrondie
+   ========================================================== */
+:root {
+  --bg: #FFFBEA;
+  --sand: #FFF1BF;
+  --blush: #FFE3F1;
+  --ink: #2A1033;
+  --ink-2: #5B4A60;
+  --ink-3: #8F7F93;
+  --line: #F0E4BC;
+  --accent: #E6007E;
+  --accent-ink: #C2006A;
+  --plum: #2A1033;
+  --gold: #FFD400;
+  --sm-yellow: #FFE135;
+  --sm-red: #E53935;
+  --sapin: #A0005C;
+  --sapin-2: #6E0040;
+  --serif: 'Fredoka', 'Arial Rounded MT Bold', system-ui, sans-serif;
+}
+h1, h2, .price-xl, .pack-name, .pack-price, .logo, .drawer-tab, .step-n, .empty h3, .drawer-empty h4 { font-weight: 600; letter-spacing: -.01em; }
+.hero h1, .xmas h1 { font-weight: 600; }
+.logo { color: var(--accent); font-weight: 700; }
+.footer .logo { color: var(--sm-yellow); }
+.review blockquote { font-family: var(--sans); font-size: 16.5px; font-weight: 500; }
+.kicker { color: var(--accent-ink); }
+
+.btn-dark { background: var(--accent); color: #fff; box-shadow: 0 4px 0 var(--accent-ink); }
+.btn-dark:hover { background: var(--accent-ink); }
+.btn-dark:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--accent-ink); }
+.btn-outline { border-color: var(--ink); background: rgba(255,255,255,.6); }
+.btn-gold { background: var(--sm-yellow); color: var(--ink); }
+.btn-gold:hover { background: #FFEB6B; }
+.quick-add:hover, .quick-add.done { background: var(--accent); }
+
+.announce { background: var(--accent); color: #fff; }
+.announce-inner { gap: 14px; flex-wrap: wrap; }
+.announce-cta { text-decoration-color: rgba(255,255,255,.6); }
+.announce-cta:hover { color: var(--sm-yellow); }
+.announce .sep { background: rgba(255,255,255,.6); }
+.nav a.nav-hl { color: var(--accent); }
+.nav a.nav-hl::before { background: var(--accent); }
+
+/* Hero Slime Mart */
+.sm-hero {
+  position: relative; overflow: hidden; padding: 64px 0 0;
+  background: radial-gradient(600px 400px at 85% 20%, rgba(255,255,255,.55), transparent 70%), var(--sm-yellow);
+}
+.sm-hero-inner { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: center; padding-bottom: 64px; }
+.sm-badge { display: inline-block; padding: 7px 14px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 600; font-size: 13px; letter-spacing: .02em; }
+.sm-hero h1 { margin-top: 18px; font-size: clamp(44px, 5.6vw, 76px); line-height: 1; color: var(--ink); }
+.sm-drip { color: var(--accent); position: relative; white-space: nowrap; }
+.sm-drip::after {
+  content: ''; position: absolute; left: 4%; right: 6%; bottom: -.14em; height: .2em; border-radius: 0 0 40% 40%;
+  background: radial-gradient(circle at 15% 0, var(--accent) 45%, transparent 47%) 0 0 / 22% 100%,
+              radial-gradient(circle at 70% 0, var(--accent) 38%, transparent 40%) 0 0 / 30% 100%;
+  opacity: .9;
+}
+.sm-hero .lead { margin-top: 22px; font-size: 18px; color: var(--ink-2); max-width: 480px; }
+.sm-price { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 26px; font-size: 18px; color: var(--ink-2); }
+.sm-price b { font-family: var(--serif); font-weight: 700; font-size: 56px; line-height: 1; color: var(--accent); }
+.sm-price small { width: 100%; font-size: 14px; color: var(--ink-2); }
+.sm-hero .hero-cta { margin-top: 26px; }
+.sm-hero .hero-proof { color: var(--ink-2); }
+.sm-hero .hero-proof li::before { background: var(--accent); }
+
+.sm-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sm-tile {
+  position: relative; aspect-ratio: 4 / 4.4; padding: 10px; border-radius: 24px; background: #fff;
+  box-shadow: 0 18px 36px -18px rgba(42,16,51,.45); transition: transform .35s var(--ease);
+}
+.sm-tile:nth-child(odd) { transform: rotate(-2.5deg); }
+.sm-tile:nth-child(even) { transform: rotate(2deg) translateY(14px); }
+.sm-tile:hover { transform: rotate(0) scale(1.03); z-index: 1; }
+.sm-tile img { width: 100%; height: 100%; object-fit: contain; }
+.sm-tag { position: absolute; right: 12px; bottom: 12px; padding: 5px 11px; border-radius: 999px; background: var(--accent); color: #fff; font-family: var(--serif); font-weight: 600; font-size: 16px; }
+.gingham {
+  height: 30px;
+  background-color: #fff;
+  background-image: linear-gradient(90deg, rgba(229,57,53,.5) 50%, transparent 50%), linear-gradient(rgba(229,57,53,.5) 50%, transparent 50%);
+  background-size: 30px 30px;
+}
+
+/* Section kits */
+.section-slime { background: #fff; }
+.section-slime .kicker { color: var(--accent-ink); }
+.slime-card { border: 2px solid var(--sm-yellow); box-shadow: none; }
+.slime-media { background: #FFFBEA; }
+.slime-buy .price-xl { color: var(--accent); }
+.slime-note { color: var(--ink-2); }
+
+.offers-2 { grid-template-columns: repeat(2, 1fr); }
+
+/* Calendrier aux couleurs du site */
+.xmas { background: radial-gradient(700px 420px at 85% 15%, rgba(255,225,53,.18), transparent 70%), linear-gradient(160deg, #B8006A, #6E0040); }
+.xmas-title { font-size: clamp(40px, 5vw, 66px); line-height: 1.02; font-weight: 600; }
+.xmas-price .price-xl { color: var(--sm-yellow); }
+.xmas-countdown b, .xmas .kicker { color: var(--sm-yellow); }
+.xmas-box { background: linear-gradient(150deg, var(--sm-yellow), #FFC400); }
+.xmas-box::before { background: var(--accent); }
+.xmas-ribbon { background: var(--accent); color: #fff; }
+.xmas-box small { background: rgba(255,255,255,.75); color: var(--ink); }
+.door-face { background: #fff; color: var(--ink); }
+.door:nth-child(3n) .door-face { background: #FFE3F1; color: var(--accent-ink); }
+.door:nth-child(4n) .door-face { background: var(--sm-red); color: #fff; }
+.door.big .door-face { background: var(--accent); color: #fff; }
+.offer-24 { background: linear-gradient(150deg, var(--accent), var(--accent-ink)); }
+.offer-24 span { background: var(--sm-yellow); color: var(--ink); }
+.feature-advent { background: var(--plum); }
+
+.section-soft { background: var(--sand); }
+.newsletter { background: var(--sm-yellow); }
+.pack.hot { background: var(--ink); }
+.pack-flag { color: var(--sm-yellow); }
+
+@media (max-width: 900px) {
+  .sm-hero { padding-top: 36px; }
+  .sm-hero-inner { grid-template-columns: 1fr; gap: 40px; padding-bottom: 48px; }
+  .sm-visual { max-width: 520px; width: 100%; margin: 0 auto; }
+  .offers-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .sm-hero h1 { font-size: 42px; }
+  .sm-hero .lead { font-size: 16px; }
+  .sm-price b { font-size: 44px; }
+  .sm-hero .hero-cta .btn { flex: 1 0 100%; }
+  .sm-visual { gap: 12px; }
+  .sm-tile { border-radius: 18px; padding: 8px; }
+  .sm-tag { font-size: 14px; right: 8px; bottom: 8px; }
+  .gingham { height: 22px; background-size: 22px 22px; }
+  .announce-inner .sep ~ a { display: none; }
+}
+.sm-drip::after { display: none; }
+.slime-media { background: #fff; }
+@media (max-width: 640px) { .slime-media { aspect-ratio: 4 / 3; } }
