@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Squishland — Squishies sensoriels & slow rising</title>
-  <meta name="description" content="Squishies sensoriels, slow rising et gourmands. Dès 2 € le squishy, packs de 2, 5 ou 10, livraison offerte en 3 jours." />
+  <title>Squishland — Kits Slime Mart, squishies et calendrier de l'Avent</title>
+  <meta name="description" content="Kits Slime Mart dès 9,99 € : fabrique ta pizza, tes brioches ou ton gâteau en slime. Squishies dès 2 €, calendrier de l'Avent, livraison offerte en 3 jours." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='54' r='38' fill='%23E0457B'/><path d='M50 18c6-10 18-12 24-8-4 8-14 12-24 8z' fill='%2389B87A'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
   <div class="announce">
     <div class="container announce-inner">
-      <a href="#avent" class="announce-cta">Nouveau : le calendrier de l'Avent Squishy, 24 surprises pour <span data-cal-price></span></a>
+      <a href="#slimemart" class="announce-cta">Nouveau : les kits Slime Mart dès 9,99 €</a>
+      <span class="sep"></span>
+      <a href="#avent" class="announce-cta">Calendrier de l'Avent <span data-cal-price></span></a>
       <span class="sep"></span>
       <span>Livraison offerte en 3 jours</span>
     </div>
@@ -28,9 +30,9 @@
       </button>
 
       <nav class="nav" id="nav">
-        <a href="#avent" class="nav-hl">Calendrier de l'Avent</a>
+        <a href="#slimemart" class="nav-hl">Slime Mart</a>
+        <a href="#avent">Calendrier de l'Avent</a>
         <a href="#boutique">Squishies</a>
-        <a href="#slimemart">Slime Mart</a>
         <a href="#packs">Packs</a>
       </nav>
 
@@ -60,35 +62,27 @@
 
   <main id="top">
 
-    <!-- HERO : CALENDRIER DE L'AVENT -->
-    <section class="xmas" id="avent">
-      <div class="container xmas-inner">
-        <div class="xmas-copy">
-          <span class="kicker">Édition Noël 2026</span>
-          <h1>Le calendrier de l'Avent Squishy</h1>
-          <p class="lead">24 cases, 24 squishies surprise. Du 1<sup>er</sup> au 24 décembre, une nouvelle texture à écraser chaque matin.</p>
-          <div class="xmas-price">
-            <span class="price-xl" data-cal-price></span>
-            <span class="xmas-unit">soit <b id="calUnit"></b> le squishy</span>
-          </div>
+    <!-- HERO : SLIME MART -->
+    <section class="sm-hero">
+      <div class="container sm-hero-inner">
+        <div class="sm-copy">
+          <span class="sm-badge">Nouveau chez Squishland</span>
+          <h1>Fabrique ton <span class="sm-drip">slime</span> gourmand</h1>
+          <p class="lead">Pizza, brioches à la cannelle, gâteau au chocolat, gâteau de glace Disney : avec les kits Slime Mart, tu crées de la nourriture en slime plus vraie que nature… puis tu la pétris.</p>
+          <div class="sm-price">dès <b>9,99 €</b><small>4 kits · de 10 à 26 pièces</small></div>
           <div class="hero-cta">
-            <a href="shipping.html?produit=calendrier" class="btn btn-gold" data-cal-buy>Commander le calendrier</a>
-            <a href="#calendrier" class="btn btn-ghost-light">Comment ça marche</a>
+            <a href="#slimemart" class="btn btn-dark">Choisir mon kit</a>
+            <a href="#avent" class="btn btn-outline">Calendrier de l'Avent</a>
           </div>
-          <p class="xmas-countdown" id="xmasCountdown"></p>
-          <p class="xmas-deadline" id="heroDeadline" hidden></p>
           <ul class="hero-proof">
             <li><b>Livraison offerte</b> en 3 jours</li>
-            <li><b>Certifié EN71</b></li>
-            <li><b>Idée cadeau</b> dès 3 ans</li>
+            <li><b>Dès 6 ans</b></li>
+            <li><b>Idée cadeau</b> de Noël</li>
           </ul>
         </div>
-        <div class="advent-box xmas-box">
-          <div class="xmas-ribbon">Joyeux Noël</div>
-          <div class="advent-grid" id="adventGrid"></div>
-          <small>Ouvre une case pour voir un exemple de surprise</small>
-        </div>
+        <div class="sm-visual" id="smHeroGrid"></div>
       </div>
+      <div class="gingham" aria-hidden="true"></div>
     </section>
 
     <!-- RÉASSURANCE (barre sous le hero) -->
@@ -113,10 +107,26 @@
       </div>
     </section>
 
-    <!-- NOS OFFRES -->
+    <!-- SLIME MART -->
+    <section class="section section-slime" id="slimemart">
+      <div class="container">
+        <div class="section-head split">
+          <div>
+            <span class="kicker">Les kits Slime Mart</span>
+            <h2>Choisis ton kit</h2>
+          </div>
+          <a href="#boutique" class="link-arrow" data-filter-cat="slimemart">Voir les kits</a>
+        </div>
+        <div class="slime-grid" id="slimeGrid"></div>
+        <p class="slime-note">Kits à fabriquer, dès 6 ans. Ne se mangent pas. Commande à part du panier, livraison offerte en 3 jours.</p>
+      </div>
+    </section>
+
+    <!-- AUSSI CHEZ SQUISHLAND -->
     <section class="section section-tight offers-section">
       <div class="container">
-        <div class="offers">
+        <div class="section-head"><h2>Aussi chez Squishland</h2></div>
+        <div class="offers offers-2">
           <a href="#avent" class="offer offer-cal">
             <span class="offer-visual offer-24"><span>24</span></span>
             <span class="offer-copy"><span class="kicker">Édition Noël</span><b>Calendrier de l'Avent</b><small>24 squishies surprise</small><span class="offer-price"><span data-cal-price></span></span></span>
@@ -125,10 +135,37 @@
             <span class="offer-visual"><img src="images/raisin-perles.jpg" alt="Squishies" loading="lazy" /></span>
             <span class="offer-copy"><span class="kicker">Squishies</span><b><span data-squish-count></span> modèles à écraser</b><small>Packs : 2 pour 3,95 € · 10 pour 19,99 €</small><span class="offer-price">dès 2,00 €</span></span>
           </a>
-          <a href="#slimemart" class="offer">
-            <span class="offer-visual"><img src="images/slime-mart-chariot.jpg" alt="Kits Slime Mart" loading="lazy" /></span>
-            <span class="offer-copy"><span class="kicker">Nouveau</span><b>Kits Slime Mart</b><small>Fabrique ton slime gourmand</small><span class="offer-price">dès 9,99 €</span></span>
-          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDRIER DE L'AVENT -->
+    <section class="xmas" id="avent">
+      <div class="container xmas-inner">
+        <div class="xmas-copy">
+          <span class="kicker">Édition Noël 2026</span>
+          <h2 class="xmas-title">Le calendrier de l'Avent Squishy</h2>
+          <p class="lead">24 cases, 24 squishies surprise. Du 1<sup>er</sup> au 24 décembre, une nouvelle texture à écraser chaque matin.</p>
+          <div class="xmas-price">
+            <span class="price-xl" data-cal-price></span>
+            <span class="xmas-unit">soit <b id="calUnit"></b> le squishy</span>
+          </div>
+          <div class="hero-cta">
+            <a href="shipping.html?produit=calendrier" class="btn btn-gold" data-cal-buy>Commander le calendrier</a>
+            <a href="#calendrier" class="btn btn-ghost-light">Comment ça marche</a>
+          </div>
+          <p class="xmas-countdown" id="xmasCountdown"></p>
+          <p class="xmas-deadline" id="heroDeadline" hidden></p>
+          <ul class="hero-proof">
+            <li><b>Livraison offerte</b> en 3 jours</li>
+            <li><b>Certifié EN71</b></li>
+            <li><b>Idée cadeau</b> dès 3 ans</li>
+          </ul>
+        </div>
+        <div class="advent-box xmas-box">
+          <div class="xmas-ribbon">Joyeux Noël</div>
+          <div class="advent-grid" id="adventGrid"></div>
+          <small>Ouvre une case pour voir un exemple de surprise</small>
         </div>
       </div>
     </section>
@@ -186,21 +223,6 @@
           <p>Essaie un autre univers ou une autre recherche.</p>
           <button class="btn btn-dark" id="emptyReset">Voir tous les squishies</button>
         </div>
-      </div>
-    </section>
-
-    <!-- SLIME MART -->
-    <section class="section section-slime" id="slimemart">
-      <div class="container">
-        <div class="section-head split">
-          <div>
-            <span class="kicker">Nouveau · Kits à fabriquer</span>
-            <h2>Slime Mart : fabrique ton slime gourmand</h2>
-          </div>
-          <a href="#boutique" class="link-arrow" data-filter-cat="slimemart">Voir les kits</a>
-        </div>
-        <div class="slime-grid" id="slimeGrid"></div>
-        <p class="slime-note">Kits à fabriquer, dès 6 ans. Ne se mangent pas. Commande à part du panier, livraison offerte en 3 jours.</p>
       </div>
     </section>
 
