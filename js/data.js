@@ -23,7 +23,7 @@ const SLIME_MAX = 2;
 const SLIME_ORDERS = [
   null,
   { price: 9.99, url: SLIME_URL },
-  { price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squish' }
+  { price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squich' }
 ];
 const PRODUCTS = [
   { id: 'slime-mart-pizza', name: 'Slime Mart Pizza', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 13, ingredients: '10+', tags: ['new'], rank: -50,
@@ -180,7 +180,7 @@ const PACKS = [
   { min: 1,  price: 2.00,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=10936&sub3=squish' },
   { min: 2,  price: 3.95,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=12325&sub3=squish' },
   { min: 5,  price: 9.99,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=squish' },
-  { min: 10, price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squish' }
+  { min: 10, price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squich' }
 ];
 function packFor(n) {
   const sub = n * 2;
@@ -193,7 +193,7 @@ const CALENDAR = {
   name: "Calendrier de l'Avent Squishy",
   price: 19.99,
   doors: 24,
-  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squish'
+  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squich'
 };
 
 const COLOR_VARIANTS = [
