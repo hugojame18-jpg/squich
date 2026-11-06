@@ -481,7 +481,7 @@
         <span class="kicker">${CATEGORIES[p.cat]}${tag ? ` · ${BADGE[tag]}` : ''}</span>
         <h2>${esc(p.name)}</h2>
         ${p.rating ? `<div class="pm-rating">${stars(p.rating)}<span>${p.reviews.toLocaleString('fr-FR')} avis</span></div>` : ''}
-        <div class="pm-price">${euro(p.price)}<small>${p.standalone ? 'Un kit par commande · livraison offerte' : `ou dans un pack dès ${euro(PACKS[1].price)} les 2`}</small></div>
+        <div class="pm-price">${euro(p.price)}<small>${p.standalone ? `ou 2 kits pour ${euro(SLIME_ORDERS[2].price)} · 2 max par commande` : `ou dans un pack dès ${euro(PACKS[1].price)} les 2`}</small></div>
         <p class="pm-desc">${esc(p.desc)}</p>
         <dl class="pm-specs">
           ${p.standalone

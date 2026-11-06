@@ -17,12 +17,19 @@ const CATEGORIES = {
    Laisser vide tant qu'il n'est pas connu : le site dit alors « notre partenaire de paiement sécurisé ». */
 const PAYMENT_PARTNER = '';
 
+/* Lien de paiement à 19,99 € : 2 kits Slime Mart, pack de 10 squishies, calendrier de l'Avent. */
+const LINK_1999 = 'https://t.trklinkx.com/click?pid=4784&offer_id=13888';
+/* Photo de l'article envoyée au partenaire de paiement : nom du paramètre ajouté au lien
+   (avec l'adresse complète de la photo). Laisser vide pour ne rien envoyer. */
+const IMAGE_PARAM = 'sub4';
+const SITE_URL = 'https://squich.site/';
 const SLIME_URL = 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=squish';
-/* Un seul kit par commande, à 9,99 €. */
-const SLIME_MAX = 1;
+/* Jusqu'à 2 kits par commande (identiques ou différents) : 1 kit 9,99 €, 2 kits 19,99 €. */
+const SLIME_MAX = 2;
 const SLIME_ORDERS = [
   null,
-  { price: 9.99, url: SLIME_URL }
+  { price: 9.99, url: SLIME_URL },
+  { price: 19.99, url: LINK_1999 }
 ];
 const PRODUCTS = [
   { id: 'slime-mart-pizza', name: 'Slime Mart Pizza', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 13, ingredients: '10+', tags: ['new'], rank: -50,
@@ -174,13 +181,12 @@ const MASCOTS = [
 /* Liens de paiement par taille de panier (2 € / squishy).
    On prend toujours le palier le plus cher dont le prix ne dépasse pas le
    sous-total : le client ne paie jamais plus que 2 € × quantité. */
-/* Le pack de 10 (19,99 €) est en rupture de stock : 9 squishies maximum. */
-const MAX_ITEMS = 9;
+const MAX_ITEMS = 10;
 const PACKS = [
   { min: 1,  price: 2.00,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=10936&sub3=squish' },
   { min: 2,  price: 3.95,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=12325&sub3=squish' },
   { min: 5,  price: 9.99,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=squish' },
-  { min: 10, price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squich', soldOut: true }
+  { min: 10, price: 19.99, url: LINK_1999 }
 ];
 function packFor(n) {
   const sub = n * 2;
@@ -193,8 +199,8 @@ const CALENDAR = {
   name: "Calendrier de l'Avent Squishy",
   price: 19.99,
   doors: 24,
-  soldOut: true,
-  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squich'
+  soldOut: false,
+  url: LINK_1999
 };
 
 const COLOR_VARIANTS = [
@@ -223,13 +229,13 @@ const REVIEWS = [
 ];
 
 const FAQ = [
-  { q: "Comment commander un kit Slime Mart ?", a: "Les kits Slime Mart sont à 9,99 €, un seul kit par commande. Ils se commandent à part du panier : le bouton « Commander » t'emmène directement à la page de livraison, puis au paiement sécurisé. Ce sont des kits à fabriquer (dès 6 ans), pas des aliments : ne pas manger." },
-  { q: "Que contient le calendrier de l'Avent ?", a: "Il est actuellement en rupture de stock. 24 cases, chacune cache un squishy surprise : perles de gel, slow rising, gourmandises, fantaisie… Le contenu exact reste une surprise jusqu'à l'ouverture de chaque case." },
+  { q: "Comment commander un kit Slime Mart ?", a: "Les kits Slime Mart sont à 9,99 € l'unité, 19,99 € les 2 (2 kits maximum par commande, identiques ou différents). Ils se commandent à part du panier : le bouton « Commander » t'emmène directement à la page de livraison, puis au paiement sécurisé. Ce sont des kits à fabriquer (dès 6 ans), pas des aliments : ne pas manger." },
+  { q: "Que contient le calendrier de l'Avent ?", a: "24 cases, chacune cache un squishy surprise : perles de gel, slow rising, gourmandises, fantaisie… Le contenu exact reste une surprise jusqu'à l'ouverture de chaque case." },
   { q: "Quand vais-je recevoir le calendrier ?", a: "Il est livré en 3 jours, livraison offerte. Commande au plus tard le 27 novembre pour pouvoir ouvrir la première case dès le 1er décembre." },
   { q: "Le calendrier passe-t-il par le panier ?", a: "Non, il se commande à part : le bouton « Commander le calendrier » t'emmène directement à la page de livraison, puis au paiement sécurisé." },
   { q: "Qu'est-ce qu'un squishy « slow rising » ?", a: "C'est un squishy fabriqué en mousse polyuréthane haute densité qui reprend sa forme très lentement après avoir été écrasé. Chez nous, le temps de remontée est indiqué sur chaque fiche : de 4 secondes pour les plus rebondissants à 14 secondes pour les plus lents." },
   { q: 'Vos squishies sont-ils sans danger ?', a: "Oui. Toutes nos mousses sont certifiées EN71 (norme européenne de sécurité des jouets), sans phtalates et testées en laboratoire. Nos parfums sont légers et hypoallergéniques. Recommandé à partir de 3 ans." },
-  { q: 'Combien de squishies puis-je commander ?', a: "Pour que tout le monde puisse en profiter, tu peux en prendre jusqu'à 9 par commande. Plus tu en prends, moins tu paies : 1 squishy 2 €, 2 à 4 squishies 3,95 €, 5 à 9 squishies 9,99 €. Le pack de 10 est en rupture de stock pour le moment." },
+  { q: 'Combien de squishies puis-je commander ?', a: "Pour que tout le monde puisse en profiter, tu peux en prendre jusqu'à 10 par commande. Plus tu en prends, moins tu paies : 1 squishy 2 €, 2 à 4 squishies 3,95 €, 5 à 9 squishies 9,99 €, 10 squishies 19,99 €." },
   { q: 'Quels sont les délais de livraison ?', a: "Ta commande arrive en 3 jours, et la livraison est gratuite. Les commandes passées avant 14 h partent le jour même." },
   { q: 'Comment entretenir mon squishy ?', a: "Nettoie-le délicatement avec un chiffon humide et un peu de savon doux, puis laisse-le sécher à l'air libre. Évite la machine à laver, le sèche-cheveux et le soleil direct qui peuvent abîmer la mousse." },
   { q: 'Puis-je retourner un article ?', a: "Bien sûr. Tu as 30 jours après réception pour nous retourner un article non utilisé dans son emballage d'origine. Le remboursement est effectué sous 5 jours ouvrés." }
