@@ -335,6 +335,17 @@
     .redirect-link.show { visibility: visible; }
     @media (prefers-reduced-motion: reduce) { .redirect-spin { animation-duration: 2s; } }
 
+    /* ── Kits Slime Mart : 2e kit ── */
+    .kit-remove { border: 0; background: none; padding: 0; color: var(--ink-3); font: inherit; font-size: 12.5px; text-decoration: underline; cursor: pointer; }
+    .kit-upsell { margin: 0 20px 4px; padding: 14px; border-radius: var(--radius-sm); background: #FFF1BF; border: 2px dashed #FFD400; }
+    .kit-upsell b { display: block; font-size: 14.5px; color: var(--ink); }
+    .kit-upsell small { display: block; margin-top: 2px; font-size: 12.5px; color: var(--ink-2); }
+    .kit-picks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+    .kit-pick { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; font: inherit; }
+    .kit-pick:hover { border-color: var(--pink); }
+    .kit-pick img { width: 100%; aspect-ratio: 1; object-fit: contain; }
+    .kit-pick span { font-size: 11px; font-weight: 600; line-height: 1.2; color: var(--ink); text-align: center; }
+
     /* ── Mobile ──
        Ce bloc doit rester en fin de feuille : .sh-summary{position:sticky} est
        déclaré plus haut avec la même spécificité et l'emporterait autrement.
@@ -570,13 +581,52 @@
     let solo = null;
     if (param === 'calendrier') {
       solo = { name: CALENDAR.name, price: CALENDAR.price, url: CALENDAR.url, sub: `${CALENDAR.doors} cases · Qté 1`, thumb: '<div class="summary-img-placeholder">🎄</div>', empty: 'Calendrier bientôt disponible' };
-    } else if (byId[param] && byId[param].standalone) {
-      const sp = byId[param];
-      solo = { name: sp.name, price: sp.price, url: sp.url, sub: `${sp.pieces} pièces · Qté 1`, thumb: `<img class="summary-img" src="images/${sp.id}.jpg" alt="${esc(sp.name)}" />`, empty: 'Produit bientôt disponible' };
+    }
+    const kitIds = (param || '').split(',').filter(Boolean);
+    const isKits = !solo && kitIds.length >= 1 && kitIds.length <= SLIME_MAX && kitIds.every(id => byId[id] && byId[id].standalone);
+    if (isKits) {
+      const order = SLIME_ORDERS[kitIds.length];
+      const kits = kitIds.map(id => byId[id]);
+      const goto = ids => { location.replace('shipping.html?produit=' + ids.join(',')); };
+      card.innerHTML = kits.map((k, i) => `
+        <div class="summary-product">
+          <img class="summary-img" src="images/${k.id}.jpg" alt="${esc(k.name)}" />
+          <div class="summary-product-info">
+            <div class="summary-product-name">${esc(k.name)}</div>
+            <div class="summary-product-sub">${k.pieces} pièces${kits.length > 1 ? ` · <button type="button" class="kit-remove" data-i="${i}">Retirer</button>` : ''}</div>
+          </div>
+          <div class="summary-product-price">${euro(k.price)}</div>
+        </div>`).join('') + (kits.length < SLIME_MAX ? `
+        <div class="kit-upsell">
+          <b>Ajoute un 2<sup>e</sup> kit : les 2 pour ${euro(SLIME_ORDERS[2].price)}</b>
+          <small>2 kits maximum par commande, identiques ou différents</small>
+          <div class="kit-picks">${PRODUCTS.filter(p => p.standalone).map(p => `
+            <button type="button" class="kit-pick" data-id="${p.id}" title="${esc(p.name)}"><img src="images/${p.id}.jpg" alt="${esc(p.name)}" /><span>+ ${esc(p.name.replace('Slime Mart ', '').split(' ')[0])}</span></button>`).join('')}
+          </div>
+        </div>` : '') + `
+        <div class="summary-lines">
+          <div class="summary-line"><span>Sous-total (${kits.length} kit${kits.length > 1 ? 's' : ''})</span><span>${euro(order.price)}</span></div>
+          <div class="summary-line"><span>Livraison</span><span><span class="badge-free">Offerte</span></span></div>
+          <div class="summary-line total"><span>Total</span><span>${euro(order.price)}</span></div>
+        </div>
+        <div class="summary-delivery">
+          <span class="ic">🚚</span>
+          <div><b>Livraison standard</b><br/><span style="font-weight:400;color:var(--ink-2)">Livré en 3 jours — Gratuit</span></div>
+        </div>`;
+      card.addEventListener('click', e => {
+        const add = e.target.closest('.kit-pick');
+        if (add) { window.track && window.track('kit_ajoute_livraison', { produit: add.dataset.id }); goto(kitIds.concat(add.dataset.id)); return; }
+        const rm = e.target.closest('.kit-remove');
+        if (rm) goto(kitIds.filter((_, i) => i !== +rm.dataset.i));
+      });
+      solo = { price: order.price, url: order.url, ready: true };
     }
     let pack = null;
     if (isSolo) {
-      if (solo && solo.url) {
+      if (solo && solo.ready) {
+        pack = { price: solo.price, url: solo.url };
+        document.getElementById('submitLabel').textContent = `Commander · ${euro(solo.price)}`;
+      } else if (solo && solo.url) {
         pack = { price: solo.price, url: solo.url };
         card.innerHTML = `
         <div class="summary-product">
