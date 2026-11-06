@@ -1,5 +1,5 @@
 /* ==========================================================
-   Catalogue Squishland
+   Catalogue Squich
    rise = temps de remontée (s) · soft = douceur /5
    ========================================================== */
 const CATEGORIES = {
@@ -13,6 +13,10 @@ const CATEGORIES = {
 };
 
 /* Kits Slime Mart : commande à part du panier (shipping.html?produit=<id>), chacun avec son lien. */
+/* Nom du partenaire de paiement affiché au client (ex. « Stripe »).
+   Laisser vide tant qu'il n'est pas connu : le site dit alors « notre partenaire de paiement sécurisé ». */
+const PAYMENT_PARTNER = '';
+
 const SLIME_URL = 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=squish';
 /* Jusqu'à 2 kits par commande (identiques ou différents) : 1 kit 9,99 €, 2 kits 19,99 €. */
 const SLIME_MAX = 2;
