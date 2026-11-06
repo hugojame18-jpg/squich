@@ -18,12 +18,11 @@ const CATEGORIES = {
 const PAYMENT_PARTNER = '';
 
 const SLIME_URL = 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=squish';
-/* Jusqu'à 2 kits par commande (identiques ou différents) : 1 kit 9,99 €, 2 kits 19,99 €. */
-const SLIME_MAX = 2;
+/* Un seul kit par commande, à 9,99 €. */
+const SLIME_MAX = 1;
 const SLIME_ORDERS = [
   null,
-  { price: 9.99, url: SLIME_URL },
-  { price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=squich' }
+  { price: 9.99, url: SLIME_URL }
 ];
 const PRODUCTS = [
   { id: 'slime-mart-pizza', name: 'Slime Mart Pizza', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 13, ingredients: '10+', tags: ['new'], rank: -50,
@@ -222,7 +221,7 @@ const REVIEWS = [
 ];
 
 const FAQ = [
-  { q: "Comment commander un kit Slime Mart ?", a: "Les kits Slime Mart sont à 9,99 € l'unité, 19,99 € les 2 (2 kits maximum par commande, identiques ou différents). Ils se commandent à part du panier : le bouton « Commander » t'emmène directement à la page de livraison, puis au paiement sécurisé. Ce sont des kits à fabriquer (dès 6 ans), pas des aliments : ne pas manger." },
+  { q: "Comment commander un kit Slime Mart ?", a: "Les kits Slime Mart sont à 9,99 €, un seul kit par commande. Ils se commandent à part du panier : le bouton « Commander » t'emmène directement à la page de livraison, puis au paiement sécurisé. Ce sont des kits à fabriquer (dès 6 ans), pas des aliments : ne pas manger." },
   { q: "Que contient le calendrier de l'Avent ?", a: "24 cases, chacune cache un squishy surprise : perles de gel, slow rising, gourmandises, fantaisie… Le contenu exact reste une surprise jusqu'à l'ouverture de chaque case." },
   { q: "Quand vais-je recevoir le calendrier ?", a: "Il est livré en 3 jours, livraison offerte. Commande au plus tard le 27 novembre pour pouvoir ouvrir la première case dès le 1er décembre." },
   { q: "Le calendrier passe-t-il par le panier ?", a: "Non, il se commande à part : le bouton « Commander le calendrier » t'emmène directement à la page de livraison, puis au paiement sécurisé." },
