@@ -21,7 +21,9 @@ const PAYMENT_PARTNER = '';
 const LINK_1999 = 'https://t.trklinkx.com/click?pid=4784&offer_id=13888';
 /* Photo de l'article envoyée au partenaire de paiement : nom du paramètre ajouté au lien
    (avec l'adresse complète de la photo). Laisser vide pour ne rien envoyer. */
-const IMAGE_PARAM = 'sub4';
+const IMAGE_PARAM = 'sub7';
+/* Nom du produit envoyé au partenaire de paiement. */
+const TITLE_PARAM = 'sub6';
 const SITE_URL = 'https://squich.site/';
 const SLIME_URL = 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=squish';
 /* Jusqu'à 2 kits par commande (identiques ou différents) : 1 kit 9,99 €, 2 kits 19,99 €. */
