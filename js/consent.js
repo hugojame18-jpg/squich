@@ -52,10 +52,15 @@
   }
 
   /* Événement personnalisé visible dans Clarity (filtres « Événements personnalisés »). */
+  /* Envoyé juste après l'affichage, pour que le clic réagisse tout de suite (score INP). */
   window.track = function (name, tags) {
     if (!loaded || typeof window.clarity !== 'function') return;
-    if (tags) Object.keys(tags).forEach(k => window.clarity('set', k, String(tags[k])));
-    window.clarity('event', name);
+    const send = () => {
+      if (tags) Object.keys(tags).forEach(k => window.clarity('set', k, String(tags[k])));
+      window.clarity('event', name);
+    };
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(() => setTimeout(send, 0));
+    else setTimeout(send, 0);
   };
 
   const css = `
