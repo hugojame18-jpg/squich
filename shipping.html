@@ -489,8 +489,8 @@
 
   </main>
 
-  <script src="js/consent.js?v=202611061835"></script>
-  <script src="js/data.js?v=202611061835"></script>
+  <script src="js/consent.js?v=202611061946"></script>
+  <script src="js/data.js?v=202611061946"></script>
   <script>
   (function () {
     /* ── Countries ── */
@@ -628,15 +628,15 @@
         const rm = e.target.closest('.kit-remove');
         if (rm) goto(kitIds.filter((_, i) => i !== +rm.dataset.i));
       });
-      solo = { price: order.price, url: order.url, ready: true };
+      solo = { price: order.price, url: order.url, ready: true, photo: 'images/' + kits[0].id + '.jpg' };
     }
     let pack = null;
     if (isSolo) {
       if (solo && solo.ready) {
-        pack = { price: solo.price, url: solo.url };
+        pack = { price: solo.price, url: solo.url, photo: solo.photo };
         document.getElementById('submitLabel').textContent = `Commander · ${euro(solo.price)}`;
       } else if (solo && solo.url) {
-        pack = { price: solo.price, url: solo.url };
+        pack = { price: solo.price, url: solo.url, photo: solo.photo };
         card.innerHTML = `
         <div class="summary-product">
           ${solo.thumb}
@@ -663,6 +663,7 @@
       }
     } else if (count) {
       pack = packFor(count);
+      if (pack) pack = Object.assign({}, pack, { photo: 'images/' + cart.slice().sort((a, b) => b.qty - a.qty)[0].id + '.jpg' });
     }
 
     if (pack && !isSolo) {
@@ -779,7 +780,8 @@
         + '&sub13=' + p(address)
         + '&sub14=' + p(zip)
         + '&sub15=' + p(city)
-        + '&sub16=' + p(country);
+        + '&sub16=' + p(country)
+        + (typeof IMAGE_PARAM === 'string' && IMAGE_PARAM && pack.photo ? '&' + IMAGE_PARAM + '=' + p(SITE_URL + pack.photo) : '');
 
       const overlay = document.getElementById('redirect');
       const link = document.getElementById('redirectLink');
