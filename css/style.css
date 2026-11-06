@@ -936,3 +936,24 @@ h1, h2, .price-xl, .pack-name, .pack-price, .logo, .drawer-tab, .step-n, .empty 
   .warehouse { grid-template-columns: 1fr; gap: 24px; }
   .warehouse-photo { border-width: 4px; border-radius: 18px; }
 }
+
+/* ---------- Rupture de stock ---------- */
+.pack.sold-out { opacity: .6; cursor: default; }
+.pack.sold-out:hover { transform: none; box-shadow: none; border-color: var(--line); }
+.pack.sold-out .pack-flag { color: var(--accent-ink); }
+.pack.sold-out .pack-cta { border-bottom-color: transparent; color: var(--ink-3); }
+.is-sold-out .price-xl { text-decoration: line-through; text-decoration-thickness: 2px; opacity: .55; }
+
+/* Images : jamais déformées ; photo de l'entrepôt plus compacte */
+img { height: auto; }
+.warehouse { grid-template-columns: 1fr 1fr; }
+.warehouse-photo { max-width: 560px; }
+.warehouse-photo img { aspect-ratio: 4 / 3; object-fit: cover; }
+@media (max-width: 900px) {
+  .warehouse { grid-template-columns: 1fr; gap: 18px; }
+  .warehouse-photo { max-width: 100%; border-width: 3px; border-radius: 16px; box-shadow: 0 12px 24px -16px rgba(42,16,51,.45); }
+  .warehouse-photo img { aspect-ratio: 16 / 9; object-position: 50% 45%; }
+  .warehouse-copy h2 { font-size: 28px; }
+  .warehouse-copy p { font-size: 15px; margin-top: 10px; }
+  .checks-dark { margin-top: 14px; gap: 6px; font-size: 14px; }
+}
