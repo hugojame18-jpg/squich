@@ -385,7 +385,7 @@
       <h2>Où livrer ta commande ? 📦</h2>
       <p class="subtitle">Remplis tes infos — on envoie dans les 3 jours !</p>
 
-      <form id="shipForm" novalidate>
+      <form id="shipForm" data-clarity-mask="true" novalidate>
         <div class="form-grid">
 
           <div class="field" id="f-first">
@@ -469,6 +469,7 @@
 
   </main>
 
+  <script src="js/consent.js"></script>
   <script src="js/data.js"></script>
   <script>
   (function () {
@@ -564,6 +565,7 @@
     if (count > MAX_ITEMS) { cart = []; count = 0; }
     /* Commandes à part du panier : le calendrier et les kits Slime Mart (?produit=…) */
     const param = new URLSearchParams(location.search).get('produit');
+    const trackKind = param || 'panier';
     const isSolo = !!param;
     let solo = null;
     if (param === 'calendrier') {
@@ -642,6 +644,8 @@
       document.getElementById('submitLabel').textContent = 'Panier vide';
     }
 
+    window.track && window.track('livraison_vue', { commande: trackKind });
+
     /* ── Live validation ── */
     function setErr(fieldId, msg) {
       const f = document.getElementById(fieldId);
@@ -713,6 +717,7 @@
       const link = document.getElementById('redirectLink');
       link.href = url;
       overlay.classList.add('show');
+      window.track && window.track('paiement_redirection', { commande: trackKind, montant: pack.price });
       setTimeout(() => { window.location.assign(url); }, 1000);
       setTimeout(() => { link.classList.add('show'); }, 4000);
     });
