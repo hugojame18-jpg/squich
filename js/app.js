@@ -23,6 +23,8 @@
   const euro = n => n.toFixed(2).replace('.', ',') + ' €';
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  /* 1234 → « 1 234 » sans passer par Intl (lent au premier appel sur mobile) */
+  const thousands = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u202f');
   const plural = n => `${n} ${n > 1 ? 'squishies' : 'squishy'}`;
   const img = (p, cls = '') => `<img class="${cls}" src="images/${p.id}.jpg" alt="${esc(p.name)}" loading="lazy" decoding="async" draggable="false"/>`;
   const stars = r => `<span class="stars" aria-label="Note ${r.toFixed(1)} sur 5">★ ${r.toFixed(1).replace('.', ',')}</span>`;
@@ -474,13 +476,13 @@
     const room = Math.max(1, MAX_ITEMS - cartCount());
     $('#pmContent').innerHTML = `
       <div class="pm-media">
-        <img class="pm-main" src="${s.photos[s.photo]}" alt="${esc(p.name)}" />
-        ${s.photos.length > 1 ? `<div class="pm-thumbs">${s.photos.map((u, i) => `<button class="${i === s.photo ? 'active' : ''}" data-photo="${i}" aria-label="Photo ${i + 1}"><img src="${u}" alt=""/></button>`).join('')}</div>` : ''}
+        <img class="pm-main" src="${s.photos[s.photo]}" alt="${esc(p.name)}" decoding="async" />
+        ${s.photos.length > 1 ? `<div class="pm-thumbs">${s.photos.map((u, i) => `<button class="${i === s.photo ? 'active' : ''}" data-photo="${i}" aria-label="Photo ${i + 1}"><img src="${u}" alt="" decoding="async" loading="lazy"/></button>`).join('')}</div>` : ''}
       </div>
       <div class="pm-info">
         <span class="kicker">${CATEGORIES[p.cat]}${tag ? ` · ${BADGE[tag]}` : ''}</span>
         <h2>${esc(p.name)}</h2>
-        ${p.rating ? `<div class="pm-rating">${stars(p.rating)}<span>${p.reviews.toLocaleString('fr-FR')} avis</span></div>` : ''}
+        ${p.rating ? `<div class="pm-rating">${stars(p.rating)}<span>${thousands(p.reviews)} avis</span></div>` : ''}
         <div class="pm-price">${euro(p.price)}<small>${p.standalone ? `ou 2 kits pour ${euro(SLIME_ORDERS[2].price)} · 2 max par commande` : `ou dans un pack dès ${euro(PACKS[1].price)} les 2`}</small></div>
         <p class="pm-desc">${esc(p.desc)}</p>
         <dl class="pm-specs">
