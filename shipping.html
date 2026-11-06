@@ -740,7 +740,11 @@
       if (!zip)     { setErr('f-zip',     'Code postal requis');  ok = false; }
       if (!city)    { setErr('f-city',    'Ville requise');       ok = false; }
 
-      if (!ok) return;
+      if (!ok) {
+        const bad = [...document.querySelectorAll('.field.has-error')].map(f => f.id.replace('f-', ''));
+        window.track && window.track('formulaire_erreur', { champs: bad.join(',') });
+        return;
+      }
 
       /* Build full phone: prefix + number (strip leading 0 if French style) */
       let num = phone.replace(/\s/g, '');
