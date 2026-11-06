@@ -25,6 +25,7 @@
       t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, 'clarity', 'script', CLARITY_ID);
+    window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' });
     window.clarity('consent');
     tagSession();
   }
@@ -88,7 +89,7 @@
     if (e.target.closest('[data-cookie-settings]')) {
       e.preventDefault();
       try { localStorage.removeItem(KEY); } catch (err) { /* ignore */ }
-      if (loaded) { window.clarity('consent', false); location.reload(); return; }
+      if (loaded) { window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'denied' }); window.clarity('consent', false); location.reload(); return; }
       showBar();
     }
   });
