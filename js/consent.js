@@ -26,6 +26,28 @@
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, 'clarity', 'script', CLARITY_ID);
     window.clarity('consent');
+    tagSession();
+  }
+
+  function tagSession() {
+    const q = new URLSearchParams(location.search);
+    let source = q.get('utm_source');
+    if (!source && document.referrer) {
+      try {
+        const h = new URL(document.referrer).hostname.replace(/^www\./, '');
+        if (h !== location.hostname.replace(/^www\./, '')) source = h;
+      } catch (e) { /* referrer illisible */ }
+    }
+    const set = (k, v) => { if (v) window.clarity('set', k, String(v).slice(0, 60)); };
+    set('source', source || 'direct');
+    set('campagne', q.get('utm_campaign'));
+    set('page', /shipping/.test(location.pathname) ? 'livraison' : 'accueil');
+    let visits = 1;
+    try {
+      visits = +localStorage.getItem('squishland:visits') || 0;
+      if (!sessionStorage.getItem('squishland:session')) { visits += 1; localStorage.setItem('squishland:visits', visits); sessionStorage.setItem('squishland:session', '1'); }
+    } catch (e) { /* ignore */ }
+    set('visiteur', visits > 1 ? 'revenu' : 'nouveau');
   }
 
   /* Événement personnalisé visible dans Clarity (filtres « Événements personnalisés »). */

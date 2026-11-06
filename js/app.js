@@ -79,6 +79,7 @@
   searchInput.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      track('recherche', { terme: searchInput.value.trim().toLowerCase() });
       applyFilter({ q: searchInput.value.trim() });
       search.classList.remove('open');
     }
@@ -246,6 +247,7 @@
     const b = e.target.closest('.tab');
     if (!b) return;
     const t = TABS[+b.dataset.i];
+    track('onglet_boutique', { onglet: t.label });
     applyFilter({ cat: t.cat || 'all', tag: t.tag || null }, false);
   });
 
@@ -441,6 +443,7 @@
   async function openProduct(id) {
     const p = byId[id];
     if (!p) return;
+    track('fiche_vue', { produit: id });
     closeDrawer();
     pmState = { id, qty: 1, photo: 0, photos: [`images/${id}.jpg`] };
     renderProductModal();
@@ -543,6 +546,23 @@
     const anchor = e.target.closest('a[href^="#"]');
     if (anchor && anchor.getAttribute('href').length > 1) track('navigation', { vers: anchor.getAttribute('href').slice(1) });
   }, true);
+
+  /* ---------- Questions de la FAQ ouvertes ---------- */
+  let faqReady = false; setTimeout(() => { faqReady = true; }, 800);
+  $$('#faqList details').forEach((d, i) => d.addEventListener('toggle', () => { if (d.open && faqReady) track('faq_ouverte', { question: FAQ[i].q.slice(0, 60) }); }));
+
+  /* ---------- Sections réellement vues (profondeur de lecture) ---------- */
+  if ('IntersectionObserver' in window) {
+    const seen = new Set();
+    const secIo = new IntersectionObserver(es => es.forEach(en => {
+      if (!en.isIntersecting) return;
+      const sec = en.target, name = sec.id || sec.className.split(' ').filter(c => c !== 'section' && c !== 'container')[0] || 'newsletter';
+      if (seen.has(name)) return;
+      seen.add(name); secIo.unobserve(sec);
+      track('section_vue_' + name);
+    }), { rootMargin: '-45% 0px -45% 0px' });
+    $$('main > section').forEach(s => secIo.observe(s));
+  }
 
   /* ---------- Init ---------- */
   renderTabs();
