@@ -161,6 +161,14 @@
   ];
   $('#packGrid').innerHTML = PACK_UI.map(u => {
     const pk = PACKS.find(p => p.min === u.min);
+    if (pk.soldOut) return `<div class="pack sold-out" aria-disabled="true">
+      <span class="pack-flag">Rupture de stock</span>
+      <span class="pack-name">${u.name}</span>
+      <span class="pack-count">${plural(u.min)}</span>
+      <span class="pack-price">${euro(pk.price)}</span>
+      <span class="pack-sub">De retour bientôt</span>
+      <span class="pack-cta">Indisponible</span>
+    </div>`;
     return `<button class="pack ${u.hot ? 'hot' : ''}" data-n="${u.min}">
       ${u.hot ? '<span class="pack-flag">Le plus complet</span>' : ''}
       <span class="pack-name">${u.name}</span>
@@ -197,6 +205,7 @@
     } else cd.hidden = true;
     if (today <= deadline) {
       const hd = $('#heroDeadline');
+      if (CALENDAR.soldOut) return;
       hd.innerHTML = `Commande avant le <b>27 novembre</b> pour l'ouvrir dès le 1<sup>er</sup> décembre`;
       hd.hidden = false;
     }
@@ -210,7 +219,7 @@
   $('#insideGrid').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) openProduct(b.dataset.id); });
 
   const advbar = $('#advbar'), calSeen = new Set();
-  const syncAdvbar = () => advbar.classList.toggle('show', !calSeen.size && !document.body.classList.contains('has-packbar') && scrollY > 200);
+  const syncAdvbar = () => advbar.classList.toggle('show', !CALENDAR.soldOut && !calSeen.size && !document.body.classList.contains('has-packbar') && scrollY > 200);
   if ('IntersectionObserver' in window) {
     const calIo = new IntersectionObserver(es => { es.forEach(en => en.isIntersecting ? calSeen.add(en.target) : calSeen.delete(en.target)); syncAdvbar(); });
     calIo.observe($('#avent')); calIo.observe($('#calendrier'));
@@ -221,9 +230,16 @@
   $('#adventGrid').innerHTML = DOORS.map((n, i) => `<button class="door ${n === 24 ? 'big' : ''}" aria-label="Case ${n}">
       ${img(PRODUCTS[(i * 3) % PRODUCTS.length])}<span class="door-face">${n}</span></button>`).join('');
   $('#adventGrid').addEventListener('click', e => { const d = e.target.closest('.door'); if (d) d.classList.toggle('open'); });
-  if (!CALENDAR.url) $$('[data-cal-buy]').forEach(b => {
-    b.textContent = 'Bientôt disponible'; b.removeAttribute('href'); b.classList.add('disabled'); b.setAttribute('aria-disabled', 'true');
+  if (!CALENDAR.url || CALENDAR.soldOut) $$('[data-cal-buy]').forEach(b => {
+    b.textContent = CALENDAR.soldOut ? 'Rupture de stock' : 'Bientôt disponible'; b.removeAttribute('href'); b.classList.add('disabled'); b.setAttribute('aria-disabled', 'true');
   });
+
+  if (CALENDAR.soldOut) {
+    $$('.offer-cal small').forEach(el => { el.textContent = 'Rupture de stock'; });
+    $$('.announce a[href="#avent"]').forEach(el => { el.textContent = "Calendrier de l'Avent : rupture de stock"; });
+    $$('.xmas-price, .cal-cta').forEach(el => el.classList.add('is-sold-out'));
+  }
+  $('#pbMeter').style.gridTemplateColumns = `repeat(${MAX_ITEMS}, 1fr)`;
 
   /* ---------- Boutique ---------- */
   const TABS = [
@@ -321,7 +337,7 @@
   }
   function packHint() {
     const n = cartCount(), next = nextPack(n);
-    if (!n) return `Packs : 2 pour ${euro(PACKS[1].price)} · 5 pour ${euro(PACKS[2].price)} · 10 pour ${euro(PACKS[3].price)}`;
+    if (!n) return 'Packs : ' + PACKS.filter(p => p.min > 1 && !p.soldOut).map(p => `${p.min} pour ${euro(p.price)}`).join(' · ');
     if (!next) return `Pack maximum : ${MAX_ITEMS} squishies pour ${euro(packFor(n).price)}`;
     const k = next.min - n;
     return `Encore ${plural(k)} pour le pack ${next.min} à ${euro(next.price)}`;
@@ -349,7 +365,7 @@
     $('#pbCount').textContent = plural(n);
     $('#pbPrice').innerHTML = `${t.discount > 0 ? `<s>${euro(t.sub)}</s>` : ''}${euro(t.total)}`;
     $('#pbMeter').innerHTML = Array.from({ length: MAX_ITEMS }, (_, k) =>
-      `<i class="${k < n ? 'on' : ''} ${PACKS.some(p => p.min === k + 1) ? 'tier' : ''} ${goal && k + 1 === goal ? 'goal' : ''}"></i>`).join('');
+      `<i class="${k < n ? 'on' : ''} ${PACKS.some(p => !p.soldOut && p.min === k + 1) ? 'tier' : ''} ${goal && k + 1 === goal ? 'goal' : ''}"></i>`).join('');
     $('#pbHint').textContent = goal ? `Objectif pack ${goal} : encore ${goal - n}` : packHint();
   }
   $('#pbGo').addEventListener('click', () => openDrawer('cart'));
@@ -408,7 +424,7 @@
       `<div><span>Livraison</span><span>Offerte</span></div><div class="grand"><span>Total</span><span>${euro(t.total)}</span></div>`;
   }
   function calUpsell() {
-    if (!CALENDAR.url) return '';
+    if (!CALENDAR.url || CALENDAR.soldOut) return '';
     return `<a class="cal-upsell" href="shipping.html?produit=calendrier"><span class="cal-upsell-n">24</span>
       <span><b>Et le calendrier de l'Avent ?</b><small>24 squishies surprise · ${euro(CALENDAR.price)} · commande séparée</small></span>${ICON.arrow}</a>`;
   }

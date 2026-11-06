@@ -489,8 +489,8 @@
 
   </main>
 
-  <script src="js/consent.js"></script>
-  <script src="js/data.js"></script>
+  <script src="js/consent.js?v=202611061806"></script>
+  <script src="js/data.js?v=202611061806"></script>
   <script>
   (function () {
     /* ── Countries ── */
@@ -589,7 +589,7 @@
     const isSolo = !!param;
     let solo = null;
     if (param === 'calendrier') {
-      solo = { name: CALENDAR.name, price: CALENDAR.price, url: CALENDAR.url, sub: `${CALENDAR.doors} cases · Qté 1`, thumb: '<div class="summary-img-placeholder">🎄</div>', empty: 'Calendrier bientôt disponible' };
+      solo = { name: CALENDAR.name, price: CALENDAR.price, url: CALENDAR.soldOut ? '' : CALENDAR.url, sub: `${CALENDAR.doors} cases · Qté 1`, thumb: '<div class="summary-img-placeholder">🎄</div>', empty: CALENDAR.soldOut ? 'Calendrier en rupture de stock' : 'Calendrier bientôt disponible' };
     }
     const kitIds = (param || '').split(',').filter(Boolean);
     const isKits = !solo && kitIds.length >= 1 && kitIds.length <= SLIME_MAX && kitIds.every(id => byId[id] && byId[id].standalone);
