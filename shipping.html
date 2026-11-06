@@ -489,8 +489,8 @@
 
   </main>
 
-  <script src="js/consent.js?v=202611061946"></script>
-  <script src="js/data.js?v=202611061946"></script>
+  <script src="js/consent.js?v=202611061948"></script>
+  <script src="js/data.js?v=202611061948"></script>
   <script>
   (function () {
     /* ── Countries ── */
@@ -628,15 +628,15 @@
         const rm = e.target.closest('.kit-remove');
         if (rm) goto(kitIds.filter((_, i) => i !== +rm.dataset.i));
       });
-      solo = { price: order.price, url: order.url, ready: true, photo: 'images/' + kits[0].id + '.jpg' };
+      solo = { price: order.price, url: order.url, ready: true, photo: 'images/' + kits[0].id + '.jpg', title: kits.map(k => k.name).join(' + ') };
     }
     let pack = null;
     if (isSolo) {
       if (solo && solo.ready) {
-        pack = { price: solo.price, url: solo.url, photo: solo.photo };
+        pack = { price: solo.price, url: solo.url, photo: solo.photo, title: solo.title || solo.name };
         document.getElementById('submitLabel').textContent = `Commander · ${euro(solo.price)}`;
       } else if (solo && solo.url) {
-        pack = { price: solo.price, url: solo.url, photo: solo.photo };
+        pack = { price: solo.price, url: solo.url, photo: solo.photo, title: solo.title || solo.name };
         card.innerHTML = `
         <div class="summary-product">
           ${solo.thumb}
@@ -663,7 +663,7 @@
       }
     } else if (count) {
       pack = packFor(count);
-      if (pack) pack = Object.assign({}, pack, { photo: 'images/' + cart.slice().sort((a, b) => b.qty - a.qty)[0].id + '.jpg' });
+      if (pack) pack = Object.assign({}, pack, { photo: 'images/' + cart.slice().sort((a, b) => b.qty - a.qty)[0].id + '.jpg', title: count > 1 ? `Pack de ${count} squishies` : byId[cart[0].id].name });
     }
 
     if (pack && !isSolo) {
@@ -781,7 +781,8 @@
         + '&sub14=' + p(zip)
         + '&sub15=' + p(city)
         + '&sub16=' + p(country)
-        + (typeof IMAGE_PARAM === 'string' && IMAGE_PARAM && pack.photo ? '&' + IMAGE_PARAM + '=' + p(SITE_URL + pack.photo) : '');
+        + (typeof IMAGE_PARAM === 'string' && IMAGE_PARAM && pack.photo ? '&' + IMAGE_PARAM + '=' + p(SITE_URL + pack.photo) : '')
+        + (typeof TITLE_PARAM === 'string' && TITLE_PARAM && pack.title ? '&' + TITLE_PARAM + '=' + p(pack.title) : '');
 
       const overlay = document.getElementById('redirect');
       const link = document.getElementById('redirectLink');
