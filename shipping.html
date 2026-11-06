@@ -605,9 +605,9 @@
             <div class="summary-product-sub">${k.pieces} pièces${kits.length > 1 ? ` · <button type="button" class="kit-remove" data-i="${i}">Retirer</button>` : ''}</div>
           </div>
           <div class="summary-product-price">${euro(k.price)}</div>
-        </div>`).join('') + (kits.length < SLIME_MAX ? `
+        </div>`).join('') + (kits.length < SLIME_MAX && SLIME_ORDERS[kits.length + 1] ? `
         <div class="kit-upsell">
-          <b>Ajoute un 2<sup>e</sup> kit : les 2 pour ${euro(SLIME_ORDERS[2].price)}</b>
+          <b>Ajoute un 2<sup>e</sup> kit : les 2 pour ${euro(SLIME_ORDERS[kits.length + 1].price)}</b>
           <small>2 kits maximum par commande, identiques ou différents</small>
           <div class="kit-picks">${PRODUCTS.filter(p => p.standalone).map(p => `
             <button type="button" class="kit-pick" data-id="${p.id}" title="${esc(p.name)}"><img src="images/${p.id}.jpg" alt="${esc(p.name)}" /><span>+ ${esc(p.name.replace('Slime Mart ', '').split(' ')[0])}</span></button>`).join('')}
