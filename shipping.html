@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Livraison — Squishland</title>
+  <title>Livraison — Squich</title>
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -317,6 +317,8 @@
     }
     .pay-note svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .pay-note b { color: var(--ink); font-weight: 600; }
+    .pay-steps { margin: 6px 0 0; padding-left: 18px; }
+    .pay-steps li { margin: 3px 0; }
 
     /* ── Écran de transition vers le paiement ── */
     .redirect {
@@ -368,16 +370,16 @@
 <body>
 
   <div class="redirect" id="redirect" role="status" aria-live="polite">
-    <div class="redirect-logo">Squishland</div>
+    <div class="redirect-logo">Squich</div>
     <div class="redirect-spin" aria-hidden="true"></div>
     <div class="redirect-title">Redirection vers le paiement sécurisé…</div>
-    <div class="redirect-sub">Ta commande est transmise à notre partenaire de paiement.</div>
+    <div class="redirect-sub" id="redirectSub">Ta commande est transmise à notre partenaire de paiement sécurisé. L'adresse de la page va changer : c'est normal.</div>
     <a class="redirect-link" id="redirectLink" href="#">Continuer vers le paiement</a>
   </div>
 
   <!-- Header -->
   <header class="sh-header">
-    <a href="index.html" class="sh-logo">Squishland</a>
+    <a href="index.html" class="sh-logo">Squich</a>
     <nav class="sh-steps">
       <span class="st done">✓ Panier</span>
       <span class="sep">›</span>
@@ -451,10 +453,17 @@
 
         </div>
 
-        <p class="pay-note">
+        <div class="pay-note">
           <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-          <span>Le paiement est finalisé chez <b>notre partenaire de paiement sécurisé</b>. Après « Commander », tu es redirigé vers sa page pour régler ta commande.</span>
-        </p>
+          <div>
+            <b>Ce qui se passe après « Commander »</b>
+            <ol class="pay-steps">
+              <li>Tu es redirigé vers la page sécurisée de <b data-partner>notre partenaire de paiement</b> pour régler ta commande. L'adresse de la page change : c'est normal.</li>
+              <li>Après le paiement, tu reçois une confirmation par email.</li>
+              <li>Ta commande est préparée et livrée en 3 jours, livraison offerte.</li>
+            </ol>
+          </div>
+        </div>
 
         <div class="sh-submit">
           <button type="submit" class="btn-submit" id="submitBtn">
@@ -695,6 +704,11 @@
     }
 
     window.track && window.track('livraison_vue', { commande: trackKind });
+
+    if (typeof PAYMENT_PARTNER === 'string' && PAYMENT_PARTNER) {
+      document.querySelectorAll('[data-partner]').forEach(el => { el.textContent = PAYMENT_PARTNER; });
+      document.getElementById('redirectSub').textContent = `Ta commande est transmise à ${PAYMENT_PARTNER}, notre partenaire de paiement sécurisé. L'adresse de la page va changer : c'est normal.`;
+    }
 
     /* ── Live validation ── */
     function setErr(fieldId, msg) {
