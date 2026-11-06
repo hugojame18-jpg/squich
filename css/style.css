@@ -923,3 +923,16 @@ h1, h2, .price-xl, .pack-name, .pack-price, .logo, .drawer-tab, .step-n, .empty 
 .sm-drip::after { display: none; }
 .slime-media { background: #fff; }
 @media (max-width: 640px) { .slime-media { aspect-ratio: 4 / 3; } }
+
+/* ---------- Entrepôt ---------- */
+.warehouse { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+.warehouse-photo { margin: 0; border-radius: 24px; overflow: hidden; box-shadow: 0 24px 48px -24px rgba(42,16,51,.45); border: 6px solid #fff; }
+.warehouse-photo img { width: 100%; height: auto; display: block; }
+.warehouse-copy h2 { font-size: clamp(30px, 3.6vw, 44px); }
+.warehouse-copy p { margin-top: 14px; color: var(--ink-2); font-size: 16.5px; }
+.checks-dark { margin: 22px 0 0; }
+.checks-dark li::before { background-color: var(--blush); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E6007E' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='m6 12 4 4 8-9'/%3E%3C/svg%3E"); }
+@media (max-width: 900px) {
+  .warehouse { grid-template-columns: 1fr; gap: 24px; }
+  .warehouse-photo { border-width: 4px; border-radius: 18px; }
+}
