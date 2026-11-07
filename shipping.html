@@ -521,8 +521,8 @@
 
   <div class="zoom" id="zoom" role="dialog" aria-label="Photo du produit" hidden><img alt="" /><button type="button" aria-label="Fermer">✕</button></div>
 
-  <script src="js/consent.js?v=202611070053"></script>
-  <script src="js/data.js?v=202611070053"></script>
+  <script src="js/consent.js?v=202611072218"></script>
+  <script src="js/data.js?v=202611072218"></script>
   <script>
   (function () {
     /* ── Countries ── */
@@ -800,7 +800,9 @@
       const address = document.getElementById('inp-address').value.trim();
       const zip     = document.getElementById('inp-zip').value.trim();
       const city    = document.getElementById('inp-city').value.trim();
-      const country = document.getElementById('inp-country').value;
+      /* Le partenaire de paiement attend le code pays (FR, BE…), pas le nom. */
+      const cSel = document.getElementById('inp-country');
+      const country = (cSel.options[cSel.selectedIndex] && cSel.options[cSel.selectedIndex].dataset.code) || 'FR';
 
       if (!first)   { setErr('f-first', 'Prénom requis'); ok = false; }
       if (!last)    { setErr('f-last',  'Nom requis');    ok = false; }
