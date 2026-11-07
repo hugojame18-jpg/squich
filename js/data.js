@@ -34,12 +34,12 @@ const SLIME_ORDERS = [
   { price: 19.99, url: LINK_1999 }
 ];
 const PRODUCTS = [
+  { id: 'slime-mart-chariot', name: 'Slime Mart Chariot Gourmand', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 26, ingredients: '23+', tags: ['best', 'new'], rank: -51,
+    desc: "Le grand kit dans son chariot de supermarché : gâteau au chocolat, banana split, pancakes et sandwich grillé à fabriquer en slime, avec pâte, sirops, glace, vermicelles, moule à pain, plat, couverts et poches à douille. 26 pièces et plus de 23 ingrédients. Dès 6 ans. Ne se mange pas." },
   { id: 'slime-mart-pizza', name: 'Slime Mart Pizza', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 13, ingredients: '10+', tags: ['new'], rank: -50,
     desc: "Le kit pour fabriquer ta propre pizza en slime : pâte, sauce tomate, fromage, pepperoni, basilic et huile d'olive, le tout en slime. Tu déballes, tu crées, tu pétris. 13 pièces et plus de 10 ingrédients dans une mini caisse de courses. Dès 6 ans. Ne se mange pas." },
   { id: 'slime-mart-cannelle', name: 'Slime Mart Brioches à la Cannelle', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 10, ingredients: '7+', tags: ['new'], rank: -49,
     desc: "Le kit pour fabriquer tes brioches à la cannelle en slime : pâte, glaçage au sucre, pâte de cannelle, œuf, couteau et nappe à carreaux. Tu crées, tu glaces, tu pétris. 10 pièces et 7 ingrédients dans un sachet refermable. Dès 6 ans. Ne se mange pas." },
-  { id: 'slime-mart-chariot', name: 'Slime Mart Chariot Gourmand', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 26, ingredients: '23+', tags: ['new'], rank: -48,
-    desc: "Le grand kit dans son chariot de supermarché : gâteau au chocolat, banana split, pancakes et sandwich grillé à fabriquer en slime, avec pâte, sirops, glace, vermicelles, moule à pain, plat, couverts et poches à douille. 26 pièces et plus de 23 ingrédients. Dès 6 ans. Ne se mange pas." },
   { id: 'slime-mart-disney', name: 'Slime Mart Disney Gâteau de Glace', cat: 'slimemart', price: 9.99, standalone: true, url: SLIME_URL, pieces: 20, ingredients: '19+', tags: ['new'], rank: -47,
     desc: "Le kit Disney pour fabriquer un gâteau de glace en slime : pâte à tarte, glaçage bleu givré, macarons, flocons à mouler et château de glace à planter. Avec moule à gâteau, plat, poche à douille et couteau. 20 pièces et plus de 19 ingrédients. Dès 6 ans. Ne se mange pas." },
   { id: 'tube-paillettes-halloween', name: 'Tube Paillettes Halloween', shape: 'mochi', c1: '#F7CFEA', c2: '#C2338F', cat: 'halloween', price: 2, rise: 2, soft: 5, rating: 4.9, reviews: 64, tags: ['new'], rank: -45,
