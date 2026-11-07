@@ -115,7 +115,8 @@
       gap: 14px;
     }
     @media (max-width: 500px) {
-      .form-grid { grid-template-columns: 1fr; }
+      .form-grid { gap: 12px 10px; }
+      .field input, .field select { padding: 12px 13px; font-size: 16px; }
     }
     .field { display: flex; flex-direction: column; gap: 6px; }
     .field.full { grid-column: 1 / -1; }
@@ -205,6 +206,25 @@
       font-weight: 600;
     }
     .trust-item .ic { font-size: 18px; }
+
+    /* ── Réassurance, barre fixe, zoom ── */
+    .reassure { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; margin: 0 0 12px; padding: 10px 12px; border-radius: 14px; background: #fff; border: 2px solid #FFE135; font-size: 12.5px; font-weight: 700; color: var(--ink); }
+    .reassure li { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+    .summary-img { cursor: zoom-in; }
+    .sticky-buy { display: none; }
+    @media (max-width: 780px) {
+      .sticky-buy { display: flex; align-items: center; gap: 12px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: #fff; box-shadow: 0 -10px 30px -12px rgba(42,16,51,.35); transform: translateY(110%); transition: transform .25s; }
+      .sticky-buy.show { transform: none; }
+      .sb-total { display: flex; flex-direction: column; line-height: 1.15; }
+      .sb-total small { font-size: 11px; color: var(--ink-2); font-weight: 600; }
+      .sb-total b { font-size: 19px; }
+      .sb-btn { flex: 1; height: 50px; border: 0; border-radius: 999px; background: #E6007E; color: #fff; font: 700 16px Fredoka, Inter, sans-serif; cursor: pointer; }
+      .summary-img, .summary-img-placeholder { width: 88px !important; height: 88px !important; }
+    }
+    .zoom { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; background: rgba(20,8,24,.85); }
+    .zoom[hidden] { display: none; }
+    .zoom img { max-width: 100%; max-height: 85vh; border-radius: 16px; background: #fff; }
+    .zoom button { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; font-size: 18px; cursor: pointer; }
 
     /* ── Summary card ── */
     .sh-summary {
@@ -396,26 +416,26 @@
     <!-- Form column -->
     <div class="sh-form-col">
       <h2>Où livrer ta commande ? 📦</h2>
-      <p class="subtitle">Remplis tes infos — on envoie dans les 3 jours !</p>
+      <p class="subtitle">Dernière étape avant le paiement sécurisé. Livraison offerte, chez toi en 3 jours.</p>
 
       <form id="shipForm" data-clarity-mask="true" novalidate>
         <div class="form-grid">
 
           <div class="field" id="f-first">
             <label for="inp-first">Prénom</label>
-            <input id="inp-first" name="first" type="text" autocomplete="given-name" placeholder="ex. Marie" required />
+            <input id="inp-first" name="first" type="text" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="ex. Marie" required />
             <span class="err-msg">Champ requis</span>
           </div>
 
           <div class="field" id="f-last">
             <label for="inp-last">Nom</label>
-            <input id="inp-last" name="last" type="text" autocomplete="family-name" placeholder="ex. Dupont" required />
+            <input id="inp-last" name="last" type="text" autocomplete="family-name" autocapitalize="words" enterkeyhint="next" placeholder="ex. Dupont" required />
             <span class="err-msg">Champ requis</span>
           </div>
 
           <div class="field full" id="f-email">
             <label for="inp-email">Email</label>
-            <input id="inp-email" name="email" type="email" autocomplete="email" placeholder="ton@email.com" required />
+            <input id="inp-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" enterkeyhint="next" placeholder="ton@email.com" required />
             <span class="err-msg">Email invalide</span>
           </div>
 
@@ -423,26 +443,26 @@
             <label>Téléphone</label>
             <div class="phone-wrap">
               <select id="inp-prefix" aria-label="Indicatif pays"></select>
-              <input id="inp-phone" name="phone" type="tel" autocomplete="tel-national" placeholder="6 12 34 56 78" required />
+              <input id="inp-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" enterkeyhint="next" placeholder="6 12 34 56 78" required />
             </div>
             <span class="err-msg">Numéro requis</span>
           </div>
 
           <div class="field full" id="f-address">
             <label for="inp-address">Adresse</label>
-            <input id="inp-address" name="address" type="text" autocomplete="street-address" placeholder="12 rue des Squishies" required />
+            <input id="inp-address" name="address" type="text" autocomplete="address-line1" enterkeyhint="next" placeholder="12 rue des Squishies" required />
             <span class="err-msg">Champ requis</span>
           </div>
 
           <div class="field" id="f-zip">
             <label for="inp-zip">Code postal</label>
-            <input id="inp-zip" name="zip" type="text" autocomplete="postal-code" placeholder="75001" required />
+            <input id="inp-zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" enterkeyhint="next" placeholder="75001" required />
             <span class="err-msg">Code postal requis</span>
           </div>
 
           <div class="field" id="f-city">
             <label for="inp-city">Ville</label>
-            <input id="inp-city" name="city" type="text" autocomplete="address-level2" placeholder="Paris" required />
+            <input id="inp-city" name="city" type="text" autocomplete="address-level2" autocapitalize="words" enterkeyhint="done" placeholder="Paris" required />
             <span class="err-msg">Champ requis</span>
           </div>
 
@@ -482,6 +502,11 @@
 
     <!-- Summary column -->
     <aside class="sh-summary">
+      <ul class="reassure" aria-label="Nos garanties">
+        <li><span aria-hidden="true">🚚</span>Livraison offerte · 3 jours</li>
+        <li><span aria-hidden="true">🔒</span>Paiement sécurisé</li>
+        <li><span aria-hidden="true">↩️</span>Retours 30 jours</li>
+      </ul>
       <div class="summary-card" id="summaryCard">
         <div class="empty-cart"><div class="em">🛒</div>Panier vide</div>
       </div>
@@ -489,8 +514,15 @@
 
   </main>
 
-  <script src="js/consent.js?v=202611061954"></script>
-  <script src="js/data.js?v=202611061954"></script>
+  <div class="sticky-buy" id="stickyBuy" aria-hidden="true">
+    <div class="sb-total"><small>Total · livraison offerte</small><b id="sbPrice"></b></div>
+    <button type="button" class="sb-btn" id="sbBtn" tabindex="-1">🔒 Commander</button>
+  </div>
+
+  <div class="zoom" id="zoom" role="dialog" aria-label="Photo du produit" hidden><img alt="" /><button type="button" aria-label="Fermer">✕</button></div>
+
+  <script src="js/consent.js?v=202611070053"></script>
+  <script src="js/data.js?v=202611070053"></script>
   <script>
   (function () {
     /* ── Countries ── */
@@ -553,7 +585,8 @@
     /* Auto-detect country from browser */
     const lang = (navigator.language || 'fr').toUpperCase();
     const autoCode = lang.split('-')[1] || lang.split('-')[0];
-    const autoIdx = COUNTRIES.findIndex(c => c.code === autoCode);
+    /* 90 % des visiteurs sont en France : un iPhone réglé en anglais ne doit pas tomber sur « États-Unis ». */
+    const autoIdx = lang.startsWith('FR') ? COUNTRIES.findIndex(c => c.code === autoCode) : -1;
     const startIdx = autoIdx >= 0 ? autoIdx : 0;
     countrySelect.selectedIndex = startIdx;
     prefixSelect.selectedIndex  = startIdx;
@@ -704,6 +737,30 @@
       document.getElementById('submitLabel').textContent = 'Panier vide';
     }
 
+    /* Barre « Commander » toujours visible sur téléphone tant que le vrai bouton n'est pas à l'écran */
+    const sticky = document.getElementById('stickyBuy');
+    if (pack && !document.getElementById('submitBtn').disabled) {
+      document.getElementById('sbPrice').textContent = euro(pack.price);
+      const realBtn = document.getElementById('submitBtn');
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(es => es.forEach(en => sticky.classList.toggle('show', !en.isIntersecting && en.boundingClientRect.top > 0))).observe(realBtn);
+      }
+      document.getElementById('sbBtn').addEventListener('click', () => {
+        window.track && window.track('barre_commander_clic', { commande: trackKind });
+        const form = document.getElementById('shipForm');
+        if (form.requestSubmit) form.requestSubmit(); else realBtn.click();
+      });
+    }
+    const zoom = document.getElementById('zoom');
+    card.addEventListener('click', e => {
+      const im = e.target.closest('.summary-img');
+      if (!im) return;
+      zoom.querySelector('img').src = im.src; zoom.querySelector('img').alt = im.alt; zoom.hidden = false;
+      window.track && window.track('photo_zoom_livraison');
+    });
+    zoom.addEventListener('click', () => { zoom.hidden = true; });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') zoom.hidden = true; });
+
     window.track && window.track('livraison_vue', { commande: trackKind });
 
     if (typeof PAYMENT_PARTNER === 'string' && PAYMENT_PARTNER) {
@@ -758,6 +815,8 @@
       if (!ok) {
         const bad = [...document.querySelectorAll('.field.has-error')].map(f => f.id.replace('f-', ''));
         window.track && window.track('formulaire_erreur', { champs: bad.join(',') });
+        const firstBad = document.querySelector('.field.has-error');
+        if (firstBad) { firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' }); const i = firstBad.querySelector('input'); if (i) i.focus({ preventScroll: true }); }
         return;
       }
 
@@ -788,6 +847,7 @@
       const link = document.getElementById('redirectLink');
       link.href = url;
       overlay.classList.add('show');
+      document.getElementById('stickyBuy').classList.remove('show');
       window.track && window.track('paiement_redirection', { commande: trackKind, montant: pack.price });
       setTimeout(() => { window.location.assign(url); }, 1000);
       setTimeout(() => { link.classList.add('show'); }, 4000);
@@ -801,6 +861,8 @@
       const btn = document.getElementById('submitBtn');
       btn.disabled = false;
       btn.innerHTML = '<span>🔒</span> <span id="submitLabel">Commander · ' + euro(pack ? pack.price : 0) + '</span>';
+      const r = btn.getBoundingClientRect();
+      sticky.classList.toggle('show', !!pack && r.top > innerHeight);
     });
   })();
   </script>
