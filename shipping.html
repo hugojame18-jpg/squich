@@ -521,8 +521,8 @@
 
   <div class="zoom" id="zoom" role="dialog" aria-label="Photo du produit" hidden><img alt="" /><button type="button" aria-label="Fermer">✕</button></div>
 
-  <script src="js/consent.js?v=202611072218"></script>
-  <script src="js/data.js?v=202611072218"></script>
+  <script src="js/consent.js?v=202611111829"></script>
+  <script src="js/data.js?v=202611111829"></script>
   <script>
   (function () {
     /* ── Countries ── */
@@ -625,6 +625,8 @@
       solo = { name: CALENDAR.name, price: CALENDAR.price, url: CALENDAR.soldOut ? '' : CALENDAR.url, sub: `${CALENDAR.doors} cases · Qté 1`, thumb: '<div class="summary-img-placeholder">🎄</div>', empty: CALENDAR.soldOut ? 'Calendrier en rupture de stock' : 'Calendrier bientôt disponible' };
     }
     const kitIds = (param || '').split(',').filter(Boolean);
+    /* Ancien lien « 2 kits » : on garde seulement le premier kit (un kit par commande). */
+    if (kitIds.length > SLIME_MAX && kitIds.every(id => byId[id] && byId[id].standalone)) { location.replace('shipping.html?produit=' + kitIds.slice(0, SLIME_MAX).join(',')); return; }
     const isKits = !solo && kitIds.length >= 1 && kitIds.length <= SLIME_MAX && kitIds.every(id => byId[id] && byId[id].standalone);
     if (isKits) {
       const order = SLIME_ORDERS[kitIds.length];
