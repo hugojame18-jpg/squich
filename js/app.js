@@ -137,14 +137,14 @@
   /* ---------- Hero Slime Mart ---------- */
   $('#smHeroGrid').innerHTML = PRODUCTS.filter(p => p.cat === 'slimemart').slice(0, 4).map(p => `
     <button class="sm-tile" data-id="${p.id}" aria-label="Voir ${esc(p.name)}">
-      ${img(p)}<span class="sm-tag">${euro(p.price)}</span>
+      ${img(p).replace('loading="lazy"', 'loading="eager" fetchpriority="high"')}<span class="sm-tag">${euro(p.price)}</span>
     </button>`).join('');
   $('#smHeroGrid').addEventListener('click', e => { const t = e.target.closest('.sm-tile'); if (t) openProduct(t.dataset.id); });
 
   /* ---------- Slime Mart ---------- */
   $('#slimeGrid').innerHTML = PRODUCTS.filter(p => p.cat === 'slimemart').map(p => `
     <article class="slime-card" data-id="${p.id}">
-      <button class="slime-media" data-act="view" aria-label="Voir ${esc(p.name)}">${img(p)}</button>
+      <button class="slime-media" data-act="view" aria-label="Voir ${esc(p.name)}">${img(p)}${p.tags.includes('best') ? '<span class="badge best">Best-seller</span>' : p.format ? '<span class="badge new">Nouveau</span>' : ''}</button>
       <div class="slime-body">
         <span class="kicker">${p.pieces} pièces · ${p.ingredients} ingrédients</span>
         <h3>${esc(p.name)}</h3>
@@ -221,10 +221,17 @@
   $('#insideGrid').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) openProduct(b.dataset.id); });
 
   const advbar = $('#advbar'), calSeen = new Set();
-  const syncAdvbar = () => advbar.classList.toggle('show', !CALENDAR.soldOut && !calSeen.size && !document.body.classList.contains('has-packbar') && scrollY > 200);
+  const syncAdvbar = () => advbar.classList.toggle('show', !calSeen.size && !document.body.classList.contains('has-packbar') && scrollY > 200);
+  if (CALENDAR.soldOut) {
+    /* Calendrier en rupture : la barre du bas ramène vers les kits Slime Mart */
+    advbar.classList.add('advbar-kits');
+    advbar.innerHTML = `<span class="advbar-text"><b>Kits Slime Mart</b><small>${PRODUCTS.filter(p => p.cat === 'slimemart').length} kits · livraison offerte</small></span>
+      <span class="advbar-price">${euro(SLIME_ORDERS[1].price)}</span>
+      <a href="#slimemart" class="btn btn-gold" data-kitbar>Choisir mon kit</a>`;
+  }
   if ('IntersectionObserver' in window) {
     const calIo = new IntersectionObserver(es => { es.forEach(en => en.isIntersecting ? calSeen.add(en.target) : calSeen.delete(en.target)); syncAdvbar(); });
-    calIo.observe($('#avent')); calIo.observe($('#calendrier'));
+    (CALENDAR.soldOut ? ['#hero', '#slimemart'] : ['#avent', '#calendrier']).forEach(s => calIo.observe($(s)));
   }
   addEventListener('scroll', syncAdvbar, { passive: true });
 
@@ -240,6 +247,14 @@
     $$('.offer-cal small').forEach(el => { el.textContent = 'Rupture de stock'; });
     $$('.announce a[href="#avent"]').forEach(el => { el.textContent = "Calendrier de l'Avent : rupture de stock"; });
     $$('.xmas-price, .cal-cta').forEach(el => el.classList.add('is-sold-out'));
+    $$('#avent, #calendrier').forEach(el => { el.hidden = true; });
+    $$('.nav a[href="#avent"], .footer a[href="#avent"], .announce a[href="#avent"]').forEach(el => {
+      const sep = el.previousElementSibling;
+      if (sep && sep.classList.contains('sep')) sep.hidden = true;
+      el.hidden = true;
+    });
+    $$('.hero-cta a[href="#avent"]').forEach(el => { el.textContent = 'Voir les squishies'; el.setAttribute('href', '#boutique'); });
+    $$('a.offer-cal').forEach(el => { el.removeAttribute('href'); el.classList.add('is-off'); });
   }
   $('#pbMeter').style.gridTemplateColumns = `repeat(${MAX_ITEMS}, 1fr)`;
 
@@ -534,7 +549,8 @@
   }).join('');
 
   /* ---------- FAQ ---------- */
-  $('#faqList').innerHTML = FAQ.map((f, i) => `<details class="faq-item" ${i === 0 ? 'open' : ''}><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
+  const FAQ_SHOWN = CALENDAR.soldOut ? FAQ.filter(f => !/calendrier/i.test(f.q)) : FAQ;
+  $('#faqList').innerHTML = FAQ_SHOWN.map((f, i) => `<details class="faq-item" ${i === 0 ? 'open' : ''}><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
 
   /* ---------- Newsletter ---------- */
   $('#nlForm').addEventListener('submit', e => {
@@ -567,7 +583,7 @@
 
   /* ---------- Questions de la FAQ ouvertes ---------- */
   let faqReady = false; setTimeout(() => { faqReady = true; }, 800);
-  $$('#faqList details').forEach((d, i) => d.addEventListener('toggle', () => { if (d.open && faqReady) track('faq_ouverte', { question: FAQ[i].q.slice(0, 60) }); }));
+  $$('#faqList details').forEach((d, i) => d.addEventListener('toggle', () => { if (d.open && faqReady) track('faq_ouverte', { question: FAQ_SHOWN[i].q.slice(0, 60) }); }));
 
   /* ---------- Sections réellement vues (profondeur de lecture) ---------- */
   if ('IntersectionObserver' in window) {
