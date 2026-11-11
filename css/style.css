@@ -957,3 +957,26 @@ img { height: auto; }
   .warehouse-copy p { font-size: 15px; margin-top: 10px; }
   .checks-dark { margin-top: 14px; gap: 6px; font-size: 14px; }
 }
+
+/* Grille Slime Mart (9 kits) : cartes verticales, 3 colonnes sur ordi, 2 sur tablette et téléphone */
+.slime-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.slime-card { grid-template-columns: 1fr; grid-template-rows: auto 1fr; align-items: stretch; }
+.slime-media { aspect-ratio: 1 / 1; }
+.slime-body { display: flex; flex-direction: column; padding: 18px 20px 20px; }
+.slime-body h3 { font-size: 21px; }
+.slime-body p { font-size: 13.5px; margin-top: 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.slime-buy { margin-top: auto; padding-top: 16px; }
+.slime-buy .price-xl { font-size: 26px; }
+@media (max-width: 1100px) { .slime-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) {
+  .slime-grid { gap: 10px; }
+  .slime-card { border-radius: 16px; }
+  .slime-media { aspect-ratio: 1 / 1; }
+  .slime-body { padding: 10px 11px 12px; }
+  .slime-body .kicker { font-size: 9px; margin-bottom: 4px; letter-spacing: .06em; }
+  .slime-body h3 { font-size: 15px; line-height: 1.15; }
+  .slime-body p { display: none; }
+  .slime-buy { flex-direction: column; align-items: stretch; gap: 8px; padding-top: 10px; }
+  .slime-buy .price-xl { font-size: 20px; }
+  .slime-buy .btn { height: 40px; min-height: 0; padding: 0 10px; font-size: 14px; }
+}
