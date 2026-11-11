@@ -998,3 +998,7 @@ img { height: auto; }
 .offer.is-off { opacity: .75; cursor: default; }
 [hidden] { display: none !important; }
 @media (max-width: 640px) { .slime-media .badge { top: 8px; left: 8px; padding: 3px 8px; font-size: 10px; } }
+
+/* Un seul article par commande : pas de quantité, pas de barre de progression */
+.single-item .qty { display: none; }
+.single-item #pbHint { display: none; }
