@@ -487,7 +487,7 @@
 
         <div class="sh-submit">
           <button type="submit" class="btn-submit" id="submitBtn">
-            <span>🔒</span> <span id="submitLabel">Commander · 2,00 €</span>
+            <span>🔒</span> <span id="submitLabel">Commander</span>
           </button>
           <div class="secure-row">🔒 Paiement 100% sécurisé &nbsp;·&nbsp; 🛡️ Données protégées</div>
         </div>
@@ -521,8 +521,8 @@
 
   <div class="zoom" id="zoom" role="dialog" aria-label="Photo du produit" hidden><img alt="" /><button type="button" aria-label="Fermer">✕</button></div>
 
-  <script src="js/consent.js?v=202611111852"></script>
-  <script src="js/data.js?v=202611111852"></script>
+  <script src="js/consent.js?v=202611111913"></script>
+  <script src="js/data.js?v=202611111913"></script>
   <script>
   (function () {
     /* ── Countries ── */
@@ -615,7 +615,7 @@
     cart = cart.filter(i => i && byId[i.id]);
     let count = 0;
     cart.forEach(i => { i.qty = Math.max(1, i.qty | 0); count += i.qty; });
-    if (count > MAX_ITEMS) { cart = []; count = 0; }
+    if (count > MAX_ITEMS) { cart = cart.slice(0, 1); cart.forEach(i => { i.qty = Math.min(i.qty, MAX_ITEMS); }); count = cart.reduce((s, i) => s + i.qty, 0); }
     /* Commandes à part du panier : le calendrier et les kits Slime Mart (?produit=…) */
     const param = new URLSearchParams(location.search).get('produit');
     const trackKind = param || 'panier';
@@ -702,7 +702,7 @@
     }
 
     if (pack && !isSolo) {
-      const sub = count * 2;
+      const sub = cart.reduce((s, i) => s + byId[i.id].price * i.qty, 0);
       const priceStr = euro(pack.price);
 
       const items = cart.map(item => {
@@ -715,7 +715,7 @@
             <div class="summary-product-name">${name}</div>
             <div class="summary-product-sub">Qté ${item.qty}</div>
           </div>
-          <div class="summary-product-price">${euro(2 * item.qty)}</div>
+          <div class="summary-product-price">${euro(prod.price * item.qty)}</div>
         </div>`;
       }).join('');
 

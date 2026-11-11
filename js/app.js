@@ -12,7 +12,7 @@
   };
 
   const state = {
-    cart: store.get('cart', []).filter(i => i && byId[i.id]).map(i => ({ ...i, qty: Math.max(1, Math.min(MAX_ITEMS, i.qty | 0)) })),
+    cart: store.get('cart', []).filter(i => i && byId[i.id]).map(i => ({ ...i, qty: Math.max(1, Math.min(MAX_ITEMS, i.qty | 0)) })).slice(0, MAX_ITEMS === 1 ? 1 : undefined),
     wish: new Set(store.get('wish', []).filter(id => byId[id])),
     filters: { cat: 'all', tag: null, q: '', sort: 'featured' },
     shown: 12,
@@ -107,7 +107,7 @@
       <div class="card-body">
         <h3>${esc(p.name)}</h3>
         <div class="card-meta"><span>${CATEGORIES[p.cat]}</span>${p.rating ? stars(p.rating) : `<span>${p.pieces} pièces</span>`}</div>
-        <div class="card-price">${euro(p.price)}${p.standalone ? '' : `<span class="card-deal">2 pour ${euro(PACKS[1].price)}</span>`}</div>
+        <div class="card-price">${euro(p.price)}${p.standalone || !PACKS[1] ? '' : `<span class="card-deal">2 pour ${euro(PACKS[1].price)}</span>`}</div>
       </div>
     </article>`;
   }
@@ -161,7 +161,10 @@
     { min: 5, name: 'Mini pack', sub: 'Ta petite collection' },
     { min: 10, name: 'Méga pack', sub: 'Le maximum par commande', hot: true }
   ];
-  $('#packGrid').innerHTML = PACK_UI.map(u => {
+  const HAS_PACKS = PACKS.length > 1;
+  document.body.classList.toggle('single-item', MAX_ITEMS === 1);
+  if (!HAS_PACKS) $$('#packs, a[href="#packs"]').forEach(el => { el.hidden = true; });
+  $('#packGrid').innerHTML = PACK_UI.filter(u => PACKS.some(p => p.min === u.min)).map(u => {
     const pk = PACKS.find(p => p.min === u.min);
     if (pk.soldOut) return `<div class="pack sold-out" aria-disabled="true">
       <span class="pack-flag">Rupture de stock</span>
@@ -335,6 +338,14 @@
   function addToCart(id, qty) {
     const p = byId[id];
     if (p.standalone) { location.href = soloUrl(p); return; }
+    if (MAX_ITEMS === 1) {
+      const old = state.cart[0];
+      track('ajout_panier', { produit: id });
+      state.cart = [{ key: id, id, size: 'M', v: 0, qty: 1 }];
+      saveCart();
+      toast(old && old.id !== id ? `<b>${esc(p.name)}</b> remplace ${esc(byId[old.id].name)} · un article par commande` : `<b>${esc(p.name)}</b> ajouté`, id);
+      return;
+    }
     const room = MAX_ITEMS - cartCount();
     if (room <= 0) { toast(`${MAX_ITEMS} squishies maximum par commande`); return; }
     const add = Math.min(room, Math.max(1, qty | 0));
@@ -353,6 +364,7 @@
     return { sub, discount: +(sub - total).toFixed(2), total };
   }
   function packHint() {
+    if (!HAS_PACKS) return 'Un article par commande · livraison offerte';
     const n = cartCount(), next = nextPack(n);
     if (!n) return 'Packs : ' + PACKS.filter(p => p.min > 1 && !p.soldOut).map(p => `${p.min} pour ${euro(p.price)}`).join(' · ');
     if (!next) return `Pack maximum : ${MAX_ITEMS} squishies pour ${euro(packFor(n).price)}`;
@@ -381,6 +393,7 @@
     $('#pbThumbs').innerHTML = state.cart.slice(0, 3).map(i => img(byId[i.id])).join('');
     $('#pbCount').textContent = plural(n);
     $('#pbPrice').innerHTML = `${t.discount > 0 ? `<s>${euro(t.sub)}</s>` : ''}${euro(t.total)}`;
+    $('#pbMeter').hidden = !HAS_PACKS;
     $('#pbMeter').innerHTML = Array.from({ length: MAX_ITEMS }, (_, k) =>
       `<i class="${k < n ? 'on' : ''} ${PACKS.some(p => !p.soldOut && p.min === k + 1) ? 'tier' : ''} ${goal && k + 1 === goal ? 'goal' : ''}"></i>`).join('');
     $('#pbHint').textContent = goal ? `Objectif pack ${goal} : encore ${goal - n}` : packHint();
@@ -498,7 +511,7 @@
         <span class="kicker">${CATEGORIES[p.cat]}${tag ? ` · ${BADGE[tag]}` : ''}</span>
         <h2>${esc(p.name)}</h2>
         ${p.rating ? `<div class="pm-rating">${stars(p.rating)}<span>${thousands(p.reviews)} avis</span></div>` : ''}
-        <div class="pm-price">${euro(p.price)}<small>${p.standalone ? 'Un kit par commande · livraison offerte' : `ou dans un pack dès ${euro(PACKS[1].price)} les 2`}</small></div>
+        <div class="pm-price">${euro(p.price)}<small>${p.standalone ? 'Un kit par commande · livraison offerte' : PACKS[1] ? `ou dans un pack dès ${euro(PACKS[1].price)} les 2` : 'Un article par commande · livraison offerte'}</small></div>
         <p class="pm-desc">${esc(p.desc)}</p>
         <dl class="pm-specs">
           ${p.standalone
@@ -512,7 +525,7 @@
           <button class="btn btn-dark" data-act="add">Ajouter au panier · ${euro(p.price * s.qty)}</button>`}
           <button class="icon-btn pm-wish ${state.wish.has(p.id) ? 'on' : ''}" data-act="wish" aria-label="Favoris">${ICON.heart}</button>
         </div>
-        <ul class="pm-perks"><li>Livraison offerte en 3 jours</li><li>Retours sous 30 jours</li>${p.standalone ? '<li>Kit à fabriquer, ne se mange pas</li>' : `<li>Jusqu'à ${MAX_ITEMS} squishies par commande</li>`}</ul>
+        <ul class="pm-perks"><li>Livraison offerte en 3 jours</li><li>Retours sous 30 jours</li>${p.standalone ? '<li>Kit à fabriquer, ne se mange pas</li>' : MAX_ITEMS === 1 ? '<li>Un article par commande</li>' : `<li>Jusqu'à ${MAX_ITEMS} squishies par commande</li>`}</ul>
       </div>`;
   }
   pm.addEventListener('click', e => {
