@@ -980,3 +980,21 @@ img { height: auto; }
   .slime-buy .price-xl { font-size: 20px; }
   .slime-buy .btn { height: 40px; min-height: 0; padding: 0 10px; font-size: 14px; }
 }
+
+/* Hero plus court sur téléphone : les 4 kits sur une ligne, la grille des kits arrive plus vite */
+@media (max-width: 640px) {
+  .sm-hero { padding-top: 24px; }
+  .sm-hero-inner { gap: 22px; padding-bottom: 30px; }
+  .sm-hero h1 { margin-top: 12px; font-size: 38px; }
+  .sm-hero .lead { margin-top: 12px; font-size: 15px; }
+  .sm-hero .hero-cta { margin-top: 18px; }
+  .sm-visual { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .sm-tile { aspect-ratio: 1 / 1.1; padding: 4px; border-radius: 14px; }
+  .sm-tile:nth-child(even) { transform: rotate(2deg) translateY(6px); }
+  .sm-tag { display: none; }
+}
+.slime-media { position: relative; }
+.badge.new { background: var(--accent); color: #fff; }
+.offer.is-off { opacity: .75; cursor: default; }
+[hidden] { display: none !important; }
+@media (max-width: 640px) { .slime-media .badge { top: 8px; left: 8px; padding: 3px 8px; font-size: 10px; } }
