@@ -100,14 +100,14 @@
         ${img(p)}
         ${tag ? `<span class="badge ${tag}">${BADGE[tag]}</span>` : ''}
         <button class="wish ${state.wish.has(p.id) ? 'on' : ''}" data-act="wish" aria-label="Ajouter ${esc(p.name)} aux favoris">${ICON.heart}</button>
-        ${p.standalone
-          ? `<button class="quick-add" data-act="order" aria-label="Commander ${esc(p.name)}">${ICON.arrow}<span>Commander</span></button>`
-          : `<button class="quick-add" data-act="add" aria-label="Ajouter ${esc(p.name)} au panier">${ICON.plus}<span>Ajouter</span></button>`}
       </div>
       <div class="card-body">
         <h3>${esc(p.name)}</h3>
         <div class="card-meta"><span>${CATEGORIES[p.cat]}</span>${p.rating ? stars(p.rating) : `<span>${p.pieces} pièces</span>`}</div>
         <div class="card-price">${euro(p.price)}${p.standalone || !PACKS[1] ? '' : `<span class="card-deal">2 pour ${euro(PACKS[1].price)}</span>`}</div>
+        ${p.standalone
+          ? `<button class="quick-add" data-act="order" aria-label="Commander ${esc(p.name)}">${ICON.arrow}<span>Commander</span></button>`
+          : `<button class="quick-add" data-act="add" aria-label="Ajouter ${esc(p.name)} au panier">${ICON.plus}<span>Ajouter</span></button>`}
       </div>
     </article>`;
   }
@@ -135,9 +135,9 @@
   $('#bestGrid').addEventListener('click', onGridClick);
 
   /* ---------- Hero Slime Mart ---------- */
-  $('#smHeroGrid').innerHTML = PRODUCTS.filter(p => p.cat === 'slimemart').slice(0, 4).map(p => `
+  $('#smHeroGrid').innerHTML = PRODUCTS.filter(p => p.cat === 'slimemart').map(p => `
     <button class="sm-tile" data-id="${p.id}" aria-label="Voir ${esc(p.name)}">
-      ${img(p).replace('loading="lazy"', 'loading="eager" fetchpriority="high"')}<span class="sm-tag">${euro(p.price)}</span>
+      ${img(p).replace('loading="lazy"', 'loading="eager" fetchpriority="high"')}<span class="sm-name">${esc(p.name.replace('Slime Mart ', ''))}</span><span class="sm-tag">${euro(p.price)}</span>
     </button>`).join('');
   $('#smHeroGrid').addEventListener('click', e => { const t = e.target.closest('.sm-tile'); if (t) openProduct(t.dataset.id); });
 
