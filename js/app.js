@@ -135,7 +135,7 @@
   $('#bestGrid').addEventListener('click', onGridClick);
 
   /* ---------- Hero Slime Mart ---------- */
-  $('#smHeroGrid').innerHTML = PRODUCTS.filter(p => p.cat === 'slimemart').map(p => `
+  $('#smHeroGrid').innerHTML = PRODUCTS.filter(p => p.cat === 'slimemart').slice(0, 4).map(p => `
     <button class="sm-tile" data-id="${p.id}" aria-label="Voir ${esc(p.name)}">
       ${img(p)}<span class="sm-tag">${euro(p.price)}</span>
     </button>`).join('');
